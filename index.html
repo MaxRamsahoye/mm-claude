@@ -58,6 +58,10 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .hex-edge-group:hover .hex-arrow-vis, .hex-edge-group.active .hex-arrow-vis, .attr-edge-group:hover .attr-arrow-vis, .attr-edge-group.active .attr-arrow-vis, .attr-tri-edge:hover .attr-tri-arrow, .attr-tri-edge.active .attr-tri-arrow { stroke: var(--interactive-color) !important; stroke-width: 5.5px !important; }
 .attr-node circle { transition: all 0.3s ease; }
 .attr-node:hover circle, .attr-node.active circle { stroke: var(--interactive-color) !important; stroke-width: 6px !important; }
+.gen-concept-node rect { transition: all 0.3s ease; }
+.gen-concept-node:hover rect, .gen-concept-node.active rect { stroke: var(--interactive-color) !important; stroke-width: 3px !important; }
+.gen-edge-group .gen-edge-line-vis { transition: all 0.3s ease; }
+.gen-edge-group:hover .gen-edge-line-vis, .gen-edge-group.active .gen-edge-line-vis { stroke: var(--interactive-color) !important; stroke-width: 3.5px !important; }
 .attr-precursors-box { width: 100%; max-width: 1200px; margin-top: 0; align-self: center; box-sizing: border-box; }
 .attr-precursors-heading { font-family: var(--font-primary); font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; }
 .attr-precursors-grid { display: flex; flex-direction: column; gap: 4rem; }
@@ -109,18 +113,27 @@ body.app-left-align #app-container .menu-row { justify-content: flex-start !impo
 .hex-int-para { font-size: 1.05rem; line-height: 1.6; margin: 0; }
 
 /* --- Generators View Styles --- */
-.gen-tabs { display: flex; gap: 1.5rem; margin-top: 5rem; margin-bottom: 4rem; justify-content: flex-start; width: 100%; flex-wrap: wrap; align-items: center; }
-.gen-tab-content { transition: opacity 0.3s ease; }
-.gen-tab { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
-.gen-tab:hover, .gen-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); } .gen-tab:hover { transform: translateY(-2px); }
-.gen-tab.active { background: rgba(18,18,18,0.05); }
-:root[data-theme="dark"] .gen-tab.active { background: rgba(255,255,255,0.1); }
+.gen-tab-content, .gen-subtab-content, .gen-icsub-content { transition: opacity 0.3s ease; }
+.gen-ic-tabs { display: flex; gap: 1.5rem; margin-top: 2rem; margin-bottom: 3rem; justify-content: flex-start; width: 100%; flex-wrap: wrap; align-items: center; }
+.gen-tab, .gen-icsub { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
+.gen-tab:hover, .gen-tab.active, .gen-icsub:hover, .gen-icsub.active { border-color: var(--interactive-color); color: var(--interactive-color); } .gen-tab:hover, .gen-icsub:hover { transform: translateY(-2px); }
+.gen-tab.active, .gen-icsub.active { background: rgba(18,18,18,0.05); }
+:root[data-theme="dark"] .gen-tab.active, :root[data-theme="dark"] .gen-icsub.active { background: rgba(255,255,255,0.1); }
+.gen-grid-group { margin-bottom: 2.5rem; width: 100%; }
+.gen-grid-group-label { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; margin-bottom: 1rem; }
+.gen-grid-boxes { display: flex; flex-wrap: wrap; gap: 1rem; }
+.gen-grid-box { border: 2px solid var(--indicator-color-solid); border-radius: 10px; padding: 0.9rem 1.3rem; font-size: 1rem; font-weight: 500; }
 .attr-tabs { position: fixed; top: 2rem; left: 2rem; z-index: 100; display: flex; gap: 1.5rem; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .attr-tabs.visible { opacity: 1; pointer-events: auto; }
 .attr-tabs .gen-tab { border: none; border-radius: 0; background: transparent; padding: 0.25rem 0; font-size: 0.95rem; opacity: 0.55; }
 .attr-tabs .gen-tab:hover { opacity: 0.85; transform: none; }
 .attr-tabs .gen-tab.active { opacity: 1; color: var(--interactive-color); background: transparent; }
 :root[data-theme="dark"] .attr-tabs .gen-tab.active { background: transparent; }
+.gen-tab-dropdown-wrap { position: relative; }
+.gen-tab-dropdown { position: absolute; top: 100%; left: 0; margin-top: 0.4rem; padding-top: 0.4rem; display: flex; flex-direction: column; gap: 0.6rem; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.25s ease, transform 0.25s ease; white-space: nowrap; }
+.gen-tab-dropdown-wrap:hover .gen-tab-dropdown, .gen-tab-dropdown-wrap:focus-within .gen-tab-dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.gen-subtab { background: transparent; border: none; color: var(--text-color); padding: 0; font-size: 0.82rem; font-family: inherit; font-weight: 500; opacity: 0.5; text-align: left; transition: opacity 0.3s ease, color 0.3s ease; }
+.gen-subtab:hover, .gen-subtab.active { opacity: 1; color: var(--interactive-color); }
 .corner-nav-fixed { position: fixed; top: 2rem; left: 2rem; z-index: 100; max-width: calc(100vw - 4rem); opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .corner-nav-fixed.visible { opacity: 1; pointer-events: auto; }
 .module-nav.corner-nav-fixed { width: auto; margin: 0; }
@@ -191,6 +204,26 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     <button class="gen-tab hoverable" data-tab="attr-tab-interconnections">Interconnections</button>
     <button class="gen-tab hoverable" data-tab="attr-tab-precursors">Precursors</button>
 </div>
+<div id="generators-tabs" class="attr-tabs">
+    <div class="gen-tab-dropdown-wrap">
+        <button class="gen-tab active hoverable" data-tab="gen-tab-verticals">Verticals</button>
+        <div class="gen-tab-dropdown">
+            <button class="gen-subtab active hoverable" data-subtab="gen-mpt">The Multi-Polar Trap</button>
+            <button class="gen-subtab hoverable" data-subtab="gen-nmo">Narrow Metric Optimisation</button>
+        </div>
+    </div>
+    <button class="gen-tab hoverable" data-tab="gen-tab-interconnections">Interconnections</button>
+    <button id="gen-global-toggle" class="gen-tab hoverable" aria-label="Toggle All" data-state="expanded">
+        <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <polyline points="18 15 12 21 6 15"></polyline>
+            <polyline points="6 9 12 3 18 9"></polyline>
+        </svg>
+        <svg class="icon-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 21 12 15 18 21"></polyline>
+            <polyline points="18 3 12 9 6 3"></polyline>
+        </svg>
+    </button>
+</div>
 <div id="module-nav-fixed" class="module-nav corner-nav-fixed"></div>
 
 <div id="hamburger-btn" class="hoverable" aria-label="Open Menu">
@@ -242,32 +275,17 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 
 <main id="generators-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2rem; padding-bottom: 4rem;">
     <div style="width: 100%; margin-bottom: 0;">
-        <div class="selected-header" style="margin-top: 0; justify-content: flex-start;"><h2 style="font-size: 2.8rem; letter-spacing: -0.02em;">Generative Dynamics</h2></div>
-        <div class="desc-text concept-desc" style="margin-top: 0.5rem; text-align: left; margin-left: 0; max-width: none;">A hierarchical mapping of the structural traps driving civilisation towards catastrophe.</div>
+        <div class="selected-header" style="margin-top: 0; justify-content: flex-start;"><h2 id="gen-view-title" style="font-size: 2.8rem; letter-spacing: -0.02em;">Generative Dynamics: Verticals</h2></div>
+        <div id="gen-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; text-align: left; margin-left: 0; max-width: none;">A hierarchical mapping of the structural traps driving civilisation towards catastrophe.</div>
     </div>
-    
-    <div class="gen-tabs">
-        <button id="gen-global-toggle" class="gen-tab hoverable" aria-label="Toggle All" data-state="collapsed">
-            <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="18 15 12 21 6 15"></polyline>
-                <polyline points="6 9 12 3 18 9"></polyline>
-            </svg>
-            <svg class="icon-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-                <polyline points="6 21 12 15 18 21"></polyline>
-                <polyline points="18 3 12 9 6 3"></polyline>
-            </svg>
-        </button>
-        <button class="gen-tab active hoverable" data-tab="gen-mpt">The Multi-Polar Trap</button>
-        <button class="gen-tab hoverable" data-tab="gen-nmo">Narrow Metric Optimisation</button>
-    </div>
-
+    <div id="gen-tab-verticals" class="gen-tab-content active" style="width: 100%;">
     <!-- Subtab 1: Multi-Polar Traps -->
-    <div id="gen-mpt" class="gen-tab-content active" style="width: 100%;">
+    <div id="gen-mpt" class="gen-subtab-content active" style="width: 100%;">
         <div class="gen-grid">
             
             <!-- Row 0: Fourth Order -->
-            <div class="gen-side-cell gen-tier-top-2 gen-collapsed">Fourth-Order</div>
-            <div class="gen-row gen-tier-top-2 gen-collapsed">
+            <div class="gen-side-cell gen-tier-top-2">Fourth-Order</div>
+            <div class="gen-row gen-tier-top-2">
                 <div class="gen-node-wrapper">
                     <div class="node-box hoverable gen-node">
                         <div class="gen-node-title">Exponential Techno-Economic Development</div>
@@ -277,8 +295,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
 
             <!-- Connector 0 -->
-            <div class="gen-side-cell gen-tier-top-2 gen-collapsed" style="border-color: transparent;"></div>
-            <div class="gen-conn-0 gen-tier-top-2 gen-collapsed">
+            <div class="gen-side-cell gen-tier-top-2" style="border-color: transparent;"></div>
+            <div class="gen-conn-0 gen-tier-top-2">
                  <svg width="100%" height="100%" style="overflow: visible;">
                      <line x1="50%" y1="0" x2="50%" y2="20%" stroke="var(--indicator-color-solid)" stroke-width="2" />
                      <line x1="25%" y1="20%" x2="75%" y2="20%" stroke="var(--indicator-color-solid)" stroke-width="2" />
@@ -288,8 +306,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
 
             <!-- Row 1: Third Order -->
-            <div class="gen-side-cell gen-tier-top-1 gen-collapsed">Third-Order</div>
-            <div class="gen-row gen-tier-top-1 gen-collapsed">
+            <div class="gen-side-cell gen-tier-top-1">Third-Order</div>
+            <div class="gen-row gen-tier-top-1">
                 <button class="gen-local-toggle top hoverable" data-target="top-2" aria-label="Toggle Above">
                     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
                 </button>
@@ -308,8 +326,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
 
             <!-- Connector 1 -->
-            <div class="gen-side-cell gen-tier-top-1 gen-collapsed" style="border-color: transparent;"></div>
-            <div class="gen-conn-1 gen-tier-top-1 gen-collapsed">
+            <div class="gen-side-cell gen-tier-top-1" style="border-color: transparent;"></div>
+            <div class="gen-conn-1 gen-tier-top-1">
                  <svg width="100%" height="100%" style="overflow: visible;">
                      <line x1="25%" y1="0" x2="25%" y2="80%" stroke="var(--indicator-color-solid)" stroke-width="2" />
                      <line x1="75%" y1="0" x2="75%" y2="80%" stroke="var(--indicator-color-solid)" stroke-width="2" />
@@ -336,16 +354,16 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
 
             <!-- Connector 2 -->
-            <div class="gen-side-cell gen-tier-bottom-1 gen-collapsed" style="border-color: transparent;"></div>
-            <div class="gen-conn-2 gen-tier-bottom-1 gen-collapsed">
+            <div class="gen-side-cell gen-tier-bottom-1" style="border-color: transparent;"></div>
+            <div class="gen-conn-2 gen-tier-bottom-1">
                 <svg width="100%" height="100%" style="overflow: visible;">
                      <line x1="50%" y1="0" x2="50%" y2="100%" stroke="var(--indicator-color-solid)" stroke-width="2" />
                  </svg>
             </div>
 
             <!-- Row 3: First Order -->
-            <div class="gen-side-cell gen-tier-bottom-1 gen-collapsed">First-Order</div>
-            <div class="gen-row gen-tier-bottom-1 gen-collapsed">
+            <div class="gen-side-cell gen-tier-bottom-1">First-Order</div>
+            <div class="gen-row gen-tier-bottom-1">
                 <div class="gen-node-wrapper">
                     <div class="node-box hoverable gen-node">
                         <div class="gen-node-title">Super-Structural Separation</div>
@@ -357,12 +375,12 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
 
     <!-- Subtab 2: Narrow Metric Optimisation -->
-    <div id="gen-nmo" class="gen-tab-content" style="display: none; width: 100%;">
+    <div id="gen-nmo" class="gen-subtab-content" style="display: none; width: 100%;">
         <div class="gen-grid">
             
             <!-- Row 0: Cross-Cutting -->
-            <div class="gen-side-cell gen-tier-top-2 gen-collapsed">Cross-Cutting Dynamic<br>&amp; Effect</div>
-            <div class="gen-row gen-tier-top-2 gen-collapsed">
+            <div class="gen-side-cell gen-tier-top-2">Cross-Cutting Dynamic<br>&amp; Effect</div>
+            <div class="gen-row gen-tier-top-2">
                 <div class="gen-node-wrapper">
                     <div class="node-box hoverable gen-node">
                         <div class="gen-node-title">Perverse Incentive Structures</div>
@@ -378,8 +396,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
 
             <!-- Connector 0 -->
-            <div class="gen-side-cell gen-tier-top-2 gen-collapsed" style="border-color: transparent;"></div>
-            <div class="gen-conn-0b gen-tier-top-2 gen-collapsed">
+            <div class="gen-side-cell gen-tier-top-2" style="border-color: transparent;"></div>
+            <div class="gen-conn-0b gen-tier-top-2">
                  <svg width="100%" height="100%" style="overflow: visible;">
                      <line x1="25%" y1="0" x2="25%" y2="20%" stroke="var(--indicator-color-solid)" stroke-width="2" />
                      <line x1="75%" y1="0" x2="75%" y2="20%" stroke="var(--indicator-color-solid)" stroke-width="2" />
@@ -392,8 +410,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
 
             <!-- Row 1: Instantiations (Slider) -->
-            <div class="gen-side-cell gen-tier-top-1 gen-collapsed">Instantiations</div>
-            <div class="gen-row gen-tier-top-1 gen-collapsed">
+            <div class="gen-side-cell gen-tier-top-1">Instantiations</div>
+            <div class="gen-row gen-tier-top-1">
                 <button class="gen-local-toggle top hoverable" data-target="top-2" aria-label="Toggle Above">
                     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
                 </button>
@@ -455,8 +473,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
 
             <!-- Connector 1 -->
-            <div class="gen-side-cell gen-tier-top-1 gen-collapsed" style="border-color: transparent;"></div>
-            <div class="gen-conn-1b gen-tier-top-1 gen-collapsed">
+            <div class="gen-side-cell gen-tier-top-1" style="border-color: transparent;"></div>
+            <div class="gen-conn-1b gen-tier-top-1">
                  <svg width="100%" height="100%" style="overflow: visible;">
                      <line x1="25%" y1="0" x2="25%" y2="80%" stroke="var(--indicator-color-solid)" stroke-width="2" />
                      <line x1="75%" y1="0" x2="75%" y2="80%" stroke="var(--indicator-color-solid)" stroke-width="2" />
@@ -483,16 +501,16 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
 
             <!-- Connector 2 -->
-            <div class="gen-side-cell gen-tier-bottom-1 gen-collapsed" style="border-color: transparent;"></div>
-            <div class="gen-conn-2 gen-tier-bottom-1 gen-collapsed">
+            <div class="gen-side-cell gen-tier-bottom-1" style="border-color: transparent;"></div>
+            <div class="gen-conn-2 gen-tier-bottom-1">
                 <svg width="100%" height="100%" style="overflow: visible;">
                      <line x1="50%" y1="0" x2="50%" y2="100%" stroke="var(--indicator-color-solid)" stroke-width="2" />
                  </svg>
             </div>
 
             <!-- Row 3: First Order -->
-            <div class="gen-side-cell gen-tier-bottom-1 gen-collapsed">First-Order</div>
-            <div class="gen-row gen-tier-bottom-1 gen-collapsed">
+            <div class="gen-side-cell gen-tier-bottom-1">First-Order</div>
+            <div class="gen-row gen-tier-bottom-1">
                 <div class="gen-node-wrapper">
                     <div class="node-box hoverable gen-node">
                         <div class="gen-node-title">Isolated Problem-Solving</div>
@@ -500,6 +518,57 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    </div>
+    <div id="gen-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
+        <div class="gen-ic-tabs">
+            <button class="gen-icsub active hoverable" data-icsub="gen-ic-radial">Radial Network</button>
+            <button class="gen-icsub hoverable" data-icsub="gen-ic-flow">Merged Flow</button>
+            <button class="gen-icsub hoverable" data-icsub="gen-ic-full">Full Interconnections</button>
+            <button class="gen-icsub hoverable" data-icsub="gen-ic-grid">Concept Grid</button>
+        </div>
+
+        <div id="gen-ic-radial" class="gen-icsub-content active" style="width: 100%;">
+            <div style="width: 100%; max-width: 1600px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
+                <svg id="gen-ic-radial-svg" viewBox="0 0 1900 1900" style="width: 100%; height: auto; max-height: 80vh; overflow: visible;">
+                    <g id="gen-ic-radial-nodes"></g>
+                </svg>
+            </div>
+        </div>
+
+        <div id="gen-ic-flow" class="gen-icsub-content" style="display: none; width: 100%;">
+            <div style="width: 100%; max-width: 1000px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
+                <svg id="gen-ic-flow-svg" viewBox="0 0 1200 1600" style="width: 100%; height: auto; max-height: 75vh; overflow: visible;">
+                    <defs>
+                        <marker id="gen-arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="var(--indicator-color-solid)" />
+                        </marker>
+                    </defs>
+                    <g id="gen-ic-flow-edges"></g>
+                    <g id="gen-ic-flow-nodes"></g>
+                </svg>
+            </div>
+        </div>
+
+        <div id="gen-ic-full" class="gen-icsub-content" style="display: none; width: 100%;">
+            <div style="width: 100%; max-width: 1000px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
+                <svg id="gen-ic-full-svg" viewBox="0 0 1200 1600" style="width: 100%; height: auto; max-height: 75vh; overflow: visible;">
+                    <g id="gen-ic-full-edges"></g>
+                    <g id="gen-ic-full-nodes"></g>
+                </svg>
+            </div>
+            <div id="gen-ic-full-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 0; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
+                <div id="gen-ic-full-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a connecting line to see how one dynamic drives the next.</div></div>
+            </div>
+        </div>
+
+        <div id="gen-ic-grid" class="gen-icsub-content" style="display: none; width: 100%;">
+            <div id="gen-ic-grid-content" style="width: 100%;"></div>
+        </div>
+
+        <div id="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
+            <div id="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
         </div>
     </div>
 </div></main>
@@ -959,6 +1028,178 @@ const attrMatrixData = {
         ]
     }
 };
+const genConcepts = [
+    {id:'exp-tech-accel', title:'Exponential Technological Acceleration', group:'origin', desc:'The compounding acceleration of technological capabilities and economic throughput that acts as a planetary multiplier. It raises the stakes and speed of underlying structural traps, continuously introducing novel, high-impact failure modes.'},
+    {id:'abstraction-cycle', title:'Abstraction-Extraction-Accumulation Cycle', group:'origin', desc:'A systemic loop where complex realities are reduced to narrow metrics (abstraction), natural and social resources are rapidly harvested without accounting for externalities (extraction), and power is hyper-concentrated (accumulation).'},
+    {id:'collective-alienation', title:'Collective Psychological Alienation', group:'origin', desc:"A profound, systemic disconnection from the Self, the Other, and the World (including society, the environment, and the future). Termed by Zak Stein as a 'global intimacy disorder', this dynamic fragments our shared sensemaking and relational capacities, leaving individuals isolated and societies unable to coordinate."},
+    {id:'arms-races', title:'Arms Races &amp; Tragedies of the Commons', group:'chain', desc:'A game-theoretic dynamic where competing actors escalate investment in extractive or destructive capacity, since unilateral restraint only cedes advantage to rivals. With no binding coordination mechanism, individually rational choices aggregate into collective ruin.'},
+    {id:'embedded-growth', title:'Embedded Growth Obligations', group:'chain', desc:'The structural requirement, hard-coded into compound interest, shareholder returns and GDP targets, for perpetual quantitative expansion. It persists regardless of ecological limits or diminishing returns to genuine wellbeing.'},
+    {id:'left-hemispheric', title:'Left-Hemispheric Conditioning', group:'chain', desc:"A civilisation-wide bias toward the brain's left-hemispheric mode of attention – narrow, decontextualised, control-seeking – at the expense of the right hemisphere's holistic grasp of a living world. (After Iain McGilchrist.)"},
+    {id:'multipolar-traps', title:'Multi-Polar Traps &amp; Zero-Sum Games', group:'chain', desc:'Many independent actors face zero-sum payoffs with no binding mechanism to coordinate between them, so each is structurally compelled to defect even when mutual restraint would serve everyone better. Individually rational choices aggregate into an outcome no single actor can unilaterally escape.'},
+    {id:'narrow-metric-chain', title:'Narrow Metric Optimisation', group:'chain', desc:"A small set of legible proxy metrics – GDP, quarterly profit, engagement – is relentlessly maximised as a stand-in for genuine wellbeing, while everything the proxy fails to capture is blindly sacrificed. As Goodhart's Law predicts, once a measure becomes the target, it ceases to be a good measure."},
+    {id:'life-blind-search', title:'Life-Blind Search Processes', group:'chain', desc:'Market competition, algorithmic training and selection under artificial pressure are search processes indifferent to life itself, optimising only for whatever narrow proxy they happen to be pointed at. Whatever the proxy does not reward is treated as though it does not exist.'},
+    {id:'structural-separation', title:'Structural &amp; Superstructural Separation', group:'chain', desc:"The global political economy organises humanity into separated collective agents – nation-states and corporations – as its basic structural units, legitimised by the cultural 'superstructure' of nationalism and tribalism. These impermeable self/other boundaries hard-code the prisoner's dilemma into civilisation, so no moral appeal can reach across them."},
+    {id:'isolated-problem-solving', title:'Isolated Problem-Solving', group:'chain', desc:"Each institution attacks its own local problem in a silo, with no shared model of the interconnected whole it is embedded in. Specialised 'solutions' routinely externalise costs into every other domain, becoming the generative source of new, worse crises elsewhere."},
+    {id:'reductionist-modelling', title:'Reductionist World-Modelling', group:'chain', desc:'Reality is modelled as a set of separable, context-free components to be individually optimised, rather than as an irreducibly interconnected living system. Whatever this model omits becomes structurally invisible, so its costs go unaccounted for until they cascade into crisis.'},
+    {id:'instrumental-convergence', title:'Instrumental Convergence &amp; Strategy Stealing', group:'category', desc:"Sufficiently capable optimising agents converge on the same instrumental subgoals – self-preservation, resource acquisition, power-seeking – regardless of their ultimate objective, since these subgoals are useful for achieving almost any goal. This collapses the practical distinction between 'good' and merely competitive agents: any actor bound by ethical constraints must strategy-steal the same power-seeking behaviours as its least-constrained rivals just to remain competitive, or else be selected out."},
+    {id:'narrow-metric-cat', title:'Narrow Metric Optimisation &amp; Negative Externalities', group:'category', desc:"A small set of legible proxy metrics – GDP, quarterly profit, engagement – is relentlessly maximised as a stand-in for genuine wellbeing, since once a measure becomes the target it ceases to be a good one, as Goodhart's Law predicts. Whatever the proxy fails to capture is blindly sacrificed, degrading unmeasured dimensions of the system until those hidden costs accumulate silently and surface as catastrophic, systemic failures."},
+    {id:'positive-feedback', title:'Positive Feedback Loops &amp; Power Asymmetries', group:'category', desc:"Early, often small advantages compound through self-reinforcing feedback loops – exponential finance, network effects, data and compute advantages – concentrating capital and capability into the hands of an ever-smaller set of hyper-agents (states, corporations, or individuals) whose scale then lets them further tilt the system's rules in their own favour."},
+    {id:'perverse-incentives', title:'Perverse Incentive Structures', group:'category', desc:'Economic and structural frameworks systematically reward extractive and harmful behaviour over regenerative action, externalising the costs of degradation onto others while good-faith actors who refuse to defect are competitively disadvantaged and driven out.'},
+    {id:'modernist-paradigm', title:'Modernist Cultural Paradigm', group:'category', desc:"Secular modernity's dominant paradigm of scientism, mechanism, anthropocentrism, individualism and economism, which reduces reality to separable, measurable components and legitimises an instrumental, utilitarian relationship to the world and to other people."},
+    {id:'scarcity-rivalry', title:'Scarcity-Rivalry Orientation', group:'category', desc:'Perceiving the world through a lens of fundamental scarcity, this orientation frames existence as zero-sum, generating and legitimising hierarchy, competition and conflict as natural, inevitable features of life rather than as contingent, changeable arrangements.'},
+    {id:'psychopathic-selection', title:'Psychopathic Selection Hypothesis', group:'category', desc:'Systems structured around zero-sum competition and extractive incentives systematically reward ruthlessness, a lack of empathy, and a willingness to externalise harm over prosocial restraint, selecting those best adapted to exploit the system into its positions of greatest power.'},
+    {id:'wisdom-gaps', title:'The Wisdom Gap(s)', group:'category', desc:"The widening gap between humanity's technological and economic power and its collective wisdom to wield that power well – expressed as parallel gaps in our moral, structural and epistemic capacities, long mythologised across cultures as the perennial warning against power outrunning wisdom."},
+    {id:'moloch', title:'Moloch: God of Game-Theory', group:'category', desc:"Moloch is Scott Alexander's mythic personification of the meta-pattern underlying every multipolar trap and race-to-the-bottom dynamic in this map – the emergent, god-like entity to which competing agents sacrifice their own values, one by one, because no single agent can unilaterally refuse without simply losing to a rival who won't. Named after the god demanding child sacrifice in the Old Testament (and Allen Ginsberg's poem 'Howl'), Moloch names coordination failure itself as a force powerful enough to be worshipped."}
+];
+
+const genConceptById = {};
+genConcepts.forEach(c => genConceptById[c.id] = c);
+
+const genFlowPos = {
+    'exp-tech-accel': {x:200, y:80}, 'abstraction-cycle': {x:600, y:80}, 'collective-alienation': {x:1000, y:80},
+    'arms-races': {x:200, y:380}, 'embedded-growth': {x:600, y:380}, 'left-hemispheric': {x:1000, y:380},
+    'multipolar-traps': {x:200, y:680}, 'narrow-metric-chain': {x:600, y:680}, 'life-blind-search': {x:1000, y:680},
+    'structural-separation': {x:200, y:980}, 'isolated-problem-solving': {x:600, y:980}, 'reductionist-modelling': {x:1000, y:980},
+    'instrumental-convergence': {x:200, y:1280}, 'narrow-metric-cat': {x:600, y:1280}, 'positive-feedback': {x:1000, y:1280},
+    'perverse-incentives': {x:200, y:1400}, 'modernist-paradigm': {x:600, y:1400}, 'scarcity-rivalry': {x:1000, y:1400},
+    'psychopathic-selection': {x:200, y:1520}, 'wisdom-gaps': {x:600, y:1520}, 'moloch': {x:1000, y:1520}
+};
+
+const genChainEdges = [
+    ['exp-tech-accel','arms-races'], ['exp-tech-accel','embedded-growth'], ['exp-tech-accel','left-hemispheric'],
+    ['abstraction-cycle','arms-races'], ['abstraction-cycle','embedded-growth'], ['abstraction-cycle','left-hemispheric'],
+    ['collective-alienation','arms-races'], ['collective-alienation','embedded-growth'], ['collective-alienation','left-hemispheric'],
+    ['arms-races','multipolar-traps'], ['embedded-growth','narrow-metric-chain'], ['left-hemispheric','life-blind-search'],
+    ['multipolar-traps','structural-separation'], ['narrow-metric-chain','isolated-problem-solving'], ['life-blind-search','reductionist-modelling']
+];
+
+const genCategoryEdges = [
+    ['instrumental-convergence','multipolar-traps'], ['narrow-metric-cat','narrow-metric-chain'], ['positive-feedback','structural-separation'],
+    ['perverse-incentives','embedded-growth'], ['modernist-paradigm','left-hemispheric'], ['scarcity-rivalry','arms-races'],
+    ['psychopathic-selection','structural-separation'], ['wisdom-gaps','reductionist-modelling'], ['moloch','multipolar-traps']
+];
+
+const genInterconnections = {
+    'exp-tech-accel-arms-races': "Compounding technological and economic acceleration raises the stakes and speed of competitive escalation, turning what were once slow-moving rivalries into high-velocity arms races no actor can afford to unilaterally exit.",
+    'exp-tech-accel-embedded-growth': "Every increment of technological capability is immediately absorbed into the compounding growth targets of compound interest and GDP, so acceleration never slackens the underlying obligation to expand, it only raises the ceiling.",
+    'exp-tech-accel-left-hemispheric': "The tools accelerating fastest are those that reward narrow, decontextualised, control-seeking cognition, so each new wave of technological power further entrenches the left-hemispheric mode of attention that built it.",
+    'abstraction-cycle-arms-races': "Reducing complex realities to narrow, comparable metrics lets rival actors directly benchmark and escalate against one another, turning abstraction into the scoreboard that fuels competitive arms races.",
+    'abstraction-cycle-embedded-growth': "Once extraction has been made legible as a single accumulating number, further extraction becomes an obligation the system must keep meeting, hard-coding perpetual growth into its own accounting.",
+    'abstraction-cycle-left-hemispheric': "Abstraction, extraction and accumulation are themselves the signature moves of left-hemispheric attention, so the cycle both requires and continuously re-trains a civilisation-wide bias toward that narrow mode of perception.",
+    'collective-alienation-arms-races': "A civilisation disconnected from Self, Other and World loses the relational trust that coordination requires, leaving competitive escalation as the only mode of interaction that still feels reliable.",
+    'collective-alienation-embedded-growth': "Alienated from genuine relationship and meaning, individuals and institutions substitute quantitative growth for the qualitative wellbeing they can no longer sense or measure directly.",
+    'collective-alienation-left-hemispheric': "A global intimacy disorder is itself a left-hemispheric disorder: disconnection from Self, Other and World is what happens when the brain's narrow, controlling mode of attention dominates the holistic, relational one.",
+    'arms-races-multipolar-traps': "Escalating investment in extractive or destructive capacity is the concrete mechanism by which many independent actors find themselves locked into a zero-sum, structurally inescapable multi-polar trap.",
+    'embedded-growth-narrow-metric-chain': "The obligation to keep expanding quantitatively channels every institution toward whichever proxy metric best demonstrates that expansion, collapsing genuine wellbeing into narrow, legible targets.",
+    'left-hemispheric-life-blind-search': "A civilisation-wide bias toward narrow, decontextualised attention builds search and selection processes, markets, algorithms, competitive institutions, that inherit the same blindness to life itself.",
+    'multipolar-traps-structural-separation': "Because no actor can unilaterally exit a multi-polar trap without ceding advantage, the trap itself legitimises and hardens the nation-state and corporate boundaries that keep rivals structurally separated.",
+    'narrow-metric-chain-isolated-problem-solving': "Once a single proxy metric becomes each institution's target, every institution optimises its own metric in isolation, with no shared model of the interconnected whole its 'solution' is embedded in.",
+    'life-blind-search-reductionist-modelling': "Search processes indifferent to life itself can only optimise what they can model, so they default to treating reality as a set of separable, context-free components rather than a living system.",
+    'instrumental-convergence-multipolar-traps': "Because self-preservation, resource acquisition and power-seeking are useful for almost any goal, every sufficiently capable actor converges on the same subgoals, turning what could be diverse strategies into one more zero-sum, mutually-defeating race.",
+    'narrow-metric-cat-narrow-metric-chain': "The same Goodhart's Law dynamic, a proxy ceasing to be a good measure once it becomes the target, plays out at both the civilisational and institutional scale, so the category-level pathology and the chain's own narrow-metric step are the same mechanism recurring at different resolutions.",
+    'positive-feedback-structural-separation': "Self-reinforcing feedback loops concentrate capital and capability into an ever-smaller set of hyper-agents, and those hyper-agents then have every incentive to entrench the separated, sovereign boundaries that let them keep the advantage to themselves.",
+    'perverse-incentives-embedded-growth': "Rewarding extractive behaviour over regenerative action gives every actor a competitive reason to keep expanding output regardless of ecological limits, reinforcing growth as a structural obligation rather than a choice.",
+    'modernist-paradigm-left-hemispheric': "Scientism, mechanism and instrumentalism are the cultural expression of left-hemispheric attention at civilisational scale, so modernity's dominant paradigm both grows from and continuously re-legitimises that narrow mode of perceiving the world.",
+    'scarcity-rivalry-arms-races': "Framing existence as fundamentally zero-sum makes competitive escalation look like the only rational response to a rival's move, turning a scarcity mindset directly into an arms race.",
+    'psychopathic-selection-structural-separation': "Systems that reward ruthlessness over empathy select leadership and institutions least willing to dissolve the boundaries that let them externalise harm, entrenching rather than healing structural separation.",
+    'wisdom-gaps-reductionist-modelling': "An epistemic capacity that lags behind the complexity of what must be understood defaults to modelling reality in whatever simplified, reductionist terms it can still manage, at the cost of everything that simplification omits.",
+    'moloch-multipolar-traps': "Moloch is the mythic name for the multipolar trap itself, the god-like coordination failure to which every competing agent sacrifices its own values because no one can unilaterally refuse without simply losing to a rival who won't."
+};
+
+function genNodeBoxHtml(id, x, y, w) {
+    w = w || 260;
+    const c = genConceptById[id];
+    return `<g class="gen-concept-node hoverable" data-concept="${id}" style="cursor:pointer;">
+        <rect x="${x - w/2}" y="${y - 34}" width="${w}" height="68" rx="10" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2" />
+        <foreignObject x="${x - w/2 + 8}" y="${y - 34}" width="${w - 16}" height="68">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center;">
+                <span style="color:var(--text-color); font-weight:500; font-size:0.95rem; line-height:1.2;">${c.title}</span>
+            </div>
+        </foreignObject>
+    </g>`;
+}
+
+function genRadialLayout() {
+    const cx = 950, cy = 950, r = 750;
+    const n = genConcepts.length;
+    return genConcepts.map((c, i) => {
+        const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+        return {id: c.id, x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle)};
+    });
+}
+
+function renderGenRadial() {
+    const positions = genRadialLayout();
+    let html = '';
+    positions.forEach(p => { html += genNodeBoxHtml(p.id, p.x, p.y, 190); });
+    document.getElementById('gen-ic-radial-nodes').innerHTML = html;
+}
+
+function drawGenEdgeLine(x1, y1, x2, y2, extra) {
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--indicator-color-solid)" stroke-width="2" marker-end="url(#gen-arrowhead)" ${extra||''} />`;
+}
+
+function genSectionLabelHtml(x, y, label) {
+    return `<foreignObject x="${x - 300}" y="${y - 15}" width="600" height="30">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; text-align:center; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; color:var(--text-color);">${label}</div>
+    </foreignObject>`;
+}
+
+function renderGenFlow() {
+    let edgesHtml = '';
+    genChainEdges.forEach(([a, b]) => {
+        const A = genFlowPos[a], B = genFlowPos[b];
+        edgesHtml += drawGenEdgeLine(A.x, A.y + 34, B.x, B.y - 34);
+    });
+    document.getElementById('gen-ic-flow-edges').innerHTML = edgesHtml;
+    let nodesHtml = genSectionLabelHtml(600, 1180, 'Category Concepts (not directly chained above)');
+    genConcepts.forEach(c => {
+        const p = genFlowPos[c.id];
+        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, 260);
+    });
+    document.getElementById('gen-ic-flow-nodes').innerHTML = nodesHtml;
+}
+
+function renderGenFull() {
+    let edgesHtml = '';
+    genChainEdges.concat(genCategoryEdges).forEach(([a, b]) => {
+        const A = genFlowPos[a], B = genFlowPos[b];
+        const dx = B.x - A.x, dy = B.y - A.y, L = Math.hypot(dx, dy);
+        const ux = dx / L, uy = dy / L;
+        const x1 = A.x + ux * 40, y1 = A.y + uy * 40;
+        const x2 = B.x - ux * 40, y2 = B.y - uy * 40;
+        edgesHtml += `<g class="gen-edge-group hoverable" data-edge="${a}-${b}" data-src="${a}" data-tgt="${b}" style="cursor:pointer;">
+            <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--indicator-color-solid)" stroke-width="2" marker-end="url(#gen-arrowhead)" class="gen-edge-line-vis" />
+            <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="transparent" stroke-width="28" pointer-events="stroke" />
+        </g>`;
+    });
+    document.getElementById('gen-ic-full-edges').innerHTML = edgesHtml;
+    let nodesHtml = '';
+    genConcepts.forEach(c => {
+        const p = genFlowPos[c.id];
+        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, 260);
+    });
+    document.getElementById('gen-ic-full-nodes').innerHTML = nodesHtml;
+}
+
+function renderGenGrid() {
+    const groups = [
+        {label: 'Chain Origins', items: genConcepts.filter(c => c.group === 'origin')},
+        {label: 'Chain Sequence', items: genConcepts.filter(c => c.group === 'chain')},
+        {label: 'Category Concepts', items: genConcepts.filter(c => c.group === 'category')}
+    ];
+    let html = '';
+    groups.forEach(g => {
+        html += `<div class="gen-grid-group"><div class="gen-grid-group-label">${g.label}</div><div class="gen-grid-boxes">`;
+        g.items.forEach(c => { html += `<div class="gen-grid-box">${c.title}</div>`; });
+        html += `</div></div>`;
+    });
+    document.getElementById('gen-ic-grid-content').innerHTML = html;
+}
+renderGenRadial();
+renderGenFlow();
+renderGenFull();
+renderGenGrid();
 let attrTriEdgesHtml = '';
 for (let i = 0; i < attrTriNodesData.length; i++) {
     for (let j = i + 1; j < attrTriNodesData.length; j++) {
@@ -1028,7 +1269,7 @@ let currentView="app",glossarySourceView="glossary",viewScrollStates={app:0,map:
 function instantResetAppView(){document.getElementById("title").classList.remove("active"),document.getElementById("title").classList.add("auto-pulse"),document.getElementById("def-wrapper").classList.remove("active"),document.getElementById("menu-2").classList.remove("visible"),document.getElementById("menu-2").querySelectorAll(".menu-item").forEach(e=>e.classList.remove("active","greyed-out","auto-pulse")),document.getElementById("collapse-tree-btn").classList.remove("visible"),document.getElementById("stage-2-contents").innerHTML=generateAppPanels(treeData.children,2),balanceMenuRows()}
 function switchView(e){if(currentView===e)return;viewScrollStates[currentView]=window.scrollY,document.querySelectorAll(".nav-item").forEach(e=>e.classList.remove("active"));const t=document.querySelector(`.nav-item[data-target="${e}"]`);t&&t.classList.add("active"),currentView=e,document.body.setAttribute("data-view",e),document.querySelectorAll(".view-panel").forEach(t=>{t.id===e+"-container"?(t.style.display="flex","map"===e&&(t.style.display="block"),void t.offsetWidth,t.classList.add("active")):(t.classList.remove("active"),setTimeout(()=>{t.classList.contains("active")||(t.style.display="none")},600))}),window.scrollTo({top:viewScrollStates[e]||0,behavior:"instant"}),"map"===e&&(document.querySelector(".css-tree").innerHTML=`<ul>${generateMapTree(viewTreeData,1)}</ul>`,document.querySelector(".css-tree").classList.add("horizontal"),isHorizontalMap=!0,setMapState(document.querySelector(".css-tree > ul > li"),1),mapContainer.dataset.initialized?setTimeout(resetMapView,50):(treeZoomWrapper.style.transition="none",setTimeout(()=>{resetMapView(),requestAnimationFrame(()=>{treeZoomWrapper.style.transition=""})},50),mapContainer.dataset.initialized="true")),"glossary"===e&&(document.getElementById("glossary-list-view").style.display="block",document.getElementById("glossary-detail-view").style.display="none",document.getElementById("main-breadcrumbs").classList.remove("visible"));
 if("maximal"===e||("glossary"===e&&"block"===document.getElementById("glossary-list-view").style.display)){document.getElementById("footer").classList.add("header-mode");document.getElementById("footer").style.display="block"}else if("app"===e){document.getElementById("footer").style.display="none"}else{document.getElementById("footer").classList.remove("header-mode");document.getElementById("footer").style.display="none"}
-document.getElementById("attractors-tabs").classList.toggle("visible","attractors"===e);if("app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("def-wrapper").classList.contains("active")&&document.getElementById("collapse-tree-btn").classList.add("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.add("visible")}else if("map"===e){document.getElementById("scroll-progress-container").classList.remove("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.add("visible");document.getElementById("toggle-map-layout-btn").classList.add("visible");document.getElementById("toggle-expand-all-btn").classList.add("visible");document.getElementById("toggle-app-align-btn").classList.remove("visible")}else if("glossary"===e||"maximal"===e||"problem"===e||"generators"===e||"attractors"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.remove("visible");if("attractors"===e&&!document.querySelector(".attr-node.active, .attr-edge-group.active")){setTimeout(()=>{const w=document.querySelector('.attr-node[data-attr="world-system"]');w&&w.dispatchEvent(new MouseEvent("click",{bubbles:!0}))},1000)}}updateProgress()}
+document.getElementById("attractors-tabs").classList.toggle("visible","attractors"===e);document.getElementById("generators-tabs").classList.toggle("visible","generators"===e);if("app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("def-wrapper").classList.contains("active")&&document.getElementById("collapse-tree-btn").classList.add("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.add("visible")}else if("map"===e){document.getElementById("scroll-progress-container").classList.remove("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.add("visible");document.getElementById("toggle-map-layout-btn").classList.add("visible");document.getElementById("toggle-expand-all-btn").classList.add("visible");document.getElementById("toggle-app-align-btn").classList.remove("visible")}else if("glossary"===e||"maximal"===e||"problem"===e||"generators"===e||"attractors"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.remove("visible");if("attractors"===e&&!document.querySelector(".attr-node.active, .attr-edge-group.active")){setTimeout(()=>{const w=document.querySelector('.attr-node[data-attr="world-system"]');w&&w.dispatchEvent(new MouseEvent("click",{bubbles:!0}))},1000)}}updateProgress()}
 document.querySelectorAll(".nav-item").forEach(e=>{e.addEventListener("click",()=>{const t=e.getAttribute("data-target");if(t===currentView){window.scrollTo({top:0,behavior:"smooth"});"app"===t&&instantResetAppView(),"map"===t&&(document.querySelector(".css-tree").innerHTML=`<ul>${generateMapTree(viewTreeData,1)}</ul>`,document.querySelector(".css-tree").classList.add("horizontal"),isHorizontalMap=!0,setMapState(document.querySelector(".css-tree > ul > li"),1),(()=>{const btn=document.getElementById("toggle-expand-all-btn");btn.dataset.state="collapsed";btn.setAttribute("aria-label","Expand All")})(),setTimeout(resetMapView,50)),"glossary"===t&&(document.getElementById("glossary-list-view").style.display="block",document.getElementById("glossary-detail-view").style.display="none",document.getElementById("main-breadcrumbs").classList.remove("visible"),document.getElementById("footer").classList.add("header-mode"),document.getElementById("footer").style.display="block"),"maximal"===t&&(document.querySelector(".maximal-list").innerHTML=generateMaximalList(viewTreeData,0),setMaxState(document.querySelector(".maximal-list > li"),2),viewScrollStates.maximal=0);return}switchView(t)})});
 const root=document.documentElement,accents=[null,"green","orange","blue","red"];let accentIndex=0;document.getElementById("site-title").addEventListener("click",()=>{playSound("click"),switchView("app")}),document.getElementById("theme-toggle").addEventListener("click",()=>{root.getAttribute("data-theme")==="dark"?root.removeAttribute("data-theme"):root.setAttribute("data-theme","dark"),updateFavicon()}),document.getElementById("accent-toggle").addEventListener("click",()=>{accentIndex=(accentIndex+1)%accents.length;const e=accents[accentIndex];e?root.setAttribute("data-accent",e):root.removeAttribute("data-accent"),updateFavicon()}),document.getElementById("toggle-map-layout-btn").addEventListener("click",()=>{playSound("click");const e=document.querySelector(".css-tree");isHorizontalMap=!isHorizontalMap,isHorizontalMap?e.classList.add("horizontal"):e.classList.remove("horizontal"),setTimeout(resetMapView,50)}),document.getElementById("toggle-app-align-btn").addEventListener("click",()=>{playSound("click");appLeftAlign=!appLeftAlign;const btn=document.getElementById("toggle-app-align-btn");btn.dataset.state=appLeftAlign?"left":"center";btn.querySelector(".icon-align-center").style.display=appLeftAlign?"none":"";btn.querySelector(".icon-align-left").style.display=appLeftAlign?"":"none";document.body.classList.toggle("app-left-align",appLeftAlign)}),document.addEventListener("keydown",e=>{let t=!1;"1"===e.key?(root.removeAttribute("data-theme"),t=!0):"2"===e.key?(root.setAttribute("data-theme","dark"),t=!0):"3"===e.key?(root.setAttribute("data-accent","green"),accentIndex=1,t=!0):"4"===e.key?(root.setAttribute("data-accent","orange"),accentIndex=2,t=!0):"5"===e.key?(root.setAttribute("data-accent","blue"),accentIndex=3,t=!0):"6"===e.key?(root.setAttribute("data-accent","red"),accentIndex=4,t=!0):"7"===e.key?(root.removeAttribute("data-accent"),accentIndex=0,t=!0):"f"!==e.key&&"F"!==e.key||(root.getAttribute("data-font")==="garamond"?root.removeAttribute("data-font"):root.setAttribute("data-font","garamond"),t=!0),t&&updateFavicon()});
 function collapseMainTree(){if(!document.getElementById("def-wrapper").classList.contains("active"))return;document.querySelectorAll("#stage-2-contents > .content-panel.active").forEach(e=>{const t=e.querySelector(":scope > .content-panel-inner > .selected-header > .local-back-btn");t&&t.click()});const e=document.getElementById("title"),t=document.getElementById("def-wrapper");e.classList.remove("active"),t.classList.remove("active");const o=document.getElementById("menu-2");o.classList.remove("visible"),o.querySelectorAll(".clickable-indicator").forEach(e=>e.classList.remove("auto-pulse")),document.getElementById("collapse-tree-btn").classList.remove("visible"),window.scrollTo({top:0,behavior:"smooth"}),updateProgress(),document.getElementById("title-corners").classList.remove("visible"),setTimeout(()=>{if("app"===currentView){e.classList.remove("auto-pulse");void e.offsetWidth;e.classList.add("auto-pulse");playSound("underline");}},800)}
@@ -1047,9 +1288,9 @@ if(e.target.closest('#hamburger-btn')){
 // --- Generative Dynamics Controls ---
 let isGenExpanded = false;
 function updateGlobalToggleIcon() { 
-    const btn = document.getElementById('gen-global-toggle'); 
-    const activeTab = document.querySelector('.gen-tab-content.active'); 
-    if (!activeTab) return; 
+    const btn = document.getElementById('gen-global-toggle');
+    const activeTab = document.querySelector('.gen-subtab-content.active');
+    if (!activeTab) return;
     const anyCollapsed = activeTab.querySelectorAll('.gen-tier-top-1.gen-collapsed, .gen-tier-top-2.gen-collapsed, .gen-tier-bottom-1.gen-collapsed').length > 0; 
     const iconExpand = btn.querySelector('.icon-expand'); 
     const iconCollapse = btn.querySelector('.icon-collapse'); 
@@ -1100,7 +1341,7 @@ function toggleGenTier(tabId, tier, btnElement, forceState) {
 if(e.target.closest('.gen-local-toggle')){
     playSound("click");
     const btn=e.target.closest('.gen-local-toggle');
-    const tabId=btn.closest('.gen-tab-content').id;
+    const tabId=btn.closest('.gen-subtab-content').id;
     const targetTier=btn.getAttribute('data-target');
     toggleGenTier(tabId, targetTier, btn);
     updateGlobalToggleIcon();
@@ -1108,7 +1349,7 @@ if(e.target.closest('.gen-local-toggle')){
 if(e.target.closest('#gen-global-toggle')){
     playSound("click");
     const btn = e.target.closest('#gen-global-toggle');
-    const activeTabId = document.querySelector('.gen-tab-content.active').id;
+    const activeTabId = document.querySelector('.gen-subtab-content.active').id;
     const tab = document.getElementById(activeTabId);
     const isExpanded = btn.dataset.state === 'expanded';
     const action = isExpanded ? 'collapse' : 'expand';
@@ -1123,9 +1364,11 @@ if(e.target.closest('.gen-tab') && !e.target.closest('#gen-global-toggle')){
     const btn=e.target.closest('.gen-tab');
     const t=btn.getAttribute('data-tab');
     const attrTabsWrap=document.getElementById('attractors-tabs');
+    const genTabsWrap=document.getElementById('generators-tabs');
     const isAttrTab=attrTabsWrap&&attrTabsWrap.contains(btn);
-    const buttonScope=isAttrTab?attrTabsWrap:(btn.closest('.view-panel')||document);
-    const contentScope=isAttrTab?document.getElementById('attractors-container'):(btn.closest('.view-panel')||document);
+    const isGenTab=genTabsWrap&&genTabsWrap.contains(btn);
+    const buttonScope=isAttrTab?attrTabsWrap:(isGenTab?genTabsWrap:(btn.closest('.view-panel')||document));
+    const contentScope=isAttrTab?document.getElementById('attractors-container'):(isGenTab?document.getElementById('generators-container'):(btn.closest('.view-panel')||document));
     buttonScope.querySelectorAll('.gen-tab[data-tab]').forEach(el=>el.classList.remove('active'));
     btn.classList.add('active');
     const current=contentScope.querySelector('.gen-tab-content.active');
@@ -1168,12 +1411,111 @@ if("attr-tab-interconnections"===t&&!document.querySelector(".attr-tri-edge.acti
 if("attr-tab-matrix"===t&&!document.querySelector(".attr-matrix-cell.active")){
     setTimeout(()=>{const d=document.querySelector('.attr-matrix-cell[data-quadrant="mutual-reinforcement"]');d&&d.dispatchEvent(new MouseEvent("click",{bubbles:!0}));},350);
 }
+const genTabCopy={
+    "gen-tab-verticals":{title:"Generative Dynamics: Verticals",subtitle:"A hierarchical mapping of the structural traps driving civilisation towards catastrophe."},
+    "gen-tab-interconnections":{title:"Generative Dynamics: Interconnections",subtitle:"Explore how the generative dynamics concepts connect and compound across categories and chains."}
+};
+if(genTabCopy[t]){
+    const titleEl=document.getElementById('gen-view-title');
+    const subtitleEl=document.getElementById('gen-view-subtitle');
+    if(titleEl)titleEl.textContent=genTabCopy[t].title;
+    if(subtitleEl)subtitleEl.textContent=genTabCopy[t].subtitle;
+    const globalToggle=document.getElementById('gen-global-toggle');
+    if(globalToggle)globalToggle.style.display=t==='gen-tab-verticals'?'flex':'none';
+}
     if(t.indexOf("gen-")===0)setTimeout(updateGlobalToggleIcon, 350);
+}
+if(e.target.closest('.gen-subtab')){
+    playSound("click");
+    const btn=e.target.closest('.gen-subtab');
+    const t=btn.getAttribute('data-subtab');
+    const wrap=btn.closest('.gen-tab-dropdown-wrap');
+    wrap.querySelectorAll('.gen-subtab').forEach(el=>el.classList.remove('active'));
+    btn.classList.add('active');
+    const contentScope=document.getElementById('generators-container');
+    const current=contentScope.querySelector('.gen-subtab-content.active');
+    const next=document.getElementById(t);
+    if(current!==next){
+        if(current){
+            current.style.opacity='0';
+            if(next)next.style.opacity='0';
+            setTimeout(()=>{
+                current.style.display='none';
+                current.classList.remove('active');
+                if(next){
+                    next.style.display='block';
+                    void next.offsetWidth;
+                    next.classList.add('active');
+                    next.style.opacity='1';
+                }
+            },300);
+        }else if(next){
+            next.style.display='block';
+            next.classList.add('active');
+            next.style.opacity='1';
+        }
+    }
+    setTimeout(updateGlobalToggleIcon, 350);
+}
+if(e.target.closest('.gen-icsub')){
+    playSound("click");
+    const btn=e.target.closest('.gen-icsub');
+    const t=btn.getAttribute('data-icsub');
+    const buttonScope=document.getElementById('gen-tab-interconnections');
+    buttonScope.querySelectorAll('.gen-icsub').forEach(el=>el.classList.remove('active'));
+    btn.classList.add('active');
+    const current=buttonScope.querySelector('.gen-icsub-content.active');
+    const next=document.getElementById(t);
+    const conceptPanel=document.getElementById('gen-concept-panel');
+    if(conceptPanel){conceptPanel.style.opacity='0';document.getElementById('gen-concept-content').innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Select a concept to view its description.</div>";document.querySelectorAll('.gen-concept-node.active').forEach(el=>el.classList.remove('active'));}
+    if(current!==next){
+        if(current){
+            current.style.opacity='0';
+            if(next)next.style.opacity='0';
+            setTimeout(()=>{
+                current.style.display='none';
+                current.classList.remove('active');
+                if(next){
+                    next.style.display='block';
+                    void next.offsetWidth;
+                    next.classList.add('active');
+                    next.style.opacity='1';
+                }
+            },300);
+        }else if(next){
+            next.style.display='block';
+            next.classList.add('active');
+            next.style.opacity='1';
+        }
+    }
+}
+if(e.target.closest('.gen-concept-node')){
+    const node=e.target.closest('.gen-concept-node');
+    document.querySelectorAll('.gen-concept-node.active').forEach(el=>el.classList.remove('active'));
+    node.classList.add('active');
+    const cid=node.getAttribute('data-concept');
+    const c=genConceptById[cid];
+    const p=document.getElementById('gen-concept-panel');
+    if(c){document.getElementById('gen-concept-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${c.title}</span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${c.desc}</div></div>`;}
+    p.style.opacity='1';
+    e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
+}
+if(e.target.closest('.gen-edge-group')){
+    const eg=e.target.closest('.gen-edge-group');
+    document.querySelectorAll('.gen-edge-group').forEach(el=>el.classList.remove('active'));
+    eg.classList.add('active');
+    const eid=eg.getAttribute('data-edge');
+    const src=genConceptById[eg.getAttribute('data-src')],tgt=genConceptById[eg.getAttribute('data-tgt')];
+    const text=genInterconnections[eid];
+    const p=document.getElementById('gen-ic-full-panel');
+    if(text&&src&&tgt){document.getElementById('gen-ic-full-content').innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${src.title}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline></svg><span>${tgt.title}</span></h2><div class="hex-int-flow-content" style="width:100%;"><p class="hex-int-para">${text}</p></div></div>`;}else{document.getElementById('gen-ic-full-content').innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}
+    p.style.opacity='1';
+    e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
 }
 if(e.target.closest('.prev-slide')){playSound("click");const row=e.target.closest('.gen-row');const viewport=row.querySelector('.gen-slider-viewport');const slides=viewport.querySelectorAll('.gen-slide');let activeIdx=Array.from(slides).findIndex(s=>s.classList.contains('active'));slides[activeIdx].classList.remove('active');activeIdx=(activeIdx-1+slides.length)%slides.length;slides[activeIdx].classList.add('active');}
 if(e.target.closest('.next-slide')){playSound("click");const row=e.target.closest('.gen-row');const viewport=row.querySelector('.gen-slider-viewport');const slides=viewport.querySelectorAll('.gen-slide');let activeIdx=Array.from(slides).findIndex(s=>s.classList.contains('active'));slides[activeIdx].classList.remove('active');activeIdx=(activeIdx+1)%slides.length;slides[activeIdx].classList.add('active');}
 
-if(e.target.closest(".menu-item")||e.target.closest(".local-back-btn")||e.target.closest("#theme-toggle")||e.target.closest("#accent-toggle")||e.target.closest(".nav-item")||e.target.closest("#title")||e.target.closest(".selected-header h2")||e.target.closest(".selected-header h3")||e.target.closest(".selected-header h4")||e.target.closest(".selected-header h5")||e.target.closest(".node-box")||e.target.closest(".glossary-item")||e.target.closest(".br-action-btn")||e.target.closest(".single-arrow")||e.target.closest(".double-arrow")||e.target.closest(".triple-arrow")||e.target.closest(".max-title")||e.target.closest(".map-arrow")||e.target.closest(".hex-edge-group")||e.target.closest(".attr-edge-group")||e.target.closest(".attr-node")||e.target.closest(".attr-tri-edge")||e.target.closest(".attr-matrix-cell")||e.target.closest(".module-nav-item"))e.target.closest(".local-back-btn")||playSound("click");if(e.target.closest(".module-nav-item")){const t=e.target.closest(".module-nav-item").getAttribute("data-section-target"),h=document.querySelector(`.module-heading[data-gid="${t}"]`);h&&h.scrollIntoView({behavior:"smooth",block:"start"})}if(e.target.closest("#title")){if(isTyping)return;if(titleElement.classList.contains("active"))return void collapseMainTree();document.getElementById("title-corners").classList.remove("visible"),titleElement.classList.remove("auto-pulse"),titleElement.classList.add("active"),defWrapper.classList.add("active"),document.getElementById("collapse-tree-btn").classList.add("visible"),updateProgress(),setTimeout(()=>{const e=document.getElementById("menu-2");e.classList.add("visible"),setTimeout(()=>{e.querySelectorAll(".clickable-indicator").forEach(e=>{e.classList.remove("auto-pulse"),void e.offsetWidth,e.classList.add("auto-pulse")})},400)},1200)}
+if(e.target.closest(".menu-item")||e.target.closest(".local-back-btn")||e.target.closest("#theme-toggle")||e.target.closest("#accent-toggle")||e.target.closest(".nav-item")||e.target.closest("#title")||e.target.closest(".selected-header h2")||e.target.closest(".selected-header h3")||e.target.closest(".selected-header h4")||e.target.closest(".selected-header h5")||e.target.closest(".node-box")||e.target.closest(".glossary-item")||e.target.closest(".br-action-btn")||e.target.closest(".single-arrow")||e.target.closest(".double-arrow")||e.target.closest(".triple-arrow")||e.target.closest(".max-title")||e.target.closest(".map-arrow")||e.target.closest(".hex-edge-group")||e.target.closest(".attr-edge-group")||e.target.closest(".attr-node")||e.target.closest(".attr-tri-edge")||e.target.closest(".attr-matrix-cell")||e.target.closest(".module-nav-item")||e.target.closest(".gen-concept-node")||e.target.closest(".gen-edge-group"))e.target.closest(".local-back-btn")||playSound("click");if(e.target.closest(".module-nav-item")){const t=e.target.closest(".module-nav-item").getAttribute("data-section-target"),h=document.querySelector(`.module-heading[data-gid="${t}"]`);h&&h.scrollIntoView({behavior:"smooth",block:"start"})}if(e.target.closest("#title")){if(isTyping)return;if(titleElement.classList.contains("active"))return void collapseMainTree();document.getElementById("title-corners").classList.remove("visible"),titleElement.classList.remove("auto-pulse"),titleElement.classList.add("active"),defWrapper.classList.add("active"),document.getElementById("collapse-tree-btn").classList.add("visible"),updateProgress(),setTimeout(()=>{const e=document.getElementById("menu-2");e.classList.add("visible"),setTimeout(()=>{e.querySelectorAll(".clickable-indicator").forEach(e=>{e.classList.remove("auto-pulse"),void e.offsetWidth,e.classList.add("auto-pulse")})},400)},1200)}
 if(e.target.closest(".hex-edge-group")){const eg=e.target.closest(".hex-edge-group");document.querySelectorAll(".hex-edge-group").forEach(el=>el.classList.remove("active"));eg.classList.add("active");const eid=eg.getAttribute("data-edge"),n1=eg.getAttribute("data-n1"),n2=eg.getAttribute("data-n2");const data=hexInteractions[eid]||hexInteractions[eid.split("-").reverse().join("-")];const p=document.getElementById("hex-interaction-panel");if(data){document.getElementById("hex-int-content").innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${n1}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline><polyline points="7 6 1 12 7 18"></polyline></svg><span>${n2}</span></h2><div class="hex-int-flow"><div class="hex-int-side-label">Crisis</div><div class="hex-int-flow-content"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${n1}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n2}</div><p class="hex-int-para">${data.c1.join(" ")}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${n2}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n1}</div><p class="hex-int-para">${data.c2.join(" ")}</p></div></div><div class="hex-int-side-label" style="color: var(--interactive-color);">Chrysalis</div><div class="hex-int-flow-content"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${n1}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n2}</div><p class="hex-int-para">${data.ch1.join(" ")}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${n2}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n1}</div><p class="hex-int-para">${data.ch2.join(" ")}</p></div></div></div></div>`;}else{document.getElementById("hex-int-content").innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}p.style.opacity="1";setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);}
 if(e.target.closest(".attr-edge-group")||e.target.closest(".attr-node")){const ag=e.target.closest(".attr-edge-group")||e.target.closest(".attr-node");document.querySelectorAll(".attr-edge-group, .attr-node").forEach(el=>el.classList.remove("active"));ag.classList.add("active");const aid=ag.getAttribute("data-attr");const data=attractorData[aid];const p=document.getElementById("attractors-info-panel");if(data){let pts=data.points.map(pt=>`<li style="font-size: 1.2rem; margin: 0.8rem 0; opacity: 0.9;">&bull; ${pt}</li>`).join("");document.getElementById("attr-int-content").innerHTML=`<div style="width:100%;"><ul style="list-style: none; padding-left: 0; margin: 0;"><li style="margin-bottom: 2.5rem;"><span style="font-size: 1.8rem; font-weight: 500;">${data.title}</span><div style="font-size: 1.15rem; margin-top: 0.5rem; line-height: 1.6; opacity: 0.9;">${data.desc}</div><ul style="padding-left: 0; margin-left: 0; border-left: none; margin-top: 1rem; list-style: none;">${pts}</ul></li></ul></div>`;}else{document.getElementById("attr-int-content").innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}p.style.opacity="1";e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);}
 if(e.target.closest(".attr-tri-edge")){const teg=e.target.closest(".attr-tri-edge");document.querySelectorAll(".attr-tri-edge").forEach(el=>el.classList.remove("active"));teg.classList.add("active");const eid=teg.getAttribute("data-edge"),n1=teg.getAttribute("data-n1"),n2=teg.getAttribute("data-n2");const data=attrInterconnections[eid]||attrInterconnections[eid.split("-").reverse().join("-")];const p2=document.getElementById("attr-interconnect-panel");if(data){document.getElementById("attr-interconnect-content").innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${n1}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline><polyline points="7 6 1 12 7 18"></polyline></svg><span>${n2}</span></h2><div class="hex-int-flow-content" style="width:100%;"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${n1}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n2}</div><p class="hex-int-para">${data.a1.join(" ")}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${n2}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n1}</div><p class="hex-int-para">${data.a2.join(" ")}</p></div></div></div>`;}else{document.getElementById("attr-interconnect-content").innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}p2.style.opacity="1";setTimeout(()=>{p2.scrollIntoView({behavior:'smooth',block:'start'});},150);}
