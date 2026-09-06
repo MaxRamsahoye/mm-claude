@@ -112,6 +112,15 @@ body.app-left-align #app-container .desc-text { text-align: left !important; mar
 body.app-left-align #app-container .menu-row { justify-content: flex-start !important; }
 .hex-int-para { font-size: 1.05rem; line-height: 1.6; margin: 0; }
 
+/* --- Generators Interconnections Pair Panel --- */
+.gen-pair-title { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; width: 100%; margin-bottom: 2.5rem; text-align: center; }
+.gen-pair-title-item { font-size: 1.7rem; font-weight: 600; line-height: 1.3; max-width: 620px; font-family: var(--font-primary); color: var(--text-color); }
+.gen-pair-title svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-color); opacity: 0.55; }
+.gen-pair-flow { display: flex; flex-direction: column; gap: 1.75rem; width: 100%; max-width: 720px; margin: 0 auto; }
+.gen-pair-flow-label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.6rem; color: var(--text-color); line-height: 1.4; }
+.gen-pair-arrow { opacity: 0.55; font-weight: 400; }
+.gen-pair-para { font-size: 1.05rem; line-height: 1.6; margin: 0; }
+
 /* --- Generators View Styles --- */
 .gen-tab-content, .gen-subtab-content { transition: opacity 0.3s ease; }
 .gen-tab { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
@@ -524,8 +533,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
     </div>
     <div id="gen-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
-            <svg id="gen-ic-radial-svg" viewBox="0 0 2800 2800" style="width: 100%; max-width: 2100px; height: auto; overflow: visible;">
+        <div style="width: 100%; max-width: 1200px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
+            <svg id="gen-ic-radial-svg" viewBox="100 230 1010 775" style="width: 100%; height: auto; max-height: 70vh; overflow: visible;">
                 <g id="gen-ic-radial-edges"></g>
                 <g id="gen-ic-radial-nodes"></g>
             </svg>
@@ -1134,10 +1143,19 @@ function genFirstSentence(text) {
     return idx === -1 ? plain : plain.slice(0, idx + 1);
 }
 
+function genConcise(text, maxLen) {
+    maxLen = maxLen || 130;
+    if (text.length <= maxLen) return text;
+    const cut = text.slice(0, maxLen);
+    const lastSpace = cut.lastIndexOf(' ');
+    return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut) + '…';
+}
+
 function generatePairText(a, b) {
-    const bSentence = genFirstSentence(b.desc);
-    const bLower = bSentence.charAt(0).toLowerCase() + bSentence.slice(1);
-    return `${a.title} and ${b.title} sit within the same generative-dynamics system, each compounding the other. ${genFirstSentence(a.desc)} This intersects with how ${b.title.toLowerCase()} operates, where ${bLower}`;
+    const bLead = genConcise(genFirstSentence(b.desc));
+    const bLower = bLead.charAt(0).toLowerCase() + bLead.slice(1);
+    const verb = (a.catType && a.catType === b.catType) ? 'reinforces' : 'feeds into';
+    return `${a.title} ${verb} ${b.title}, where ${bLower}`;
 }
 
 function getPairTexts(srcId, tgtId) {
@@ -1164,20 +1182,48 @@ function genNodeBoxHtml(id, x, y, w, h, opts) {
     </g>`;
 }
 
+const genRadialCx = 620, genRadialCy = 620, genRadialR = 340;
+
 function genRadialLayout() {
-    const cx = 1400, cy = 1400, r = 1200;
+    const cx = genRadialCx, cy = genRadialCy, r = genRadialR;
     const nodes = genConcepts.filter(c => c.id !== 'moloch');
     const n = nodes.length;
     return nodes.map((c, i) => {
         const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
-        return {id: c.id, x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle)};
+        return {id: c.id, x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle), angle};
     });
+}
+
+function genShortLabel(c, maxLen) {
+    maxLen = maxLen || 24;
+    const full = c.shortTitle || c.title;
+    if (full.length <= maxLen) return full;
+    const words = full.split(' ');
+    let out = '';
+    for (const w of words) {
+        if ((out + ' ' + w).trim().length > maxLen) break;
+        out = (out + ' ' + w).trim();
+    }
+    return (out || full.slice(0, maxLen)) + '…';
+}
+
+function genRadialNodeHtml(id, x, y, angle) {
+    const c = genConceptById[id];
+    const labelOffset = 14;
+    const lx = x + labelOffset * Math.cos(angle);
+    const ly = y + labelOffset * Math.sin(angle);
+    const isLeft = Math.cos(angle) < -0.05;
+    const anchor = isLeft ? 'end' : 'start';
+    return `<g class="gen-concept-node hoverable" data-concept="${id}" style="cursor:pointer;">
+        <circle cx="${x}" cy="${y}" r="7" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2.5" />
+        <text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" style="font-size:13px; font-weight:500; fill:var(--text-color); font-family:var(--font-primary);">${genShortLabel(c)}</text>
+    </g>`;
 }
 
 function renderGenRadial() {
     const positions = genRadialLayout();
     let nodesHtml = '';
-    positions.forEach(p => { nodesHtml += genNodeBoxHtml(p.id, p.x, p.y, 360, 120, {useShortTitle: true, fontSize: '1.2rem'}); });
+    positions.forEach(p => { nodesHtml += genRadialNodeHtml(p.id, p.x, p.y, p.angle); });
     document.getElementById('gen-ic-radial-nodes').innerHTML = nodesHtml;
     let edgesHtml = '';
     for (let i = 0; i < positions.length; i++) {
@@ -1528,7 +1574,7 @@ if(e.target.closest('.gen-edge-group')){
     const src=genConceptById[srcId],tgt=genConceptById[tgtId];
     const p=tabContent.querySelector('.gen-concept-panel');
     const contentEl=p.querySelector('.gen-concept-content');
-    if(src&&tgt){const{a1,a2}=getPairTexts(srcId,tgtId);contentEl.innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${src.title}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline><polyline points="7 6 1 12 7 18"></polyline></svg><span>${tgt.title}</span></h2><div class="hex-int-flow-content" style="width:100%;"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${src.title}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${tgt.title}</div><p class="hex-int-para">${a1}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${tgt.title}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${src.title}</div><p class="hex-int-para">${a2}</p></div></div></div>`;}else{contentEl.innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}
+    if(src&&tgt){const{a1,a2}=getPairTexts(srcId,tgtId);contentEl.innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><div class="gen-pair-title"><div class="gen-pair-title-item">${src.title}</div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><polyline points="18 7 12 1 6 7"></polyline><polyline points="18 17 12 23 6 17"></polyline></svg><div class="gen-pair-title-item">${tgt.title}</div></div><div class="gen-pair-flow"><div class="gen-pair-block"><div class="gen-pair-flow-label">${src.title} <span class="gen-pair-arrow">&#8594;</span> ${tgt.title}</div><p class="gen-pair-para">${a1}</p></div><div class="gen-pair-block"><div class="gen-pair-flow-label">${tgt.title} <span class="gen-pair-arrow">&#8594;</span> ${src.title}</div><p class="gen-pair-para">${a2}</p></div></div></div>`;}else{contentEl.innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}
     p.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
 }
