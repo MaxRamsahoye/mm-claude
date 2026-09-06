@@ -118,13 +118,6 @@ body.app-left-align #app-container .menu-row { justify-content: flex-start !impo
 .gen-tab:hover, .gen-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); } .gen-tab:hover { transform: translateY(-2px); }
 .gen-tab.active { background: rgba(18,18,18,0.05); }
 :root[data-theme="dark"] .gen-tab.active { background: rgba(255,255,255,0.1); }
-.gen-grid-group { margin-bottom: 2.5rem; width: 100%; }
-.gen-grid-group-label { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; margin-bottom: 1rem; }
-.gen-grid-boxes { display: flex; flex-wrap: wrap; gap: 1rem; }
-.gen-grid-box { border: 2px solid var(--indicator-color-solid); border-radius: 10px; padding: 0.9rem 1.3rem; font-size: 1rem; font-weight: 500; }
-.gen-grid-subgroup { margin-bottom: 1.5rem; }
-.gen-grid-subgroup:last-child { margin-bottom: 0; }
-.gen-grid-subgroup-label { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.6; margin-bottom: 0.75rem; padding-left: 0.9rem; border-left: 3px solid var(--interactive-color); }
 .attr-tabs { position: fixed; top: 2rem; left: 2rem; z-index: 100; display: flex; gap: 1.5rem; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .attr-tabs.visible { opacity: 1; pointer-events: auto; }
 .attr-tabs .gen-tab { border: none; border-radius: 0; background: transparent; padding: 0.25rem 0; font-size: 0.95rem; opacity: 0.55; }
@@ -214,14 +207,9 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             <button class="gen-subtab hoverable" data-subtab="gen-nmo">Narrow Metric Optimisation</button>
         </div>
     </div>
-    <div class="gen-tab-dropdown-wrap" data-content-target="gen-tab-interconnections">
-        <button class="gen-tab hoverable" data-tab="gen-tab-interconnections">Interconnections</button>
-        <div class="gen-tab-dropdown">
-            <button class="gen-subtab active hoverable" data-subtab="gen-ic-radial">Radial Network</button>
-            <button class="gen-subtab hoverable" data-subtab="gen-ic-structure">Structure</button>
-            <button class="gen-subtab hoverable" data-subtab="gen-ic-grid">Concept Grid</button>
-        </div>
-    </div>
+    <button class="gen-tab hoverable" data-tab="gen-tab-interconnections">Interconnections</button>
+    <button class="gen-tab hoverable" data-tab="gen-tab-chain">Chain</button>
+    <button class="gen-tab hoverable" data-tab="gen-tab-categories">Categories</button>
     <button id="gen-global-toggle" class="gen-tab hoverable" aria-label="Toggle All" data-state="expanded">
         <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
             <polyline points="18 15 12 21 6 15"></polyline>
@@ -536,35 +524,42 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
     </div>
     <div id="gen-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
-        <div id="gen-ic-radial" class="gen-subtab-content active" style="width: 100%;">
-            <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
-                <svg id="gen-ic-radial-svg" viewBox="0 0 2800 2800" style="width: 100%; max-width: 2100px; height: auto; overflow: visible;">
-                    <g id="gen-ic-radial-edges"></g>
-                    <g id="gen-ic-radial-nodes"></g>
-                </svg>
-            </div>
+        <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
+            <svg id="gen-ic-radial-svg" viewBox="0 0 2800 2800" style="width: 100%; max-width: 2100px; height: auto; overflow: visible;">
+                <g id="gen-ic-radial-edges"></g>
+                <g id="gen-ic-radial-nodes"></g>
+            </svg>
         </div>
-
-        <div id="gen-ic-structure" class="gen-subtab-content" style="display: none; width: 100%;">
-            <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
-                <svg id="gen-ic-structure-svg" viewBox="0 0 1950 2200" style="width: 100%; max-width: 1900px; height: auto; overflow: visible;">
-                    <defs>
-                        <marker id="gen-arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-                            <path d="M0,0 L0,6 L9,3 z" fill="var(--indicator-color-solid)" />
-                        </marker>
-                    </defs>
-                    <g id="gen-ic-structure-edges"></g>
-                    <g id="gen-ic-structure-nodes"></g>
-                </svg>
-            </div>
+        <div class="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
+            <div class="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
         </div>
+    </div>
 
-        <div id="gen-ic-grid" class="gen-subtab-content" style="display: none; width: 100%;">
-            <div id="gen-ic-grid-content" style="width: 100%;"></div>
+    <div id="gen-tab-chain" class="gen-tab-content" style="display: none; width: 100%;">
+        <div style="width: 100%; max-width: 1200px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
+            <svg id="gen-chain-svg" viewBox="0 0 1200 900" style="width: 100%; height: auto; max-height: 70vh; overflow: visible;">
+                <defs>
+                    <marker id="gen-arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="var(--indicator-color-solid)" />
+                    </marker>
+                </defs>
+                <g id="gen-chain-edges"></g>
+                <g id="gen-chain-nodes"></g>
+            </svg>
         </div>
+        <div class="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
+            <div class="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
+        </div>
+    </div>
 
-        <div id="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
-            <div id="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
+    <div id="gen-tab-categories" class="gen-tab-content" style="display: none; width: 100%;">
+        <div style="width: 100%; max-width: 1200px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
+            <svg id="gen-categories-svg" viewBox="0 0 1200 900" style="width: 100%; height: auto; max-height: 70vh; overflow: visible;">
+                <g id="gen-categories-nodes"></g>
+            </svg>
+        </div>
+        <div class="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
+            <div class="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
         </div>
     </div>
 </div></main>
@@ -1085,10 +1080,10 @@ const genConceptById = {};
 genConcepts.forEach(c => genConceptById[c.id] = c);
 
 const genFlowPos = {
-    'exp-tech-accel': {x:554, y:200}, 'abstraction-cycle': {x:1114, y:200}, 'collective-alienation': {x:1674, y:200},
-    'arms-races': {x:554, y:460}, 'embedded-growth': {x:1114, y:460}, 'left-hemispheric': {x:1674, y:460},
-    'multipolar-traps': {x:554, y:720}, 'narrow-metric-chain': {x:1114, y:720}, 'life-blind-search': {x:1674, y:720},
-    'structural-separation': {x:554, y:980}, 'isolated-problem-solving': {x:1114, y:980}, 'reductionist-modelling': {x:1674, y:980}
+    'exp-tech-accel': {x:200, y:100}, 'abstraction-cycle': {x:600, y:100}, 'collective-alienation': {x:1000, y:100},
+    'arms-races': {x:200, y:320}, 'embedded-growth': {x:600, y:320}, 'left-hemispheric': {x:1000, y:320},
+    'multipolar-traps': {x:200, y:540}, 'narrow-metric-chain': {x:600, y:540}, 'life-blind-search': {x:1000, y:540},
+    'structural-separation': {x:200, y:760}, 'isolated-problem-solving': {x:600, y:760}, 'reductionist-modelling': {x:1000, y:760}
 };
 
 const genCategoryGroups = [
@@ -1099,32 +1094,12 @@ const genCategoryGroups = [
     {label: 'Mytho-Poetic', ids: ['wisdom-gaps', 'moloch']}
 ];
 
-const genChainLanes = [
-    {label: 'Lane 1 · Arms Races', ids: ['arms-races', 'multipolar-traps', 'structural-separation']},
-    {label: 'Lane 2 · Embedded Growth', ids: ['embedded-growth', 'narrow-metric-chain', 'isolated-problem-solving']},
-    {label: 'Lane 3 · Left-Hemispheric', ids: ['left-hemispheric', 'life-blind-search', 'reductionist-modelling']}
-];
-
 const genChainEdges = [
     ['exp-tech-accel','arms-races'], ['exp-tech-accel','embedded-growth'], ['exp-tech-accel','left-hemispheric'],
     ['abstraction-cycle','arms-races'], ['abstraction-cycle','embedded-growth'], ['abstraction-cycle','left-hemispheric'],
     ['collective-alienation','arms-races'], ['collective-alienation','embedded-growth'], ['collective-alienation','left-hemispheric'],
     ['arms-races','multipolar-traps'], ['embedded-growth','narrow-metric-chain'], ['left-hemispheric','life-blind-search'],
     ['multipolar-traps','structural-separation'], ['narrow-metric-chain','isolated-problem-solving'], ['life-blind-search','reductionist-modelling']
-];
-
-const genChainOrder = [
-    'arms-races','multipolar-traps','structural-separation',
-    'embedded-growth','narrow-metric-chain','isolated-problem-solving',
-    'left-hemispheric','life-blind-search','reductionist-modelling'
-];
-
-const genCategoryOrder = [
-    'multipolar-traps','instrumental-convergence',
-    'narrow-metric-cat','positive-feedback',
-    'embedded-growth','perverse-incentives',
-    'left-hemispheric','modernist-paradigm','scarcity-rivalry','psychopathic-selection',
-    'wisdom-gaps','moloch'
 ];
 
 const genInterconnections = {
@@ -1221,76 +1196,45 @@ function drawGenEdgeLine(x1, y1, x2, y2, extra) {
     return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--indicator-color-solid)" stroke-width="2" marker-end="url(#gen-arrowhead)" ${extra||''} />`;
 }
 
-function genSectionLabelHtml(x, y, label) {
-    return `<foreignObject x="${x - 500}" y="${y - 18}" width="1000" height="36">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; text-align:center; font-size:0.95rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; color:var(--text-color);">${label}</div>
-    </foreignObject>`;
-}
-
 function genCatRowLabelHtml(y, h, label) {
-    return `<foreignObject x="0" y="${y - h/2}" width="300" height="${h}">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:flex-end; text-align:right; text-transform:uppercase; font-size:1rem; letter-spacing:0.08em; font-weight:600; opacity:0.7; border-right:3px solid var(--interactive-color); padding-right:1.5rem; line-height:1.3; color:var(--text-color); font-family:var(--font-primary);">${label}</div>
+    return `<foreignObject x="0" y="${y - h/2}" width="220" height="${h}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:flex-end; text-align:right; text-transform:uppercase; font-size:0.85rem; letter-spacing:0.06em; font-weight:600; opacity:0.7; border-right:3px solid var(--interactive-color); padding-right:1.2rem; line-height:1.3; color:var(--text-color); font-family:var(--font-primary);">${label}</div>
     </foreignObject>`;
 }
 
-const genCatRowBoxW = 360, genCatRowBoxH = 110, genCatRowGap = 36, genCatRowPitch = genCatRowBoxW + genCatRowGap, genCatRowContentX = 340;
+const genCatRowBoxW = 230, genCatRowBoxH = 80, genCatRowGap = 20, genCatRowPitch = genCatRowBoxW + genCatRowGap, genCatRowContentX = 250;
 
-function renderGenStructure() {
+function renderGenChain() {
     let edgesHtml = '';
     genChainEdges.forEach(([a, b]) => {
         const A = genFlowPos[a], B = genFlowPos[b];
-        edgesHtml += drawGenEdgeLine(A.x, A.y + 60, B.x, B.y - 60);
+        edgesHtml += drawGenEdgeLine(A.x, A.y + 45, B.x, B.y - 45);
     });
-    document.getElementById('gen-ic-structure-edges').innerHTML = edgesHtml;
+    document.getElementById('gen-chain-edges').innerHTML = edgesHtml;
 
-    let nodesHtml = genSectionLabelHtml(1114, 100, 'Generative Chain (illustrative causal sequence)');
+    let nodesHtml = '';
     genConcepts.filter(c => genFlowPos[c.id]).forEach(c => {
         const p = genFlowPos[c.id];
-        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, 420, 120, {fontSize: '1.15rem'});
+        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, 320, 90, {fontSize: '1rem'});
     });
+    document.getElementById('gen-chain-nodes').innerHTML = nodesHtml;
+}
 
-    nodesHtml += genSectionLabelHtml(1114, 1160, 'Category Concepts (all five lenses, including overlaps with the chain above)');
+function renderGenCategories() {
+    let nodesHtml = '';
     genCategoryGroups.forEach((grp, i) => {
-        const y = 1300 + i * 190;
+        const y = 90 + i * 130;
         nodesHtml += genCatRowLabelHtml(y, genCatRowBoxH, grp.label);
         grp.ids.forEach((id, j) => {
             const x = genCatRowContentX + j * genCatRowPitch + genCatRowBoxW / 2;
-            nodesHtml += genNodeBoxHtml(id, x, y, genCatRowBoxW, genCatRowBoxH, {fontSize: '1.05rem'});
+            nodesHtml += genNodeBoxHtml(id, x, y, genCatRowBoxW, genCatRowBoxH, {fontSize: '0.85rem'});
         });
     });
-
-    document.getElementById('gen-ic-structure-nodes').innerHTML = nodesHtml;
-}
-
-function renderGenGrid() {
-    const byId = id => genConceptById[id];
-    let html = '';
-
-    html += `<div class="gen-grid-group"><div class="gen-grid-group-label">Chain Origins</div><div class="gen-grid-boxes">`;
-    genConcepts.filter(c => c.group === 'origin').forEach(c => { html += `<div class="gen-grid-box">${c.title}</div>`; });
-    html += `</div></div>`;
-
-    html += `<div class="gen-grid-group"><div class="gen-grid-group-label">Chain Sequence</div>`;
-    genChainLanes.forEach(lane => {
-        html += `<div class="gen-grid-subgroup"><div class="gen-grid-subgroup-label">${lane.label}</div><div class="gen-grid-boxes">`;
-        lane.ids.map(byId).forEach(c => { html += `<div class="gen-grid-box">${c.title}</div>`; });
-        html += `</div></div>`;
-    });
-    html += `</div>`;
-
-    html += `<div class="gen-grid-group"><div class="gen-grid-group-label">Category Concepts</div>`;
-    genCategoryGroups.forEach(grp => {
-        html += `<div class="gen-grid-subgroup"><div class="gen-grid-subgroup-label">${grp.label}</div><div class="gen-grid-boxes">`;
-        grp.ids.map(byId).forEach(c => { html += `<div class="gen-grid-box">${c.title}</div>`; });
-        html += `</div></div>`;
-    });
-    html += `</div>`;
-
-    document.getElementById('gen-ic-grid-content').innerHTML = html;
+    document.getElementById('gen-categories-nodes').innerHTML = nodesHtml;
 }
 renderGenRadial();
-renderGenStructure();
-renderGenGrid();
+renderGenChain();
+renderGenCategories();
 let attrTriEdgesHtml = '';
 for (let i = 0; i < attrTriNodesData.length; i++) {
     for (let j = i + 1; j < attrTriNodesData.length; j++) {
@@ -1506,7 +1450,9 @@ if("attr-tab-matrix"===t&&!document.querySelector(".attr-matrix-cell.active")){
 }
 const genTabCopy={
     "gen-tab-verticals":{title:"Generative Dynamics: Verticals",subtitle:"A hierarchical mapping of the structural traps driving civilisation towards catastrophe."},
-    "gen-tab-interconnections":{title:"Generative Dynamics: Interconnections",subtitle:"Explore how the generative dynamics concepts connect and compound across categories and chains."}
+    "gen-tab-interconnections":{title:"Generative Dynamics: Interconnections",subtitle:"Explore the full-mesh interconnections between every generative dynamics concept."},
+    "gen-tab-chain":{title:"Generative Dynamics: Chain",subtitle:"Follow the causal sequence from originating drivers through the chain of structural traps."},
+    "gen-tab-categories":{title:"Generative Dynamics: Categories",subtitle:"The twelve category concepts, grouped by their five underlying disciplinary lenses."}
 };
 if(genTabCopy[t]){
     const titleEl=document.getElementById('gen-view-title');
@@ -1539,10 +1485,6 @@ if(e.target.closest('.gen-subtab')){
     const contentScope=document.getElementById(targetId);
     const current=contentScope.querySelector('.gen-subtab-content.active');
     const next=document.getElementById(t);
-    if(targetId==='gen-tab-interconnections'){
-        const conceptPanel=document.getElementById('gen-concept-panel');
-        if(conceptPanel){conceptPanel.style.opacity='0';document.getElementById('gen-concept-content').innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Select a concept to view its description.</div>";document.querySelectorAll('.gen-concept-node.active, .gen-edge-group.active').forEach(el=>el.classList.remove('active'));}
-    }
     if(current!==next){
         if(current){
             current.style.opacity='0';
@@ -1567,23 +1509,26 @@ if(e.target.closest('.gen-subtab')){
 }
 if(e.target.closest('.gen-concept-node')){
     const node=e.target.closest('.gen-concept-node');
-    document.querySelectorAll('.gen-concept-node.active, .gen-edge-group.active').forEach(el=>el.classList.remove('active'));
+    const tabContent=node.closest('.gen-tab-content')||document;
+    tabContent.querySelectorAll('.gen-concept-node.active, .gen-edge-group.active').forEach(el=>el.classList.remove('active'));
     node.classList.add('active');
     const cid=node.getAttribute('data-concept');
     const c=genConceptById[cid];
-    const p=document.getElementById('gen-concept-panel');
-    if(c){document.getElementById('gen-concept-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${c.title}</span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${c.desc}</div></div>`;}
+    const p=tabContent.querySelector('.gen-concept-panel');
+    if(c){p.querySelector('.gen-concept-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${c.title}</span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${c.desc}</div></div>`;}
     p.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
 }
 if(e.target.closest('.gen-edge-group')){
     const eg=e.target.closest('.gen-edge-group');
-    document.querySelectorAll('.gen-concept-node.active, .gen-edge-group.active').forEach(el=>el.classList.remove('active'));
+    const tabContent=eg.closest('.gen-tab-content')||document;
+    tabContent.querySelectorAll('.gen-concept-node.active, .gen-edge-group.active').forEach(el=>el.classList.remove('active'));
     eg.classList.add('active');
     const srcId=eg.getAttribute('data-src'),tgtId=eg.getAttribute('data-tgt');
     const src=genConceptById[srcId],tgt=genConceptById[tgtId];
-    const p=document.getElementById('gen-concept-panel');
-    if(src&&tgt){const{a1,a2}=getPairTexts(srcId,tgtId);document.getElementById('gen-concept-content').innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${src.title}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline><polyline points="7 6 1 12 7 18"></polyline></svg><span>${tgt.title}</span></h2><div class="hex-int-flow-content" style="width:100%;"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${src.title}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${tgt.title}</div><p class="hex-int-para">${a1}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${tgt.title}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${src.title}</div><p class="hex-int-para">${a2}</p></div></div></div>`;}else{document.getElementById('gen-concept-content').innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}
+    const p=tabContent.querySelector('.gen-concept-panel');
+    const contentEl=p.querySelector('.gen-concept-content');
+    if(src&&tgt){const{a1,a2}=getPairTexts(srcId,tgtId);contentEl.innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${src.title}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline><polyline points="7 6 1 12 7 18"></polyline></svg><span>${tgt.title}</span></h2><div class="hex-int-flow-content" style="width:100%;"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${src.title}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${tgt.title}</div><p class="hex-int-para">${a1}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${tgt.title}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${src.title}</div><p class="hex-int-para">${a2}</p></div></div></div>`;}else{contentEl.innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}
     p.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
 }
