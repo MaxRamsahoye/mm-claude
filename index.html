@@ -58,11 +58,12 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .hex-edge-group:hover .hex-arrow-vis, .hex-edge-group.active .hex-arrow-vis, .attr-edge-group:hover .attr-arrow-vis, .attr-edge-group.active .attr-arrow-vis { stroke: var(--interactive-color) !important; stroke-width: 5.5px !important; }
 .attr-node circle { transition: all 0.3s ease; }
 .attr-node:hover circle, .attr-node.active circle { stroke: var(--interactive-color) !important; stroke-width: 6px !important; }
-.attr-precursors-box { width: 100%; max-width: 1000px; margin-top: 3rem; align-self: center; box-sizing: border-box; border-top: 1px solid var(--indicator-color); padding-top: 2.5rem; opacity: 0; transition: opacity 0.8s ease; }
+.attr-precursors-box { width: 100%; max-width: 1200px; margin-top: 3rem; align-self: center; box-sizing: border-box; border-top: 1px solid var(--indicator-color); padding-top: 2.5rem; opacity: 0; transition: opacity 0.8s ease; }
 .attr-precursors-box.visible { opacity: 1; }
 .attr-precursors-heading { font-family: var(--font-primary); font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; }
-.attr-precursors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+.attr-precursors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
 .attr-precursor-item { border: 2px solid var(--indicator-color-solid); border-radius: 6px; padding: 1.25rem 1.5rem; box-sizing: border-box; }
+.attr-precursor-subtitle { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.55; margin-bottom: 0.4rem; }
 .attr-precursor-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.6rem; }
 .attr-precursor-desc { font-size: 0.95rem; line-height: 1.6; opacity: 0.85; }
 .attr-precursor-terms { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--indicator-color); display: flex; flex-direction: column; gap: 0.75rem; }
@@ -482,6 +483,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div class="attr-precursors-heading">Precursors</div>
         <div class="attr-precursors-grid">
             <div class="attr-precursor-item">
+                <div class="attr-precursor-subtitle">Existential Risk Studies &amp; Macrostrategy</div>
                 <div class="attr-precursor-title">The Vulnerable World Hypothesis (Bostrom)</div>
                 <div class="attr-precursor-desc">Nick Bostrom's proposal that if technological development continues indefinitely, civilisation will eventually draw a "black ball" from the urn of possible inventions – one whose default outcome is civilisational devastation – unless extraordinary preventive policing and governance capacity are developed first.</div>
                 <div class="attr-precursor-terms">
@@ -490,6 +492,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
                 </div>
             </div>
             <div class="attr-precursor-item">
+                <div class="attr-precursor-subtitle">Liberal Political Theory</div>
                 <div class="attr-precursor-title">The Narrow Corridor (Acemoglu, Robinson)</div>
                 <div class="attr-precursor-desc">Daron Acemoglu and James Robinson's thesis that liberty survives only within a narrow corridor of continuous, dynamic balance between state capacity and societal mobilisation – too weak a state invites domination by private actors, too strong a state invites despotism.</div>
                 <div class="attr-precursor-terms">
@@ -497,6 +500,11 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
                     <div class="attr-precursor-term"><span class="attr-precursor-term-name">Despotic Leviathan:</span> A state whose power vastly outstrips that of society, able to dominate and control the population unchecked – producing order through domination rather than liberty.</div>
                     <div class="attr-precursor-term"><span class="attr-precursor-term-name">Chained Leviathan:</span> The corridor's ideal outcome – a state strong enough to provide order and public goods, but held in check by an equally mobilised and vigilant society, generating liberty through perpetual contest rather than either extreme.</div>
                 </div>
+            </div>
+            <div class="attr-precursor-item">
+                <div class="attr-precursor-subtitle">Classical Political Philosophy</div>
+                <div class="attr-precursor-title">Anacyclosis: Cycle of Political Evolution (Plato, Aristotle, Polybius)</div>
+                <div class="attr-precursor-desc">The classical theory, developed by Plato, elaborated by Aristotle, and systematised by Polybius, that every political regime passes through a fixed, repeating cycle of constitutional forms – rule by one, by the few, and by the many, each rising in virtue and decaying into its corrupt counterpart – so that a civilisation's political order is a transitional stage in a recurring cycle rather than a stable endpoint.</div>
             </div>
         </div>
     </div>
