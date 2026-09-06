@@ -93,6 +93,7 @@ body.app-left-align #app-container .menu-row { justify-content: flex-start !impo
 
 /* --- Generators View Styles --- */
 .gen-tabs { display: flex; gap: 1.5rem; margin-top: 5rem; margin-bottom: 4rem; justify-content: flex-start; width: 100%; flex-wrap: wrap; align-items: center; }
+.gen-tab-content { transition: opacity 0.3s ease; }
 .gen-tab { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
 .gen-tab:hover, .gen-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); } .gen-tab:hover { transform: translateY(-2px); }
 .gen-tab.active { background: rgba(18,18,18,0.05); }
@@ -468,13 +469,13 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 </div></main>
 
 <main id="attractors-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2rem; padding-bottom: 4rem;">
-    <div style="width: 100%; margin-bottom: 0;">
-        <div class="selected-header" style="margin-top: 0; justify-content: flex-start;"><h2 style="font-size: 2.8rem; letter-spacing: -0.02em;">Attractor States</h2></div>
-        <div class="desc-text concept-desc" style="margin-top: 0.5rem; text-align: left; margin-left: 0; max-width: none;">Select a trajectory or node to view the corresponding state.</div>
-    </div>
-    <div class="gen-tabs" style="margin-top: 2.5rem;">
+    <div class="gen-tabs" style="margin-top: 0; margin-bottom: 2rem;">
         <button class="gen-tab active hoverable" data-tab="attr-tab-diagram">Attractors</button>
         <button class="gen-tab hoverable" data-tab="attr-tab-precursors">Precursors</button>
+    </div>
+    <div style="width: 100%; margin-bottom: 0;">
+        <div class="selected-header" style="margin-top: 0; justify-content: flex-start;"><h2 style="font-size: 2.8rem; letter-spacing: -0.02em;">Attractor States</h2></div>
+        <div id="attr-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; text-align: left; margin-left: 0; max-width: none;">Select a trajectory or node to view the corresponding state.</div>
     </div>
     <div id="attr-tab-diagram" class="gen-tab-content active" style="width: 100%;">
         <div style="width: 100%; max-width: 1200px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
@@ -938,19 +939,38 @@ if(e.target.closest('#gen-global-toggle')){
 }
 if(e.target.closest('.gen-tab') && !e.target.closest('#gen-global-toggle')){
     playSound("click");
-    const t=e.target.closest('.gen-tab').getAttribute('data-tab');
-    document.querySelectorAll('.gen-tab[data-tab]').forEach(el=>el.classList.remove('active'));
-    e.target.closest('.gen-tab').classList.add('active');
-    document.querySelectorAll('.gen-tab-content').forEach(c=>{
-        if(c.id===t){
-            c.style.display='block';
-            c.classList.add('active');
-        }else{
-            c.style.display='none';
-            c.classList.remove('active');
+    const btn=e.target.closest('.gen-tab');
+    const t=btn.getAttribute('data-tab');
+    const scope=btn.closest('.view-panel')||document;
+    scope.querySelectorAll('.gen-tab[data-tab]').forEach(el=>el.classList.remove('active'));
+    btn.classList.add('active');
+    const current=scope.querySelector('.gen-tab-content.active');
+    const next=document.getElementById(t);
+    if(current!==next){
+        if(current){
+            current.style.opacity='0';
+            if(next)next.style.opacity='0';
+            setTimeout(()=>{
+                current.style.display='none';
+                current.classList.remove('active');
+                if(next){
+                    next.style.display='block';
+                    void next.offsetWidth;
+                    next.classList.add('active');
+                    next.style.opacity='1';
+                }
+            },300);
+        }else if(next){
+            next.style.display='block';
+            next.classList.add('active');
+            next.style.opacity='1';
         }
-    });
-    setTimeout(updateGlobalToggleIcon, 50);
+    }
+    if(t==="attr-tab-precursors"||t==="attr-tab-diagram"){
+        const subtitleEl=document.getElementById('attr-view-subtitle');
+        if(subtitleEl)subtitleEl.textContent="attr-tab-precursors"===t?"Explore the intellectual precursors and forerunner concepts that anticipated each attractor state.":"Select a trajectory or node to view the corresponding state.";
+    }
+    if(t.indexOf("gen-")===0)setTimeout(updateGlobalToggleIcon, 350);
 }
 if(e.target.closest('.prev-slide')){playSound("click");const row=e.target.closest('.gen-row');const viewport=row.querySelector('.gen-slider-viewport');const slides=viewport.querySelectorAll('.gen-slide');let activeIdx=Array.from(slides).findIndex(s=>s.classList.contains('active'));slides[activeIdx].classList.remove('active');activeIdx=(activeIdx-1+slides.length)%slides.length;slides[activeIdx].classList.add('active');}
 if(e.target.closest('.next-slide')){playSound("click");const row=e.target.closest('.gen-row');const viewport=row.querySelector('.gen-slider-viewport');const slides=viewport.querySelectorAll('.gen-slide');let activeIdx=Array.from(slides).findIndex(s=>s.classList.contains('active'));slides[activeIdx].classList.remove('active');activeIdx=(activeIdx+1)%slides.length;slides[activeIdx].classList.add('active');}
