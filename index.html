@@ -61,7 +61,8 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .gen-concept-node rect { transition: all 0.3s ease; }
 .gen-concept-node:hover rect, .gen-concept-node.active rect { stroke: var(--interactive-color) !important; stroke-width: 3px !important; }
 .gen-edge-group .gen-edge-line-vis { transition: all 0.3s ease; }
-.gen-edge-group:hover .gen-edge-line-vis, .gen-edge-group.active .gen-edge-line-vis { stroke: var(--interactive-color) !important; stroke-width: 3.5px !important; }
+.gen-edge-group:hover .gen-edge-line-vis, .gen-edge-group.active .gen-edge-line-vis { stroke: var(--interactive-color) !important; stroke-width: 3.5px !important; opacity: 1 !important; }
+#gen-ic-radial-svg .gen-edge-line-vis { opacity: 0.15; }
 .attr-precursors-box { width: 100%; max-width: 1200px; margin-top: 0; align-self: center; box-sizing: border-box; }
 .attr-precursors-heading { font-family: var(--font-primary); font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; }
 .attr-precursors-grid { display: flex; flex-direction: column; gap: 4rem; }
@@ -522,42 +523,30 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     <div id="gen-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
         <div class="gen-ic-tabs">
             <button class="gen-icsub active hoverable" data-icsub="gen-ic-radial">Radial Network</button>
-            <button class="gen-icsub hoverable" data-icsub="gen-ic-flow">Merged Flow</button>
-            <button class="gen-icsub hoverable" data-icsub="gen-ic-full">Full Interconnections</button>
+            <button class="gen-icsub hoverable" data-icsub="gen-ic-structure">Structure</button>
             <button class="gen-icsub hoverable" data-icsub="gen-ic-grid">Concept Grid</button>
         </div>
 
         <div id="gen-ic-radial" class="gen-icsub-content active" style="width: 100%;">
             <div style="width: 100%; max-width: 1600px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
                 <svg id="gen-ic-radial-svg" viewBox="0 0 1900 1900" style="width: 100%; height: auto; max-height: 80vh; overflow: visible;">
+                    <g id="gen-ic-radial-edges"></g>
                     <g id="gen-ic-radial-nodes"></g>
                 </svg>
             </div>
         </div>
 
-        <div id="gen-ic-flow" class="gen-icsub-content" style="display: none; width: 100%;">
-            <div style="width: 100%; max-width: 1000px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
-                <svg id="gen-ic-flow-svg" viewBox="0 0 1200 1600" style="width: 100%; height: auto; max-height: 75vh; overflow: visible;">
+        <div id="gen-ic-structure" class="gen-icsub-content" style="display: none; width: 100%;">
+            <div style="width: 100%; max-width: 1400px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
+                <svg id="gen-ic-structure-svg" viewBox="0 0 1500 2250" style="width: 100%; height: auto; max-height: 85vh; overflow: visible;">
                     <defs>
                         <marker id="gen-arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
                             <path d="M0,0 L0,6 L9,3 z" fill="var(--indicator-color-solid)" />
                         </marker>
                     </defs>
-                    <g id="gen-ic-flow-edges"></g>
-                    <g id="gen-ic-flow-nodes"></g>
+                    <g id="gen-ic-structure-edges"></g>
+                    <g id="gen-ic-structure-nodes"></g>
                 </svg>
-            </div>
-        </div>
-
-        <div id="gen-ic-full" class="gen-icsub-content" style="display: none; width: 100%;">
-            <div style="width: 100%; max-width: 1000px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
-                <svg id="gen-ic-full-svg" viewBox="0 0 1200 1600" style="width: 100%; height: auto; max-height: 75vh; overflow: visible;">
-                    <g id="gen-ic-full-edges"></g>
-                    <g id="gen-ic-full-nodes"></g>
-                </svg>
-            </div>
-            <div id="gen-ic-full-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 0; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
-                <div id="gen-ic-full-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a connecting line to see how one dynamic drives the next.</div></div>
             </div>
         </div>
 
@@ -1044,36 +1033,33 @@ const genConcepts = [
     {id:'abstraction-cycle', title:'Abstraction-Extraction-Accumulation Cycle', group:'origin', desc:'A systemic loop where complex realities are reduced to narrow metrics (abstraction), natural and social resources are rapidly harvested without accounting for externalities (extraction), and power is hyper-concentrated (accumulation).'},
     {id:'collective-alienation', title:'Collective Psychological Alienation', group:'origin', desc:"A profound, systemic disconnection from the Self, the Other, and the World (including society, the environment, and the future). Termed by Zak Stein as a 'global intimacy disorder', this dynamic fragments our shared sensemaking and relational capacities, leaving individuals isolated and societies unable to coordinate."},
     {id:'arms-races', title:'Arms Races &amp; Tragedies of the Commons', group:'chain', desc:'A game-theoretic dynamic where competing actors escalate investment in extractive or destructive capacity, since unilateral restraint only cedes advantage to rivals. With no binding coordination mechanism, individually rational choices aggregate into collective ruin.'},
-    {id:'embedded-growth', title:'Embedded Growth Obligations', group:'chain', desc:'The structural requirement, hard-coded into compound interest, shareholder returns and GDP targets, for perpetual quantitative expansion. It persists regardless of ecological limits or diminishing returns to genuine wellbeing.'},
-    {id:'left-hemispheric', title:'Left-Hemispheric Conditioning', group:'chain', desc:"A civilisation-wide bias toward the brain's left-hemispheric mode of attention – narrow, decontextualised, control-seeking – at the expense of the right hemisphere's holistic grasp of a living world. (After Iain McGilchrist.)"},
-    {id:'multipolar-traps', title:'Multi-Polar Traps &amp; Zero-Sum Games', group:'chain', desc:'Many independent actors face zero-sum payoffs with no binding mechanism to coordinate between them, so each is structurally compelled to defect even when mutual restraint would serve everyone better. Individually rational choices aggregate into an outcome no single actor can unilaterally escape.'},
+    {id:'embedded-growth', title:'Embedded Growth Obligations', group:'chain', catType:'behavioural-economic', desc:'The structural requirement, hard-coded into compound interest, shareholder returns and GDP targets, for perpetual quantitative expansion. It persists regardless of ecological limits or diminishing returns to genuine wellbeing.'},
+    {id:'left-hemispheric', title:'Left-Hemispheric Conditioning', group:'chain', catType:'cultural-psychological', desc:"A civilisation-wide bias toward the brain's left-hemispheric mode of attention – narrow, decontextualised, control-seeking – at the expense of the right hemisphere's holistic grasp of a living world. (After Iain McGilchrist.)"},
+    {id:'multipolar-traps', title:'Multi-Polar Traps &amp; Zero-Sum Games', group:'chain', catType:'game-theoretic', desc:'Many independent actors face zero-sum payoffs with no binding mechanism to coordinate between them, so each is structurally compelled to defect even when mutual restraint would serve everyone better. Individually rational choices aggregate into an outcome no single actor can unilaterally escape.'},
     {id:'narrow-metric-chain', title:'Narrow Metric Optimisation', group:'chain', desc:"A small set of legible proxy metrics – GDP, quarterly profit, engagement – is relentlessly maximised as a stand-in for genuine wellbeing, while everything the proxy fails to capture is blindly sacrificed. As Goodhart's Law predicts, once a measure becomes the target, it ceases to be a good measure."},
     {id:'life-blind-search', title:'Life-Blind Search Processes', group:'chain', desc:'Market competition, algorithmic training and selection under artificial pressure are search processes indifferent to life itself, optimising only for whatever narrow proxy they happen to be pointed at. Whatever the proxy does not reward is treated as though it does not exist.'},
     {id:'structural-separation', title:'Structural &amp; Superstructural Separation', group:'chain', desc:"The global political economy organises humanity into separated collective agents – nation-states and corporations – as its basic structural units, legitimised by the cultural 'superstructure' of nationalism and tribalism. These impermeable self/other boundaries hard-code the prisoner's dilemma into civilisation, so no moral appeal can reach across them."},
     {id:'isolated-problem-solving', title:'Isolated Problem-Solving', group:'chain', desc:"Each institution attacks its own local problem in a silo, with no shared model of the interconnected whole it is embedded in. Specialised 'solutions' routinely externalise costs into every other domain, becoming the generative source of new, worse crises elsewhere."},
     {id:'reductionist-modelling', title:'Reductionist World-Modelling', group:'chain', desc:'Reality is modelled as a set of separable, context-free components to be individually optimised, rather than as an irreducibly interconnected living system. Whatever this model omits becomes structurally invisible, so its costs go unaccounted for until they cascade into crisis.'},
-    {id:'instrumental-convergence', title:'Instrumental Convergence &amp; Strategy Stealing', group:'category', desc:"Sufficiently capable optimising agents converge on the same instrumental subgoals – self-preservation, resource acquisition, power-seeking – regardless of their ultimate objective, since these subgoals are useful for achieving almost any goal. This collapses the practical distinction between 'good' and merely competitive agents: any actor bound by ethical constraints must strategy-steal the same power-seeking behaviours as its least-constrained rivals just to remain competitive, or else be selected out."},
-    {id:'narrow-metric-cat', title:'Narrow Metric Optimisation &amp; Negative Externalities', group:'category', desc:"A small set of legible proxy metrics – GDP, quarterly profit, engagement – is relentlessly maximised as a stand-in for genuine wellbeing, since once a measure becomes the target it ceases to be a good one, as Goodhart's Law predicts. Whatever the proxy fails to capture is blindly sacrificed, degrading unmeasured dimensions of the system until those hidden costs accumulate silently and surface as catastrophic, systemic failures."},
-    {id:'positive-feedback', title:'Positive Feedback Loops &amp; Power Asymmetries', group:'category', desc:"Early, often small advantages compound through self-reinforcing feedback loops – exponential finance, network effects, data and compute advantages – concentrating capital and capability into the hands of an ever-smaller set of hyper-agents (states, corporations, or individuals) whose scale then lets them further tilt the system's rules in their own favour."},
-    {id:'perverse-incentives', title:'Perverse Incentive Structures', group:'category', desc:'Economic and structural frameworks systematically reward extractive and harmful behaviour over regenerative action, externalising the costs of degradation onto others while good-faith actors who refuse to defect are competitively disadvantaged and driven out.'},
-    {id:'modernist-paradigm', title:'Modernist Cultural Paradigm', group:'category', desc:"Secular modernity's dominant paradigm of scientism, mechanism, anthropocentrism, individualism and economism, which reduces reality to separable, measurable components and legitimises an instrumental, utilitarian relationship to the world and to other people."},
-    {id:'scarcity-rivalry', title:'Scarcity-Rivalry Orientation', group:'category', desc:'Perceiving the world through a lens of fundamental scarcity, this orientation frames existence as zero-sum, generating and legitimising hierarchy, competition and conflict as natural, inevitable features of life rather than as contingent, changeable arrangements.'},
-    {id:'psychopathic-selection', title:'Psychopathic Selection Hypothesis', group:'category', desc:'Systems structured around zero-sum competition and extractive incentives systematically reward ruthlessness, a lack of empathy, and a willingness to externalise harm over prosocial restraint, selecting those best adapted to exploit the system into its positions of greatest power.'},
-    {id:'wisdom-gaps', title:'The Wisdom Gap(s)', group:'category', desc:"The widening gap between humanity's technological and economic power and its collective wisdom to wield that power well – expressed as parallel gaps in our moral, structural and epistemic capacities, long mythologised across cultures as the perennial warning against power outrunning wisdom."},
-    {id:'moloch', title:'Moloch: God of Game-Theory', group:'category', desc:"Moloch is Scott Alexander's mythic personification of the meta-pattern underlying every multipolar trap and race-to-the-bottom dynamic in this map – the emergent, god-like entity to which competing agents sacrifice their own values, one by one, because no single agent can unilaterally refuse without simply losing to a rival who won't. Named after the god demanding child sacrifice in the Old Testament (and Allen Ginsberg's poem 'Howl'), Moloch names coordination failure itself as a force powerful enough to be worshipped."}
+    {id:'instrumental-convergence', title:'Instrumental Convergence &amp; Strategy Stealing', group:'category', catType:'game-theoretic', desc:"Sufficiently capable optimising agents converge on the same instrumental subgoals – self-preservation, resource acquisition, power-seeking – regardless of their ultimate objective, since these subgoals are useful for achieving almost any goal. This collapses the practical distinction between 'good' and merely competitive agents: any actor bound by ethical constraints must strategy-steal the same power-seeking behaviours as its least-constrained rivals just to remain competitive, or else be selected out."},
+    {id:'narrow-metric-cat', title:'Narrow Metric Optimisation &amp; Negative Externalities', group:'category', catType:'systems-theoretic', desc:"A small set of legible proxy metrics – GDP, quarterly profit, engagement – is relentlessly maximised as a stand-in for genuine wellbeing, since once a measure becomes the target it ceases to be a good one, as Goodhart's Law predicts. Whatever the proxy fails to capture is blindly sacrificed, degrading unmeasured dimensions of the system until those hidden costs accumulate silently and surface as catastrophic, systemic failures."},
+    {id:'positive-feedback', title:'Positive Feedback Loops &amp; Power Asymmetries', group:'category', catType:'systems-theoretic', desc:"Early, often small advantages compound through self-reinforcing feedback loops – exponential finance, network effects, data and compute advantages – concentrating capital and capability into the hands of an ever-smaller set of hyper-agents (states, corporations, or individuals) whose scale then lets them further tilt the system's rules in their own favour."},
+    {id:'perverse-incentives', title:'Perverse Incentive Structures', group:'category', catType:'behavioural-economic', desc:'Economic and structural frameworks systematically reward extractive and harmful behaviour over regenerative action, externalising the costs of degradation onto others while good-faith actors who refuse to defect are competitively disadvantaged and driven out.'},
+    {id:'modernist-paradigm', title:'Modernist Cultural Paradigm', group:'category', catType:'cultural-psychological', desc:"Secular modernity's dominant paradigm of scientism, mechanism, anthropocentrism, individualism and economism, which reduces reality to separable, measurable components and legitimises an instrumental, utilitarian relationship to the world and to other people."},
+    {id:'scarcity-rivalry', title:'Scarcity-Rivalry Orientation', group:'category', catType:'cultural-psychological', desc:'Perceiving the world through a lens of fundamental scarcity, this orientation frames existence as zero-sum, generating and legitimising hierarchy, competition and conflict as natural, inevitable features of life rather than as contingent, changeable arrangements.'},
+    {id:'psychopathic-selection', title:'Psychopathic Selection Hypothesis', group:'category', catType:'cultural-psychological', desc:'Systems structured around zero-sum competition and extractive incentives systematically reward ruthlessness, a lack of empathy, and a willingness to externalise harm over prosocial restraint, selecting those best adapted to exploit the system into its positions of greatest power.'},
+    {id:'wisdom-gaps', title:'The Wisdom Gap(s)', group:'category', catType:'mytho-poetic', desc:"The widening gap between humanity's technological and economic power and its collective wisdom to wield that power well – expressed as parallel gaps in our moral, structural and epistemic capacities, long mythologised across cultures as the perennial warning against power outrunning wisdom."},
+    {id:'moloch', title:'Moloch: God of Game-Theory', group:'category', catType:'mytho-poetic', desc:"Moloch is Scott Alexander's mythic personification of the meta-pattern underlying every multipolar trap and race-to-the-bottom dynamic in this map – the emergent, god-like entity to which competing agents sacrifice their own values, one by one, because no single agent can unilaterally refuse without simply losing to a rival who won't. Named after the god demanding child sacrifice in the Old Testament (and Allen Ginsberg's poem 'Howl'), Moloch names coordination failure itself as a force powerful enough to be worshipped."}
 ];
 
 const genConceptById = {};
 genConcepts.forEach(c => genConceptById[c.id] = c);
 
 const genFlowPos = {
-    'exp-tech-accel': {x:200, y:80}, 'abstraction-cycle': {x:600, y:80}, 'collective-alienation': {x:1000, y:80},
-    'arms-races': {x:200, y:380}, 'embedded-growth': {x:600, y:380}, 'left-hemispheric': {x:1000, y:380},
-    'multipolar-traps': {x:200, y:680}, 'narrow-metric-chain': {x:600, y:680}, 'life-blind-search': {x:1000, y:680},
-    'structural-separation': {x:200, y:980}, 'isolated-problem-solving': {x:600, y:980}, 'reductionist-modelling': {x:1000, y:980},
-    'instrumental-convergence': {x:200, y:1280}, 'narrow-metric-cat': {x:600, y:1280}, 'positive-feedback': {x:1000, y:1280},
-    'perverse-incentives': {x:200, y:1400}, 'modernist-paradigm': {x:600, y:1400}, 'scarcity-rivalry': {x:1000, y:1400},
-    'psychopathic-selection': {x:200, y:1520}, 'wisdom-gaps': {x:600, y:1520}, 'moloch': {x:1000, y:1520}
+    'exp-tech-accel': {x:250, y:120}, 'abstraction-cycle': {x:750, y:120}, 'collective-alienation': {x:1250, y:120},
+    'arms-races': {x:250, y:460}, 'embedded-growth': {x:750, y:460}, 'left-hemispheric': {x:1250, y:460},
+    'multipolar-traps': {x:250, y:800}, 'narrow-metric-chain': {x:750, y:800}, 'life-blind-search': {x:1250, y:800},
+    'structural-separation': {x:250, y:1140}, 'isolated-problem-solving': {x:750, y:1140}, 'reductionist-modelling': {x:1250, y:1140}
 };
 
 const genChainEdges = [
@@ -1084,10 +1070,18 @@ const genChainEdges = [
     ['multipolar-traps','structural-separation'], ['narrow-metric-chain','isolated-problem-solving'], ['life-blind-search','reductionist-modelling']
 ];
 
-const genCategoryEdges = [
-    ['instrumental-convergence','multipolar-traps'], ['narrow-metric-cat','narrow-metric-chain'], ['positive-feedback','structural-separation'],
-    ['perverse-incentives','embedded-growth'], ['modernist-paradigm','left-hemispheric'], ['scarcity-rivalry','arms-races'],
-    ['psychopathic-selection','structural-separation'], ['wisdom-gaps','reductionist-modelling'], ['moloch','multipolar-traps']
+const genChainOrder = [
+    'arms-races','multipolar-traps','structural-separation',
+    'embedded-growth','narrow-metric-chain','isolated-problem-solving',
+    'left-hemispheric','life-blind-search','reductionist-modelling'
+];
+
+const genCategoryOrder = [
+    'multipolar-traps','instrumental-convergence',
+    'narrow-metric-cat','positive-feedback',
+    'embedded-growth','perverse-incentives',
+    'left-hemispheric','modernist-paradigm','scarcity-rivalry','psychopathic-selection',
+    'wisdom-gaps','moloch'
 ];
 
 const genInterconnections = {
@@ -1113,18 +1107,30 @@ const genInterconnections = {
     'modernist-paradigm-left-hemispheric': "Scientism, mechanism and instrumentalism are the cultural expression of left-hemispheric attention at civilisational scale, so modernity's dominant paradigm both grows from and continuously re-legitimises that narrow mode of perceiving the world.",
     'scarcity-rivalry-arms-races': "Framing existence as fundamentally zero-sum makes competitive escalation look like the only rational response to a rival's move, turning a scarcity mindset directly into an arms race.",
     'psychopathic-selection-structural-separation': "Systems that reward ruthlessness over empathy select leadership and institutions least willing to dissolve the boundaries that let them externalise harm, entrenching rather than healing structural separation.",
-    'wisdom-gaps-reductionist-modelling': "An epistemic capacity that lags behind the complexity of what must be understood defaults to modelling reality in whatever simplified, reductionist terms it can still manage, at the cost of everything that simplification omits.",
-    'moloch-multipolar-traps': "Moloch is the mythic name for the multipolar trap itself, the god-like coordination failure to which every competing agent sacrifices its own values because no one can unilaterally refuse without simply losing to a rival who won't."
+    'wisdom-gaps-reductionist-modelling': "An epistemic capacity that lags behind the complexity of what must be understood defaults to modelling reality in whatever simplified, reductionist terms it can still manage, at the cost of everything that simplification omits."
 };
 
-function genNodeBoxHtml(id, x, y, w) {
+function genFirstSentence(text) {
+    const plain = text.replace(/<[^>]*>/g, '');
+    const idx = plain.indexOf('. ');
+    return idx === -1 ? plain : plain.slice(0, idx + 1);
+}
+
+function generatePairText(a, b) {
+    const bSentence = genFirstSentence(b.desc);
+    const bLower = bSentence.charAt(0).toLowerCase() + bSentence.slice(1);
+    return `${a.title} and ${b.title} sit within the same generative-dynamics system, each compounding the other. ${genFirstSentence(a.desc)} This intersects with how ${b.title.toLowerCase()} operates, where ${bLower}`;
+}
+
+function genNodeBoxHtml(id, x, y, w, h) {
     w = w || 260;
+    h = h || 68;
     const c = genConceptById[id];
     return `<g class="gen-concept-node hoverable" data-concept="${id}" style="cursor:pointer;">
-        <rect x="${x - w/2}" y="${y - 34}" width="${w}" height="68" rx="10" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2" />
-        <foreignObject x="${x - w/2 + 8}" y="${y - 34}" width="${w - 16}" height="68">
+        <rect x="${x - w/2}" y="${y - h/2}" width="${w}" height="${h}" rx="10" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2" />
+        <foreignObject x="${x - w/2 + 8}" y="${y - h/2}" width="${w - 16}" height="${h}">
             <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center;">
-                <span style="color:var(--text-color); font-weight:500; font-size:0.95rem; line-height:1.2;">${c.title}</span>
+                <span style="color:var(--text-color); font-weight:500; font-size:${w >= 280 ? '1.05rem' : '0.95rem'}; line-height:1.25;">${c.title}</span>
             </div>
         </foreignObject>
     </g>`;
@@ -1132,8 +1138,9 @@ function genNodeBoxHtml(id, x, y, w) {
 
 function genRadialLayout() {
     const cx = 950, cy = 950, r = 750;
-    const n = genConcepts.length;
-    return genConcepts.map((c, i) => {
+    const nodes = genConcepts.filter(c => c.id !== 'moloch');
+    const n = nodes.length;
+    return nodes.map((c, i) => {
         const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
         return {id: c.id, x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle)};
     });
@@ -1141,9 +1148,20 @@ function genRadialLayout() {
 
 function renderGenRadial() {
     const positions = genRadialLayout();
-    let html = '';
-    positions.forEach(p => { html += genNodeBoxHtml(p.id, p.x, p.y, 190); });
-    document.getElementById('gen-ic-radial-nodes').innerHTML = html;
+    let nodesHtml = '';
+    positions.forEach(p => { nodesHtml += genNodeBoxHtml(p.id, p.x, p.y, 190); });
+    document.getElementById('gen-ic-radial-nodes').innerHTML = nodesHtml;
+    let edgesHtml = '';
+    for (let i = 0; i < positions.length; i++) {
+        for (let j = i + 1; j < positions.length; j++) {
+            const a = positions[i], b = positions[j];
+            edgesHtml += `<g class="gen-edge-group hoverable" data-src="${a.id}" data-tgt="${b.id}" style="cursor:pointer;">
+                <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="var(--indicator-color-solid)" stroke-width="1.5" class="gen-edge-line-vis" />
+                <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+            </g>`;
+        }
+    }
+    document.getElementById('gen-ic-radial-edges').innerHTML = edgesHtml;
 }
 
 function drawGenEdgeLine(x1, y1, x2, y2, extra) {
@@ -1151,53 +1169,37 @@ function drawGenEdgeLine(x1, y1, x2, y2, extra) {
 }
 
 function genSectionLabelHtml(x, y, label) {
-    return `<foreignObject x="${x - 300}" y="${y - 15}" width="600" height="30">
+    return `<foreignObject x="${x - 350}" y="${y - 15}" width="700" height="30">
         <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; text-align:center; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; color:var(--text-color);">${label}</div>
     </foreignObject>`;
 }
 
-function renderGenFlow() {
+function renderGenStructure() {
     let edgesHtml = '';
     genChainEdges.forEach(([a, b]) => {
         const A = genFlowPos[a], B = genFlowPos[b];
-        edgesHtml += drawGenEdgeLine(A.x, A.y + 34, B.x, B.y - 34);
+        edgesHtml += drawGenEdgeLine(A.x, A.y + 40, B.x, B.y - 40);
     });
-    document.getElementById('gen-ic-flow-edges').innerHTML = edgesHtml;
-    let nodesHtml = genSectionLabelHtml(600, 1180, 'Category Concepts (not directly chained above)');
-    genConcepts.forEach(c => {
+    document.getElementById('gen-ic-structure-edges').innerHTML = edgesHtml;
+    let nodesHtml = genSectionLabelHtml(750, 1300, 'Category Concepts (all five lenses, including overlaps with the chain above)');
+    genConcepts.filter(c => genFlowPos[c.id]).forEach(c => {
         const p = genFlowPos[c.id];
-        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, 260);
+        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, 300, 80);
     });
-    document.getElementById('gen-ic-flow-nodes').innerHTML = nodesHtml;
-}
-
-function renderGenFull() {
-    let edgesHtml = '';
-    genChainEdges.concat(genCategoryEdges).forEach(([a, b]) => {
-        const A = genFlowPos[a], B = genFlowPos[b];
-        const dx = B.x - A.x, dy = B.y - A.y, L = Math.hypot(dx, dy);
-        const ux = dx / L, uy = dy / L;
-        const x1 = A.x + ux * 40, y1 = A.y + uy * 40;
-        const x2 = B.x - ux * 40, y2 = B.y - uy * 40;
-        edgesHtml += `<g class="gen-edge-group hoverable" data-edge="${a}-${b}" data-src="${a}" data-tgt="${b}" style="cursor:pointer;">
-            <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--indicator-color-solid)" stroke-width="2" marker-end="url(#gen-arrowhead)" class="gen-edge-line-vis" />
-            <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="transparent" stroke-width="28" pointer-events="stroke" />
-        </g>`;
+    const catCols = [250, 750, 1250];
+    genCategoryOrder.forEach((id, i) => {
+        const x = catCols[i % 3], y = 1400 + Math.floor(i / 3) * 210;
+        nodesHtml += genNodeBoxHtml(id, x, y, 300, 80);
     });
-    document.getElementById('gen-ic-full-edges').innerHTML = edgesHtml;
-    let nodesHtml = '';
-    genConcepts.forEach(c => {
-        const p = genFlowPos[c.id];
-        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, 260);
-    });
-    document.getElementById('gen-ic-full-nodes').innerHTML = nodesHtml;
+    document.getElementById('gen-ic-structure-nodes').innerHTML = nodesHtml;
 }
 
 function renderGenGrid() {
+    const byId = id => genConceptById[id];
     const groups = [
         {label: 'Chain Origins', items: genConcepts.filter(c => c.group === 'origin')},
-        {label: 'Chain Sequence', items: genConcepts.filter(c => c.group === 'chain')},
-        {label: 'Category Concepts', items: genConcepts.filter(c => c.group === 'category')}
+        {label: 'Chain Sequence', items: genChainOrder.map(byId)},
+        {label: 'Category Concepts', items: genCategoryOrder.filter(id => genConceptById[id].group === 'category').map(byId)}
     ];
     let html = '';
     groups.forEach(g => {
@@ -1208,8 +1210,7 @@ function renderGenGrid() {
     document.getElementById('gen-ic-grid-content').innerHTML = html;
 }
 renderGenRadial();
-renderGenFlow();
-renderGenFull();
+renderGenStructure();
 renderGenGrid();
 let attrTriEdgesHtml = '';
 for (let i = 0; i < attrTriNodesData.length; i++) {
@@ -1478,7 +1479,7 @@ if(e.target.closest('.gen-icsub')){
     const current=buttonScope.querySelector('.gen-icsub-content.active');
     const next=document.getElementById(t);
     const conceptPanel=document.getElementById('gen-concept-panel');
-    if(conceptPanel){conceptPanel.style.opacity='0';document.getElementById('gen-concept-content').innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Select a concept to view its description.</div>";document.querySelectorAll('.gen-concept-node.active').forEach(el=>el.classList.remove('active'));}
+    if(conceptPanel){conceptPanel.style.opacity='0';document.getElementById('gen-concept-content').innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Select a concept to view its description.</div>";document.querySelectorAll('.gen-concept-node.active, .gen-edge-group.active').forEach(el=>el.classList.remove('active'));}
     if(current!==next){
         if(current){
             current.style.opacity='0';
@@ -1502,7 +1503,7 @@ if(e.target.closest('.gen-icsub')){
 }
 if(e.target.closest('.gen-concept-node')){
     const node=e.target.closest('.gen-concept-node');
-    document.querySelectorAll('.gen-concept-node.active').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.gen-concept-node.active, .gen-edge-group.active').forEach(el=>el.classList.remove('active'));
     node.classList.add('active');
     const cid=node.getAttribute('data-concept');
     const c=genConceptById[cid];
@@ -1513,13 +1514,13 @@ if(e.target.closest('.gen-concept-node')){
 }
 if(e.target.closest('.gen-edge-group')){
     const eg=e.target.closest('.gen-edge-group');
-    document.querySelectorAll('.gen-edge-group').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.gen-concept-node.active, .gen-edge-group.active').forEach(el=>el.classList.remove('active'));
     eg.classList.add('active');
-    const eid=eg.getAttribute('data-edge');
-    const src=genConceptById[eg.getAttribute('data-src')],tgt=genConceptById[eg.getAttribute('data-tgt')];
-    const text=genInterconnections[eid];
-    const p=document.getElementById('gen-ic-full-panel');
-    if(text&&src&&tgt){document.getElementById('gen-ic-full-content').innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${src.title}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline></svg><span>${tgt.title}</span></h2><div class="hex-int-flow-content" style="width:100%;"><p class="hex-int-para">${text}</p></div></div>`;}else{document.getElementById('gen-ic-full-content').innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}
+    const srcId=eg.getAttribute('data-src'),tgtId=eg.getAttribute('data-tgt');
+    const src=genConceptById[srcId],tgt=genConceptById[tgtId];
+    const text=genInterconnections[srcId+'-'+tgtId]||genInterconnections[tgtId+'-'+srcId]||(src&&tgt?generatePairText(src,tgt):null);
+    const p=document.getElementById('gen-concept-panel');
+    if(text&&src&&tgt){document.getElementById('gen-concept-content').innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${src.title}</span><span style="margin:0 0.75rem; font-weight:400;">&harr;</span><span>${tgt.title}</span></h2><div class="hex-int-flow-content" style="width:100%; align-items:center;"><p class="hex-int-para" style="max-width:700px;">${text}</p></div></div>`;}else{document.getElementById('gen-concept-content').innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}
     p.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
 }
