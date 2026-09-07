@@ -128,7 +128,7 @@ body.app-left-align #app-container .menu-row { justify-content: flex-start !impo
 .hex-int-para { font-size: 1.05rem; line-height: 1.6; margin: 0; }
 
 /* --- Generators Interconnections Pair Panel --- */
-.gen-pair-title { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; width: 100%; margin-bottom: 2.5rem; text-align: center; }
+.gen-pair-title { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; width: 100%; margin-bottom: 3.5rem; text-align: center; }
 .gen-pair-title-item { font-size: 1.7rem; font-weight: 600; line-height: 1.3; max-width: 620px; font-family: var(--font-primary); color: var(--text-color); }
 .gen-pair-title svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-color); opacity: 0.55; }
 .gen-pair-flow { display: flex; flex-direction: column; gap: 1.75rem; width: 100%; max-width: 720px; margin: 0 auto; }
@@ -550,12 +550,12 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
     <div id="gen-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
         <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
-            <svg id="gen-ic-radial-svg" viewBox="-113 197 1393 844" style="width: 100%; max-width: 1240px; height: auto; max-height: 75vh; overflow: visible;">
+            <svg id="gen-ic-radial-svg" viewBox="-173 137 1513 964" style="width: 100%; max-width: 1240px; height: auto; max-height: 75vh; overflow: visible;">
                 <g id="gen-ic-radial-edges"></g>
                 <g id="gen-ic-radial-nodes"></g>
             </svg>
         </div>
-        <div class="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
+        <div class="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 3.5rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
             <div class="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
         </div>
     </div>
@@ -1115,10 +1115,10 @@ const genConceptById = {};
 genConcepts.forEach(c => genConceptById[c.id] = c);
 
 const genFlowPos = {
-    'exp-tech-accel': {x:250, y:125}, 'abstraction-cycle': {x:750, y:125}, 'collective-alienation': {x:1250, y:125},
-    'arms-races': {x:250, y:400}, 'embedded-growth': {x:750, y:400}, 'left-hemispheric': {x:1250, y:400},
-    'multipolar-traps': {x:250, y:675}, 'narrow-metric-chain': {x:750, y:675}, 'life-blind-search': {x:1250, y:675},
-    'structural-separation': {x:250, y:950}, 'isolated-problem-solving': {x:750, y:950}, 'reductionist-modelling': {x:1250, y:950}
+    'exp-tech-accel': {x:250, y:950}, 'abstraction-cycle': {x:750, y:950}, 'collective-alienation': {x:1250, y:950},
+    'arms-races': {x:250, y:675}, 'embedded-growth': {x:750, y:675}, 'left-hemispheric': {x:1250, y:675},
+    'multipolar-traps': {x:250, y:400}, 'narrow-metric-chain': {x:750, y:400}, 'life-blind-search': {x:1250, y:400},
+    'structural-separation': {x:250, y:125}, 'isolated-problem-solving': {x:750, y:125}, 'reductionist-modelling': {x:1250, y:125}
 };
 
 const genChainLanes = [
@@ -1218,7 +1218,7 @@ function genNodeBoxHtml(id, x, y, w, h, opts) {
     </g>`;
 }
 
-const genRadialCx = 620, genRadialCy = 620, genRadialR = 385;
+const genRadialCx = 620, genRadialCy = 620, genRadialR = 430;
 
 function genRadialLayout() {
     const cx = genRadialCx, cy = genRadialCy, r = genRadialR;
@@ -1233,7 +1233,7 @@ function genRadialLayout() {
 function genRadialNodeHtml(id, x, y, angle) {
     const c = genConceptById[id];
     const label = c.shortTitle || c.title;
-    const labelOffset = 18;
+    const labelOffset = 32;
     const lx = x + labelOffset * Math.cos(angle);
     const ly = y + labelOffset * Math.sin(angle);
     const isLeft = Math.cos(angle) < -0.05;
@@ -1280,7 +1280,7 @@ function renderGenChain() {
     let edgesHtml = '';
     genChainEdges.forEach(([a, b]) => {
         const A = genFlowPos[a], B = genFlowPos[b];
-        edgesHtml += drawGenEdgeLine(A.x, A.y + genChainBoxH / 2, B.x, B.y - genChainBoxH / 2);
+        edgesHtml += drawGenEdgeLine(A.x, A.y - genChainBoxH / 2, B.x, B.y + genChainBoxH / 2);
     });
     document.getElementById('gen-chain-edges').innerHTML = edgesHtml;
 
@@ -1293,8 +1293,9 @@ function renderGenChain() {
     genChainLanes.forEach((lane, i) => {
         const positions = lane.ids.map(id => genFlowPos[id]);
         const x = positions[0].x;
-        const topY = positions[0].y - genChainBoxH / 2 - genChainLanePad;
-        const bottomY = positions[positions.length - 1].y + genChainBoxH / 2 + genChainLanePad;
+        const ys = positions.map(p => p.y);
+        const topY = Math.min(...ys) - genChainBoxH / 2 - genChainLanePad;
+        const bottomY = Math.max(...ys) + genChainBoxH / 2 + genChainLanePad;
         const bgX = x - genChainBoxW / 2 - genChainLanePad;
         const bgW = genChainBoxW + genChainLanePad * 2;
         let laneHtml = `<rect class="gen-chain-lane-bg" x="${bgX}" y="${topY}" width="${bgW}" height="${bottomY - topY}" rx="18" />`;
@@ -1419,93 +1420,59 @@ const root=document.documentElement,accents=[null,"green","orange","blue","red"]
 function collapseMainTree(){if(!document.getElementById("def-wrapper").classList.contains("active"))return;document.querySelectorAll("#stage-2-contents > .content-panel.active").forEach(e=>{const t=e.querySelector(":scope > .content-panel-inner > .selected-header > .local-back-btn");t&&t.click()});const e=document.getElementById("title"),t=document.getElementById("def-wrapper");e.classList.remove("active"),t.classList.remove("active");const o=document.getElementById("menu-2");o.classList.remove("visible"),o.querySelectorAll(".clickable-indicator").forEach(e=>e.classList.remove("auto-pulse")),document.getElementById("collapse-tree-btn").classList.remove("visible"),window.scrollTo({top:0,behavior:"smooth"}),updateProgress(),document.getElementById("title-corners").classList.remove("visible"),setTimeout(()=>{if("app"===currentView){e.classList.remove("auto-pulse");void e.offsetWidth;e.classList.add("auto-pulse");playSound("underline");}},800)}
 document.getElementById("collapse-tree-btn").addEventListener("click",collapseMainTree);
 document.getElementById("toggle-expand-all-btn").addEventListener("click",toggleExpandAllMap);const titleElement=document.getElementById("title"),defWrapper=document.getElementById("def-wrapper"),textToType="The Metacrisis";let charIndex=0,isTyping=!0;window.addEventListener("load",()=>{updateFavicon();const e=document.querySelectorAll(".draw-trunk1"),t=document.querySelectorAll(".draw-arms1"),o=document.querySelectorAll(".draw-drops1"),n=document.querySelectorAll(".draw-trunk2"),c=document.querySelectorAll(".draw-arms2"),l=document.querySelectorAll(".draw-drops2"),r=document.querySelectorAll(".node0"),a=document.querySelectorAll(".node1"),i=document.querySelectorAll(".node2"),s=(e,t)=>e.forEach(e=>e.style.strokeDashoffset=t),d=(e,t)=>e.forEach(e=>e.style.opacity=t);setTimeout(()=>d(r,1),100),setTimeout(()=>s(e,0),300),setTimeout(()=>s(t,0),500),setTimeout(()=>s(o,0),700),setTimeout(()=>d(a,1),900),setTimeout(()=>s(n,0),1100),setTimeout(()=>s(c,0),1300),setTimeout(()=>s(l,0),1500),setTimeout(()=>d(i,1),1700),setTimeout(()=>{root.setAttribute("data-theme","dark"),updateFavicon()},1700),setTimeout(()=>d(i,0),2200),setTimeout(()=>s(l,22),2300),setTimeout(()=>s(c,22),2500),setTimeout(()=>s(n,22),2700),setTimeout(()=>d(a,0),2900),setTimeout(()=>s(o,22),3000),setTimeout(()=>s(t,62),3200),setTimeout(()=>s(e,22),3400),setTimeout(()=>d(r,0),3600),setTimeout(()=>{root.removeAttribute("data-theme"),updateFavicon()},3600),setTimeout(()=>{document.getElementById("loading-screen").style.opacity="0",setTimeout(()=>{document.getElementById("loading-screen").style.display="none",function e(){charIndex<textToType.length?(titleElement.textContent+=textToType.charAt(charIndex),playSound("type"),charIndex++,setTimeout(e,100)):(isTyping=!1,titleElement.classList.add("clickable-indicator","auto-pulse"),playSound("underline"),setTimeout(()=>{document.body.classList.add("cursor-ready"),document.getElementById("title-corners").classList.add("visible"),setTimeout(()=>{document.body.classList.add("hud-ready"),"app"===currentView&&document.getElementById("toggle-app-align-btn").classList.add("visible")},2500)},1200))}()},600)},3900)});
-document.addEventListener("click",e=>{getAudioContext();
-
-// --- Left Menu Controls ---
-if(e.target.closest('#hamburger-btn')){
-    document.body.classList.add('left-menu-open');
-    playSound('click');
-} else if(document.body.classList.contains('left-menu-open') && !e.target.closest('#bottom-left-controls')){
-    document.body.classList.remove('left-menu-open');
-}
-
-// --- Generative Dynamics Controls ---
 let isGenExpanded = false;
-function updateGlobalToggleIcon() { 
+function updateGlobalToggleIcon() {
     const btn = document.getElementById('gen-global-toggle');
     const activeTab = document.querySelector('.gen-subtab-content.active');
     if (!activeTab) return;
-    const anyCollapsed = activeTab.querySelectorAll('.gen-tier-top-1.gen-collapsed, .gen-tier-top-2.gen-collapsed, .gen-tier-bottom-1.gen-collapsed').length > 0; 
-    const iconExpand = btn.querySelector('.icon-expand'); 
-    const iconCollapse = btn.querySelector('.icon-collapse'); 
-    if (!anyCollapsed) { 
-        iconExpand.style.display = 'none'; 
-        iconCollapse.style.display = 'block'; 
+    const anyCollapsed = activeTab.querySelectorAll('.gen-tier-top-1.gen-collapsed, .gen-tier-top-2.gen-collapsed, .gen-tier-bottom-1.gen-collapsed').length > 0;
+    const iconExpand = btn.querySelector('.icon-expand');
+    const iconCollapse = btn.querySelector('.icon-collapse');
+    if (!anyCollapsed) {
+        iconExpand.style.display = 'none';
+        iconCollapse.style.display = 'block';
         btn.dataset.state = 'expanded';
-        isGenExpanded = true; 
-    } else { 
-        iconExpand.style.display = 'block'; 
-        iconCollapse.style.display = 'none'; 
+        isGenExpanded = true;
+    } else {
+        iconExpand.style.display = 'block';
+        iconCollapse.style.display = 'none';
         btn.dataset.state = 'collapsed';
-        isGenExpanded = false; 
-    } 
+        isGenExpanded = false;
+    }
 }
-function toggleGenTier(tabId, tier, btnElement, forceState) { 
-    const tab = document.getElementById(tabId); 
-    const elements = tab.querySelectorAll('.gen-tier-' + tier); 
-    if (elements.length === 0) return; 
-    let isCollapsed = elements[0].classList.contains('gen-collapsed'); 
-    if (forceState !== undefined) { isCollapsed = forceState === 'expand'; } 
-    if (isCollapsed) { 
-        elements.forEach(el => el.classList.remove('gen-collapsed')); 
-        if(btnElement) { 
-            btnElement.classList.add('expanded'); 
-            if(btnElement.classList.contains('top')) { 
-                btnElement.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>'; 
-            } else { 
-                btnElement.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>'; 
-            } 
-        } 
-    } else { 
-        elements.forEach(el => el.classList.add('gen-collapsed')); 
-        if (tier === 'top-1') { 
-            const parentBtn = tab.querySelector('.gen-local-toggle[data-target="top-2"]'); 
-            if(parentBtn) toggleGenTier(tabId, 'top-2', parentBtn, 'collapse'); 
-        } 
-        if(btnElement) { 
-            btnElement.classList.remove('expanded'); 
-            if(btnElement.classList.contains('top')) { 
-                btnElement.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"></polyline></svg>'; 
-            } else { 
-                btnElement.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>'; 
-            } 
-        } 
-    } 
+function toggleGenTier(tabId, tier, btnElement, forceState) {
+    const tab = document.getElementById(tabId);
+    const elements = tab.querySelectorAll('.gen-tier-' + tier);
+    if (elements.length === 0) return;
+    let isCollapsed = elements[0].classList.contains('gen-collapsed');
+    if (forceState !== undefined) { isCollapsed = forceState === 'expand'; }
+    if (isCollapsed) {
+        elements.forEach(el => el.classList.remove('gen-collapsed'));
+        if(btnElement) {
+            btnElement.classList.add('expanded');
+            if(btnElement.classList.contains('top')) {
+                btnElement.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+            } else {
+                btnElement.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+            }
+        }
+    } else {
+        elements.forEach(el => el.classList.add('gen-collapsed'));
+        if (tier === 'top-1') {
+            const parentBtn = tab.querySelector('.gen-local-toggle[data-target="top-2"]');
+            if(parentBtn) toggleGenTier(tabId, 'top-2', parentBtn, 'collapse');
+        }
+        if(btnElement) {
+            btnElement.classList.remove('expanded');
+            if(btnElement.classList.contains('top')) {
+                btnElement.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"></polyline></svg>';
+            } else {
+                btnElement.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+            }
+        }
+    }
 }
-if(e.target.closest('.gen-local-toggle')){
-    playSound("click");
-    const btn=e.target.closest('.gen-local-toggle');
-    const tabId=btn.closest('.gen-subtab-content').id;
-    const targetTier=btn.getAttribute('data-target');
-    toggleGenTier(tabId, targetTier, btn);
-    updateGlobalToggleIcon();
-}
-if(e.target.closest('#gen-global-toggle')){
-    playSound("click");
-    const btn = e.target.closest('#gen-global-toggle');
-    const activeTabId = document.querySelector('.gen-subtab-content.active').id;
-    const tab = document.getElementById(activeTabId);
-    const isExpanded = btn.dataset.state === 'expanded';
-    const action = isExpanded ? 'collapse' : 'expand';
-    ['top-1', 'top-2', 'bottom-1'].forEach(tier => {
-        const localBtn = tab.querySelector(`.gen-local-toggle[data-target="${tier}"]`);
-        if (localBtn) toggleGenTier(activeTabId, tier, localBtn, action);
-    });
-    updateGlobalToggleIcon();
-}
-if(e.target.closest('.gen-tab') && !e.target.closest('#gen-global-toggle')){
-    playSound("click");
-    const btn=e.target.closest('.gen-tab');
+function activateTopTab(btn){
     const t=btn.getAttribute('data-tab');
     const attrTabsWrap=document.getElementById('attractors-tabs');
     const genTabsWrap=document.getElementById('generators-tabs');
@@ -1560,7 +1527,7 @@ if("attr-tab-matrix"===t&&!document.querySelector(".attr-matrix-cell.active")){
 const genTabCopy={
     "gen-tab-verticals":{title:"Generative Dynamics: Verticals",subtitle:"A hierarchical mapping of the structural traps driving civilisation towards catastrophe."},
     "gen-tab-interconnections":{title:"Generative Dynamics: Interconnections",subtitle:"Explore the full-mesh interconnections between every generative dynamics concept."},
-    "gen-tab-chain":{title:"Generative Dynamics: Chains",subtitle:"Follow the causal sequence from originating drivers through the three chains of structural traps."},
+    "gen-tab-chain":{title:"Generative Dynamics: Chains",subtitle:"Follow the causal sequence as it rises from originating drivers, at the base, up through the three chains of structural traps."},
     "gen-tab-categories":{title:"Generative Dynamics: Categories",subtitle:"The twelve category concepts, grouped by their five underlying disciplinary lenses."}
 };
 if(genTabCopy[t]){
@@ -1583,12 +1550,50 @@ if(landscapeTabCopy[t]){
 }
     if(t.indexOf("gen-")===0)setTimeout(updateGlobalToggleIcon, 350);
 }
+document.addEventListener("click",e=>{getAudioContext();
+
+// --- Left Menu Controls ---
+if(e.target.closest('#hamburger-btn')){
+    document.body.classList.add('left-menu-open');
+    playSound('click');
+} else if(document.body.classList.contains('left-menu-open') && !e.target.closest('#bottom-left-controls')){
+    document.body.classList.remove('left-menu-open');
+}
+
+// --- Generative Dynamics Controls ---
+if(e.target.closest('.gen-local-toggle')){
+    playSound("click");
+    const btn=e.target.closest('.gen-local-toggle');
+    const tabId=btn.closest('.gen-subtab-content').id;
+    const targetTier=btn.getAttribute('data-target');
+    toggleGenTier(tabId, targetTier, btn);
+    updateGlobalToggleIcon();
+}
+if(e.target.closest('#gen-global-toggle')){
+    playSound("click");
+    const btn = e.target.closest('#gen-global-toggle');
+    const activeTabId = document.querySelector('.gen-subtab-content.active').id;
+    const tab = document.getElementById(activeTabId);
+    const isExpanded = btn.dataset.state === 'expanded';
+    const action = isExpanded ? 'collapse' : 'expand';
+    ['top-1', 'top-2', 'bottom-1'].forEach(tier => {
+        const localBtn = tab.querySelector(`.gen-local-toggle[data-target="${tier}"]`);
+        if (localBtn) toggleGenTier(activeTabId, tier, localBtn, action);
+    });
+    updateGlobalToggleIcon();
+}
+if(e.target.closest('.gen-tab') && !e.target.closest('#gen-global-toggle')){
+    playSound("click");
+    activateTopTab(e.target.closest('.gen-tab'));
+}
 if(e.target.closest('.gen-subtab')){
     playSound("click");
     const btn=e.target.closest('.gen-subtab');
     const t=btn.getAttribute('data-subtab');
     const wrap=btn.closest('.gen-tab-dropdown-wrap');
     const targetId=wrap.getAttribute('data-content-target');
+    const mainTabBtn=wrap.querySelector('.gen-tab[data-tab]');
+    if(mainTabBtn&&!mainTabBtn.classList.contains('active'))activateTopTab(mainTabBtn);
     wrap.querySelectorAll('.gen-subtab').forEach(el=>el.classList.remove('active'));
     btn.classList.add('active');
     const contentScope=document.getElementById(targetId);
@@ -1624,7 +1629,8 @@ if(e.target.closest('.gen-concept-node')){
     const cid=node.getAttribute('data-concept');
     const c=genConceptById[cid];
     const p=tabContent.querySelector('.gen-concept-panel');
-    if(c){p.querySelector('.gen-concept-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${c.title}</span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${c.desc}</div></div>`;}
+    const descMarginTop=tabContent.id==='gen-tab-interconnections'?'1.75rem':'1rem';
+    if(c){p.querySelector('.gen-concept-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${c.title}</span><div style="font-size: 1.15rem; margin-top: ${descMarginTop}; line-height: 1.6; opacity: 0.9;">${c.desc}</div></div>`;}
     p.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
 }
@@ -1650,12 +1656,13 @@ if(e.target.closest('.gen-chain-lane')){
     const lane=genChainLanes[laneIdx];
     const p=tabContent.querySelector('.gen-concept-panel');
     const contentEl=p.querySelector('.gen-concept-content');
-    const downArrow=`<div style="display:flex; justify-content:center; margin:0.75rem 0;"><svg style="width:22px; height:22px; color:var(--text-color); opacity:0.5;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><polyline points="18 17 12 23 6 17"></polyline></svg></div>`;
+    const upArrow=`<div style="display:flex; justify-content:center; margin:0.75rem 0;"><svg style="width:22px; height:22px; color:var(--text-color); opacity:0.5;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><polyline points="6 7 12 1 18 7"></polyline></svg></div>`;
+    const laneIdsTopDown=lane.ids.slice().reverse();
     let html=`<div style="width:100%;"><div style="font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; opacity:0.55; margin-bottom:1.5rem;">Chain ${laneIdx+1} of 3</div>`;
-    lane.ids.forEach((id,i)=>{
+    laneIdsTopDown.forEach((id,i)=>{
         const c=genConceptById[id];
         html+=`<div><span style="font-size:1.5rem; font-weight:600;">${c.title}</span><div style="font-size:1.1rem; margin-top:0.5rem; line-height:1.6; opacity:0.9;">${c.desc}</div></div>`;
-        if(i<lane.ids.length-1)html+=downArrow;
+        if(i<laneIdsTopDown.length-1)html+=upArrow;
     });
     html+='</div>';
     contentEl.innerHTML=html;
