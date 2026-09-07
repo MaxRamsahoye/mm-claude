@@ -80,20 +80,20 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .attr-precursor-term-name { font-weight: 600; opacity: 1; }
 .attr-precursor-works { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
 .attr-matrix-wrap { width: 100%; max-width: 1200px; align-self: center; margin: 2rem auto 0 auto; box-sizing: border-box; }
-.attr-matrix-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+.attr-matrix-table { border-collapse: collapse; width: auto; table-layout: fixed; }
 .attr-matrix-corner { border: none; }
 .attr-matrix-colhead { font-style: italic; font-size: 1.1rem; opacity: 0.75; padding: 0 0 1.5rem 2rem; box-sizing: border-box; text-align: left; vertical-align: bottom; border: none; }
 .attr-matrix-colhead.tick { border-left: 3px solid var(--indicator-color-solid); }
 .attr-matrix-rowhead { text-align: right; font-style: italic; font-size: 1.1rem; opacity: 0.75; padding: 0.35rem 2rem 0 0; box-sizing: border-box; vertical-align: top; border: none; }
 .attr-matrix-rowhead.tick { border-top: 3px solid var(--indicator-color-solid); }
-.attr-matrix-cell { min-height: 190px; padding: 2.25rem 2.5rem; box-sizing: border-box; cursor: pointer; transition: background-color 0.25s ease; border: 3px solid var(--indicator-color-solid); vertical-align: middle; text-align: left; }
+.attr-matrix-cell { min-height: 190px; padding: 2.25rem 1.75rem; box-sizing: border-box; cursor: pointer; transition: background-color 0.25s ease; border: 3px solid var(--indicator-color-solid); vertical-align: middle; text-align: left; }
 .attr-matrix-cell:hover { background: rgba(18,18,18,0.04); }
 :root[data-theme="dark"] .attr-matrix-cell:hover { background: rgba(255,255,255,0.06); }
 .attr-matrix-cell.active { background: rgba(18,18,18,0.06); }
 :root[data-theme="dark"] .attr-matrix-cell.active { background: rgba(255,255,255,0.1); }
 .attr-matrix-cell-label { font-style: italic; font-size: 1.05rem; opacity: 0.75; margin-bottom: 0.5rem; }
 .attr-matrix-cell-title { font-size: 1.4rem; font-weight: 500; }
-.attr-matrix-x { color: #d97757; font-weight: 700; margin: 0 0.35rem; font-style: normal; }
+.attr-matrix-x { color: var(--interactive-color); font-weight: 700; margin: 0 0.35rem; font-style: normal; }
 
 /* --- Interaction Panel --- */
 .hex-main-title { font-size: 2.8rem; margin-bottom: 3rem; display: flex; align-items: center; justify-content: flex-start; gap: 1rem; width: 100%; }
@@ -220,9 +220,9 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             <button class="gen-subtab hoverable" data-subtab="gen-nmo">Narrow Metric Optimisation</button>
         </div>
     </div>
-    <button class="gen-tab hoverable" data-tab="gen-tab-interconnections">Interconnections</button>
     <button class="gen-tab hoverable" data-tab="gen-tab-chain">Chains</button>
     <button class="gen-tab hoverable" data-tab="gen-tab-categories">Categories</button>
+    <button class="gen-tab hoverable" data-tab="gen-tab-interconnections">Interconnections<span style="color: var(--interactive-color); font-weight: 700; margin-left: 0.4em;">(WIP)</span></button>
     <button id="gen-global-toggle" class="gen-tab hoverable" aria-label="Toggle All" data-state="expanded">
         <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
             <polyline points="18 15 12 21 6 15"></polyline>
@@ -596,9 +596,9 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div class="attr-matrix-wrap">
             <table class="attr-matrix-table">
                 <colgroup>
-                    <col style="width: 320px;">
-                    <col>
-                    <col>
+                    <col style="width: 230px;">
+                    <col style="width: 340px;">
+                    <col style="width: 340px;">
                 </colgroup>
                 <tbody>
                 <tr>
