@@ -937,6 +937,7 @@ hexNodesData.forEach(n => {
     </g>`;
 });
 document.getElementById('hex-nodes-layer').innerHTML = hexNodesHtml;
+setTimeout(()=>{const d=document.querySelector('.hex-edge-group[data-edge="ai-geo"], .hex-edge-group[data-edge="geo-ai"]');d&&d.dispatchEvent(new MouseEvent("click",{bubbles:!0}));},50);
 
 // Setup Attractors Map
 const attrStartX = 500, attrStartY = 750;
