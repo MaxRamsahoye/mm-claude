@@ -93,15 +93,15 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .attr-matrix-corner { border: none; }
 .attr-matrix-colhead { font-style: italic; font-size: 1.1rem; opacity: 0.75; padding: 0 0 1.5rem 2rem; box-sizing: border-box; text-align: left; vertical-align: bottom; border: none; }
 .attr-matrix-colhead.tick { border-left: 3px solid var(--indicator-color-solid); }
-.attr-matrix-rowhead { text-align: right; font-style: italic; font-size: 1.1rem; opacity: 0.75; padding: 0.35rem 2rem 0 0; box-sizing: border-box; vertical-align: top; border: none; }
+.attr-matrix-rowhead { text-align: right; font-style: italic; font-size: 1.1rem; opacity: 0.75; padding: 0.35rem 2rem 0 0; box-sizing: border-box; vertical-align: top; border: none; white-space: nowrap; }
 .attr-matrix-rowhead.tick { border-top: 3px solid var(--indicator-color-solid); }
-.attr-matrix-cell { min-height: 190px; padding: 2.25rem 1.75rem; box-sizing: border-box; cursor: pointer; transition: background-color 0.25s ease; border: 3px solid var(--indicator-color-solid); vertical-align: middle; text-align: left; }
+.attr-matrix-cell { min-height: 230px; padding: 2.5rem 2.25rem; box-sizing: border-box; cursor: pointer; transition: background-color 0.25s ease; border: 3px solid var(--indicator-color-solid); vertical-align: middle; text-align: left; }
 .attr-matrix-cell:hover { background: rgba(18,18,18,0.04); }
 :root[data-theme="dark"] .attr-matrix-cell:hover { background: rgba(255,255,255,0.06); }
 .attr-matrix-cell.active { background: rgba(18,18,18,0.06); }
 :root[data-theme="dark"] .attr-matrix-cell.active { background: rgba(255,255,255,0.1); }
-.attr-matrix-cell-label { font-style: italic; font-size: 1.05rem; opacity: 0.75; margin-bottom: 0.5rem; }
-.attr-matrix-cell-title { font-size: 1.4rem; font-weight: 500; }
+.attr-matrix-cell-label { font-style: italic; font-size: 1.2rem; opacity: 0.75; margin-bottom: 0.6rem; }
+.attr-matrix-cell-title { font-size: 1.75rem; font-weight: 500; }
 .attr-matrix-x { color: var(--interactive-color); font-weight: 700; margin: 0 0.35rem; font-style: normal; }
 
 /* --- Interaction Panel --- */
@@ -111,7 +111,7 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .hex-int-flow-content { display: flex; flex-direction: column; gap: 1.75rem; }
 .hex-int-block { max-width: 78%; box-sizing: border-box; }
 .hex-int-block.align-left, .hex-int-block.align-right { align-self: flex-start; text-align: left; }
-#attr-interconnect-content .hex-int-block.align-left, #attr-interconnect-content .hex-int-block.align-right { align-self: center; max-width: 700px; }
+#attr-interconnect-content .hex-int-block.align-left, #attr-interconnect-content .hex-int-block.align-right { align-self: flex-start; max-width: 700px; }
 .hex-int-flow-label { display: flex; align-items: center; font-size: 0.85rem; font-weight: 600; opacity: 1; margin-bottom: 0.6rem; letter-spacing: 0.02em; color: var(--text-color); }
 .hex-int-flow-label svg { width: 14px; height: 14px; flex-shrink: 0; margin: 0 5px; stroke: currentColor; }
 
@@ -605,9 +605,9 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div class="attr-matrix-wrap">
             <table class="attr-matrix-table">
                 <colgroup>
-                    <col style="width: 230px;">
                     <col style="width: 340px;">
-                    <col style="width: 340px;">
+                    <col style="width: 430px;">
+                    <col style="width: 430px;">
                 </colgroup>
                 <tbody>
                 <tr>
