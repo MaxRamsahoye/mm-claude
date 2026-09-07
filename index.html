@@ -221,7 +221,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         </div>
     </div>
     <button class="gen-tab hoverable" data-tab="gen-tab-interconnections">Interconnections</button>
-    <button class="gen-tab hoverable" data-tab="gen-tab-chain">Chain</button>
+    <button class="gen-tab hoverable" data-tab="gen-tab-chain">Chains</button>
     <button class="gen-tab hoverable" data-tab="gen-tab-categories">Categories</button>
     <button id="gen-global-toggle" class="gen-tab hoverable" aria-label="Toggle All" data-state="expanded">
         <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
@@ -537,8 +537,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
     </div>
     <div id="gen-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100%; max-width: 1200px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
-            <svg id="gen-ic-radial-svg" viewBox="100 230 1010 775" style="width: 100%; height: auto; max-height: 70vh; overflow: visible;">
+        <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
+            <svg id="gen-ic-radial-svg" viewBox="-113 197 1393 844" style="width: 100%; max-width: 1240px; height: auto; max-height: 75vh; overflow: visible;">
                 <g id="gen-ic-radial-edges"></g>
                 <g id="gen-ic-radial-nodes"></g>
             </svg>
@@ -1196,7 +1196,7 @@ function genNodeBoxHtml(id, x, y, w, h, opts) {
     </g>`;
 }
 
-const genRadialCx = 620, genRadialCy = 620, genRadialR = 340;
+const genRadialCx = 620, genRadialCy = 620, genRadialR = 385;
 
 function genRadialLayout() {
     const cx = genRadialCx, cy = genRadialCy, r = genRadialR;
@@ -1208,29 +1208,17 @@ function genRadialLayout() {
     });
 }
 
-function genShortLabel(c, maxLen) {
-    maxLen = maxLen || 24;
-    const full = c.shortTitle || c.title;
-    if (full.length <= maxLen) return full;
-    const words = full.split(' ');
-    let out = '';
-    for (const w of words) {
-        if ((out + ' ' + w).trim().length > maxLen) break;
-        out = (out + ' ' + w).trim();
-    }
-    return (out || full.slice(0, maxLen)) + '…';
-}
-
 function genRadialNodeHtml(id, x, y, angle) {
     const c = genConceptById[id];
-    const labelOffset = 14;
+    const label = c.shortTitle || c.title;
+    const labelOffset = 18;
     const lx = x + labelOffset * Math.cos(angle);
     const ly = y + labelOffset * Math.sin(angle);
     const isLeft = Math.cos(angle) < -0.05;
     const anchor = isLeft ? 'end' : 'start';
     return `<g class="gen-concept-node hoverable" data-concept="${id}" style="cursor:pointer;">
-        <circle cx="${x}" cy="${y}" r="7" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2.5" />
-        <text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" style="font-size:13px; font-weight:500; fill:var(--text-color); font-family:var(--font-primary);">${genShortLabel(c)}</text>
+        <circle cx="${x}" cy="${y}" r="9" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2.5" />
+        <text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" style="font-size:16px; font-weight:500; fill:var(--text-color); font-family:var(--font-primary);">${label}</text>
     </g>`;
 }
 
@@ -1528,7 +1516,7 @@ if("attr-tab-matrix"===t&&!document.querySelector(".attr-matrix-cell.active")){
 const genTabCopy={
     "gen-tab-verticals":{title:"Generative Dynamics: Verticals",subtitle:"A hierarchical mapping of the structural traps driving civilisation towards catastrophe."},
     "gen-tab-interconnections":{title:"Generative Dynamics: Interconnections",subtitle:"Explore the full-mesh interconnections between every generative dynamics concept."},
-    "gen-tab-chain":{title:"Generative Dynamics: Chain",subtitle:"Follow the causal sequence from originating drivers through the chain of structural traps."},
+    "gen-tab-chain":{title:"Generative Dynamics: Chains",subtitle:"Follow the causal sequence from originating drivers through the three chains of structural traps."},
     "gen-tab-categories":{title:"Generative Dynamics: Categories",subtitle:"The twelve category concepts, grouped by their five underlying disciplinary lenses."}
 };
 if(genTabCopy[t]){
