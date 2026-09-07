@@ -1383,7 +1383,7 @@ const cursorTrailDots=Array.from({length:cursorTrailCount},(_,i)=>{
     dot.style.opacity=(0.4*Math.pow(scale,1.4)).toFixed(2);
     dot.style.filter=`blur(${(1-scale)*2.2}px)`;
     cursorTrailContainer.appendChild(dot);
-    return{el:dot,x:-100,y:-100,ease:0.32-i*(0.24/cursorTrailCount)};
+    return{el:dot,x:-100,y:-100,ease:Math.pow(0.8,i)};
 });
 (function animateCursorTrail(){
     if(trailActive){
