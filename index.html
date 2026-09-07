@@ -1374,24 +1374,23 @@ const cursorDot=document.getElementById("cursor-dot"),cursorOutline=document.get
         }
     }
 });
-const cursorTrailCount=7,cursorTrailContainer=document.getElementById("cursor-trail");let trailMouseX=-100,trailMouseY=-100,trailActive=false;
+const cursorTrailCount=13,cursorTrailContainer=document.getElementById("cursor-trail");let trailMouseX=-100,trailMouseY=-100,trailActive=false;
 const cursorTrailDots=Array.from({length:cursorTrailCount},(_,i)=>{
     const dot=document.createElement("div");
     dot.className="cursor-trail-dot";
     const scale=1-i/cursorTrailCount;
-    dot.style.width=dot.style.height=`${6*scale+2}px`;
-    dot.style.opacity=(0.5*scale).toFixed(2);
+    dot.style.width=dot.style.height=`${9*scale+2}px`;
+    dot.style.opacity=(0.4*Math.pow(scale,1.4)).toFixed(2);
+    dot.style.filter=`blur(${(1-scale)*2.2}px)`;
     cursorTrailContainer.appendChild(dot);
-    return{el:dot,x:-100,y:-100};
+    return{el:dot,x:-100,y:-100,ease:0.32-i*(0.24/cursorTrailCount)};
 });
 (function animateCursorTrail(){
     if(trailActive){
-        let px=trailMouseX,py=trailMouseY;
         cursorTrailDots.forEach(d=>{
-            d.x+=(px-d.x)*0.35;
-            d.y+=(py-d.y)*0.35;
+            d.x+=(trailMouseX-d.x)*d.ease;
+            d.y+=(trailMouseY-d.y)*d.ease;
             d.el.style.transform=`translate(${d.x}px, ${d.y}px) translate(-50%, -50%)`;
-            px=d.x;py=d.y;
         });
     }
     requestAnimationFrame(animateCursorTrail);
