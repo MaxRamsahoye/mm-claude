@@ -81,13 +81,14 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .attr-precursor-works { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
 .attr-precursor-refs { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
 .attr-precursor-ref { font-size: 0.95rem; line-height: 1.5; opacity: 0.75; }
-.attr-precursor-ref-link { color: inherit; text-decoration: underline; }
+.attr-precursor-ref-link { color: var(--interactive-color); text-decoration: underline; }
 #landscape-container .attr-precursor-row { display: block; }
-#landscape-container .attr-precursor-label { display: block; width: 100%; text-align: left; text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.02em; font-weight: 600; opacity: 0.85; border-right: none; border-bottom: 3px solid var(--interactive-color); padding-right: 0; padding-bottom: 0.85rem; margin-bottom: 1.75rem; }
-#landscape-container .attr-precursor-content { max-width: 760px; }
-.landscape-toc { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--indicator-color); }
-.landscape-toc-link { font-size: 0.95rem; font-weight: 500; color: var(--text-color); opacity: 0.7; text-decoration: underline; cursor: pointer; transition: opacity 0.2s ease, color 0.2s ease; }
-.landscape-toc-link:hover { opacity: 1; color: var(--interactive-color); }
+#landscape-container .attr-precursor-label { display: block; width: 100%; text-align: left; text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.02em; font-weight: 600; opacity: 1; border-right: none; border-bottom: 3px solid var(--interactive-color); padding-right: 0; padding-bottom: 0.85rem; margin-bottom: 1.75rem; }
+#landscape-container .attr-precursor-content { max-width: 900px; }
+#landscape-container .attr-precursor-title { font-size: 1.15rem; }
+.landscape-toc { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; margin-bottom: 4.5rem; }
+.landscape-toc-link { font-size: 0.95rem; font-weight: 500; color: var(--interactive-color); opacity: 0.7; text-decoration: underline; cursor: pointer; transition: opacity 0.2s ease; }
+.landscape-toc-link:hover { opacity: 1; }
 .attr-matrix-wrap { width: 100%; max-width: 1200px; align-self: center; margin: 2rem auto 0 auto; box-sizing: border-box; }
 .attr-matrix-table { border-collapse: collapse; width: auto; table-layout: fixed; }
 .attr-matrix-corner { border: none; }
