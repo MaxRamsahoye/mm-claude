@@ -565,8 +565,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
 
     <div id="gen-tab-chain" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100%; max-width: 1200px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
-            <svg id="gen-chain-svg" viewBox="-400 71.25 2260 1233.75" style="width: 100%; height: auto; max-height: 77vh; overflow: visible;">
+        <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
+            <svg id="gen-chain-svg" viewBox="-500 89.0625 2825 1542.1875" style="width: 100%; max-width: 1500px; height: auto; max-height: 77vh; overflow: visible;">
                 <defs>
                     <marker id="gen-arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto-start-reverse" markerUnits="strokeWidth">
                         <path d="M0,0 L0,6 L9,3 z" fill="var(--indicator-color-solid)" />
@@ -582,13 +582,13 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
 
     <div id="gen-tab-categories" class="gen-tab-content" style="display: none; width: 100%;">
+        <div class="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 0; margin-bottom: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
+            <div class="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
+        </div>
         <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
             <svg id="gen-categories-svg" viewBox="-18.75 71.25 2460 1220" style="width: 100%; max-width: 1460px; height: auto; max-height: 78vh; overflow: visible;">
                 <g id="gen-categories-nodes"></g>
             </svg>
-        </div>
-        <div class="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
-            <div class="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
         </div>
     </div>
 </div></main>
@@ -1099,7 +1099,7 @@ const genConcepts = [
     {id:'collective-alienation', title:'Collective Psychological Alienation', group:'origin', catType:'cultural-psychological', desc:"A profound, systemic disconnection from the Self, the Other, and the World (including society, the environment, and the future). Termed by Zak Stein as a 'global intimacy disorder', this dynamic fragments our shared sensemaking and relational capacities, leaving individuals isolated and societies unable to coordinate."},
     {id:'arms-races', title:'Arms Races &amp; Tragedies of the Commons', group:'chain', desc:'A game-theoretic dynamic where competing actors escalate investment in extractive or destructive capacity, since unilateral restraint only cedes advantage to rivals. With no binding coordination mechanism, individually rational choices aggregate into collective ruin.'},
     {id:'embedded-growth', title:'Embedded Growth Obligations', group:'chain', catType:'behavioural-economic', desc:'The structural requirement, hard-coded into compound interest, shareholder returns and GDP targets, for perpetual quantitative expansion. It persists regardless of ecological limits or diminishing returns to genuine wellbeing.'},
-    {id:'left-hemispheric', title:'Left-Hemispheric Conditioning', group:'chain', catType:'cultural-psychological', desc:"A civilisation-wide bias toward the brain's left-hemispheric mode of attention – narrow, decontextualised, control-seeking – at the expense of the right hemisphere's holistic grasp of a living world. (After Iain McGilchrist.)"},
+    {id:'left-hemispheric', title:'Ubiquitous Left-Hemispheric Conditioning', group:'chain', catType:'cultural-psychological', desc:"A civilisation-wide bias toward the brain's left-hemispheric mode of attention – narrow, decontextualised, control-seeking – at the expense of the right hemisphere's holistic grasp of a living world. (After Iain McGilchrist.)"},
     {id:'multipolar-traps', title:'Multi-Polar Traps &amp; Zero-Sum Games', group:'chain', catType:'game-theoretic', desc:'Many independent actors face zero-sum payoffs with no binding mechanism to coordinate between them, so each is structurally compelled to defect even when mutual restraint would serve everyone better. Individually rational choices aggregate into an outcome no single actor can unilaterally escape.'},
     {id:'narrow-metric-chain', title:'Narrow Metric Optimisation', group:'chain', desc:"A small set of legible proxy metrics – GDP, quarterly profit, engagement – is relentlessly maximised as a stand-in for genuine wellbeing, while everything the proxy fails to capture is blindly sacrificed. As Goodhart's Law predicts, once a measure becomes the target, it ceases to be a good measure."},
     {id:'life-blind-search', title:'Life-Blind Search Processes', group:'chain', catType:'systems-theoretic', desc:'Market competition, algorithmic training and selection under artificial pressure are search processes indifferent to life itself, optimising only for whatever narrow proxy they happen to be pointed at. Whatever the proxy does not reward is treated as though it does not exist.'},
@@ -1121,10 +1121,10 @@ const genConceptById = {};
 genConcepts.forEach(c => genConceptById[c.id] = c);
 
 const genFlowPos = {
-    'exp-tech-accel': {x:312.5, y:156.25}, 'abstraction-cycle': {x:937.5, y:156.25}, 'collective-alienation': {x:1562.5, y:156.25},
-    'arms-races': {x:312.5, y:500}, 'embedded-growth': {x:937.5, y:500}, 'left-hemispheric': {x:1562.5, y:500},
-    'multipolar-traps': {x:312.5, y:843.75}, 'narrow-metric-chain': {x:937.5, y:843.75}, 'life-blind-search': {x:1562.5, y:843.75},
-    'structural-separation': {x:312.5, y:1187.5}, 'isolated-problem-solving': {x:937.5, y:1187.5}, 'reductionist-modelling': {x:1562.5, y:1187.5}
+    'exp-tech-accel': {x:390.625, y:195.3125}, 'abstraction-cycle': {x:1171.875, y:195.3125}, 'collective-alienation': {x:1953.125, y:195.3125},
+    'arms-races': {x:390.625, y:625}, 'embedded-growth': {x:1171.875, y:625}, 'left-hemispheric': {x:1953.125, y:625},
+    'multipolar-traps': {x:390.625, y:1054.6875}, 'narrow-metric-chain': {x:1171.875, y:1054.6875}, 'life-blind-search': {x:1953.125, y:1054.6875},
+    'structural-separation': {x:390.625, y:1484.375}, 'isolated-problem-solving': {x:1171.875, y:1484.375}, 'reductionist-modelling': {x:1953.125, y:1484.375}
 };
 
 const genChainLanes = [
@@ -1143,10 +1143,10 @@ const genCategoryGroups = [
     {label: 'Mytho-Poetic', ids: ['wisdom-gaps', 'moloch']}
 ];
 const genCategoryRowLayout = [
-    ['Cultural-Psychological'],
-    ['Systems-Theoretic', 'Techno-Economic'],
-    ['Ontological-Phenomenological', 'Game-Theoretic'],
-    ['Behavioural-Economic', 'Mytho-Poetic']
+    ['Behavioural-Economic', 'Techno-Economic'],
+    ['Systems-Theoretic', 'Game-Theoretic'],
+    ['Ontological-Phenomenological', 'Mytho-Poetic'],
+    ['Cultural-Psychological']
 ];
 
 const genChainEdges = [
@@ -1277,7 +1277,7 @@ function renderGenRadial() {
 }
 
 function drawGenEdgeLine(x1, y1, x2, y2, extra) {
-    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--indicator-color-solid)" stroke-width="2.5" marker-start="url(#gen-arrowhead)" marker-end="url(#gen-arrowhead)" ${extra||''} />`;
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--indicator-color-solid)" stroke-width="3.125" marker-start="url(#gen-arrowhead)" marker-end="url(#gen-arrowhead)" ${extra||''} />`;
 }
 
 function genCatBracketLabelHtml(x1, x2, lineY, tick, label) {
@@ -1292,11 +1292,11 @@ function genCatBracketLabelHtml(x1, x2, lineY, tick, label) {
 const genCatRowBoxW = 431.25, genCatRowBoxH = 150, genCatRowGap = 37.5, genCatRowPitch = genCatRowBoxW + genCatRowGap;
 const genCatBracketGap = 20, genCatBracketTick = 20, genCatRowStartY = 168.75, genCatRowPitchY = 300;
 
-const genChainBoxW = 500, genChainBoxH = 140, genChainLanePad = 32.5;
+const genChainBoxW = 625, genChainBoxH = 175, genChainLanePad = 40.625;
 const genChainLevelLabels = ['Geopolitical / Macroeconomic / Mass-Psychological', 'Game / Systems / Evolutionary Theory', 'Ontological / Phenomenological'];
 function genChainRowLabelHtml(y, h, label) {
-    return `<foreignObject x="-400" y="${y - h/2}" width="375" height="${h}">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:flex-end; text-align:right; text-transform:uppercase; font-size:1.25rem; letter-spacing:0.05em; font-weight:600; opacity:0.7; border-right:5px solid var(--interactive-color); padding-right:2.25rem; line-height:1.35; color:var(--text-color); font-family:var(--font-primary);">${label}</div>
+    return `<foreignObject x="-500" y="${y - h/2}" width="468.75" height="${h}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:flex-end; text-align:right; text-transform:uppercase; font-size:1.5625rem; letter-spacing:0.05em; font-weight:600; opacity:0.7; border-right:6.25px solid var(--interactive-color); padding-right:2.8125rem; line-height:1.35; color:var(--text-color); font-family:var(--font-primary);">${label}</div>
     </foreignObject>`;
 }
 
@@ -1316,10 +1316,10 @@ function renderGenChain() {
     const originRight = Math.max(...originXs) + genChainBoxW / 2 + genChainLanePad;
     const originTop = originY - genChainBoxH / 2 - genChainLanePad;
     const originBottom = originY + genChainBoxH / 2 + genChainLanePad;
-    let originHtml = `<rect class="gen-chain-lane-bg" x="${originLeft}" y="${originTop}" width="${originRight - originLeft}" height="${originBottom - originTop}" rx="18" />`;
+    let originHtml = `<rect class="gen-chain-lane-bg" x="${originLeft}" y="${originTop}" width="${originRight - originLeft}" height="${originBottom - originTop}" rx="22.5" />`;
     originIds.forEach(id => {
         const p = genFlowPos[id];
-        originHtml += genNodeBoxHtml(id, p.x, p.y, genChainBoxW, genChainBoxH, {fontSize: '1.375rem', interactive: false});
+        originHtml += genNodeBoxHtml(id, p.x, p.y, genChainBoxW, genChainBoxH, {fontSize: '1.71875rem', interactive: false});
     });
     let nodesHtml = `<g class="gen-chain-lane hoverable" data-lane="origin" style="cursor:pointer;">${originHtml}</g>`;
     nodesHtml += genChainRowLabelHtml(originY, genChainBoxH, 'Emergent Civilisational Patterns');
@@ -1337,10 +1337,10 @@ function renderGenChain() {
         const bottomY = Math.max(...ys) + genChainBoxH / 2 + genChainLanePad;
         const bgX = x - genChainBoxW / 2 - genChainLanePad;
         const bgW = genChainBoxW + genChainLanePad * 2;
-        let laneHtml = `<rect class="gen-chain-lane-bg" x="${bgX}" y="${topY}" width="${bgW}" height="${bottomY - topY}" rx="18" />`;
+        let laneHtml = `<rect class="gen-chain-lane-bg" x="${bgX}" y="${topY}" width="${bgW}" height="${bottomY - topY}" rx="22.5" />`;
         lane.ids.forEach(id => {
             const p = genFlowPos[id];
-            laneHtml += genNodeBoxHtml(id, p.x, p.y, genChainBoxW, genChainBoxH, {fontSize: '1.375rem', interactive: false});
+            laneHtml += genNodeBoxHtml(id, p.x, p.y, genChainBoxW, genChainBoxH, {fontSize: '1.71875rem', interactive: false});
         });
         nodesHtml += `<g class="gen-chain-lane hoverable" data-lane="${i}" style="cursor:pointer;">${laneHtml}</g>`;
     });
@@ -1575,6 +1575,9 @@ if("attr-tab-matrix"===t&&!document.querySelector(".attr-matrix-cell.active")){
 }
 if("gen-tab-chain"===t&&!document.querySelector(".gen-chain-lane.active")){
     setTimeout(()=>{const d=document.querySelector('.gen-chain-lane[data-lane="origin"]');d&&d.dispatchEvent(new MouseEvent("click",{bubbles:!0}));},350);
+}
+if("gen-tab-categories"===t&&!document.querySelector("#gen-categories-nodes .gen-concept-node.active")){
+    setTimeout(()=>{const d=document.querySelector('#gen-categories-nodes .gen-concept-node[data-concept="embedded-growth"]');d&&d.dispatchEvent(new MouseEvent("click",{bubbles:!0}));},350);
 }
 const genTabCopy={
     "gen-tab-verticals":{title:"Generative Dynamics: Verticals",subtitle:"A hierarchical mapping of the structural traps driving civilisation towards catastrophe."},
