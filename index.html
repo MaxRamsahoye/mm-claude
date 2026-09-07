@@ -1118,10 +1118,10 @@ const genConceptById = {};
 genConcepts.forEach(c => genConceptById[c.id] = c);
 
 const genFlowPos = {
-    'exp-tech-accel': {x:250, y:950}, 'abstraction-cycle': {x:750, y:950}, 'collective-alienation': {x:1250, y:950},
-    'arms-races': {x:250, y:675}, 'embedded-growth': {x:750, y:675}, 'left-hemispheric': {x:1250, y:675},
-    'multipolar-traps': {x:250, y:400}, 'narrow-metric-chain': {x:750, y:400}, 'life-blind-search': {x:1250, y:400},
-    'structural-separation': {x:250, y:125}, 'isolated-problem-solving': {x:750, y:125}, 'reductionist-modelling': {x:1250, y:125}
+    'exp-tech-accel': {x:250, y:125}, 'abstraction-cycle': {x:750, y:125}, 'collective-alienation': {x:1250, y:125},
+    'arms-races': {x:250, y:400}, 'embedded-growth': {x:750, y:400}, 'left-hemispheric': {x:1250, y:400},
+    'multipolar-traps': {x:250, y:675}, 'narrow-metric-chain': {x:750, y:675}, 'life-blind-search': {x:1250, y:675},
+    'structural-separation': {x:250, y:950}, 'isolated-problem-solving': {x:750, y:950}, 'reductionist-modelling': {x:1250, y:950}
 };
 
 const genChainLanes = [
@@ -1283,15 +1283,24 @@ function renderGenChain() {
     let edgesHtml = '';
     genChainEdges.forEach(([a, b]) => {
         const A = genFlowPos[a], B = genFlowPos[b];
-        edgesHtml += drawGenEdgeLine(A.x, A.y - genChainBoxH / 2, B.x, B.y + genChainBoxH / 2);
+        edgesHtml += drawGenEdgeLine(A.x, A.y + genChainBoxH / 2, B.x, B.y - genChainBoxH / 2);
     });
     document.getElementById('gen-chain-edges').innerHTML = edgesHtml;
 
-    let nodesHtml = '';
-    genConcepts.filter(c => c.group === 'origin').forEach(c => {
-        const p = genFlowPos[c.id];
-        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, genChainBoxW, genChainBoxH, {fontSize: '1.1rem', interactive: false});
+    const originIds = genConcepts.filter(c => c.group === 'origin').map(c => c.id);
+    const originPositions = originIds.map(id => genFlowPos[id]);
+    const originXs = originPositions.map(p => p.x);
+    const originY = originPositions[0].y;
+    const originLeft = Math.min(...originXs) - genChainBoxW / 2 - genChainLanePad;
+    const originRight = Math.max(...originXs) + genChainBoxW / 2 + genChainLanePad;
+    const originTop = originY - genChainBoxH / 2 - genChainLanePad;
+    const originBottom = originY + genChainBoxH / 2 + genChainLanePad;
+    let originHtml = `<rect class="gen-chain-lane-bg" x="${originLeft}" y="${originTop}" width="${originRight - originLeft}" height="${originBottom - originTop}" rx="18" />`;
+    originIds.forEach(id => {
+        const p = genFlowPos[id];
+        originHtml += genNodeBoxHtml(id, p.x, p.y, genChainBoxW, genChainBoxH, {fontSize: '1.1rem', interactive: false});
     });
+    let nodesHtml = `<g class="gen-chain-lane hoverable" data-lane="origin" style="cursor:pointer;">${originHtml}</g>`;
 
     genChainLanes.forEach((lane, i) => {
         const positions = lane.ids.map(id => genFlowPos[id]);
@@ -1530,7 +1539,7 @@ if("attr-tab-matrix"===t&&!document.querySelector(".attr-matrix-cell.active")){
 const genTabCopy={
     "gen-tab-verticals":{title:"Generative Dynamics: Verticals",subtitle:"A hierarchical mapping of the structural traps driving civilisation towards catastrophe."},
     "gen-tab-interconnections":{title:"Generative Dynamics: Interconnections",subtitle:"Explore the full-mesh interconnections between every generative dynamics concept."},
-    "gen-tab-chain":{title:"Generative Dynamics: Chains",subtitle:"Follow the causal sequence as it rises from originating drivers, at the base, up through the three chains of structural traps."},
+    "gen-tab-chain":{title:"Generative Dynamics: Chains",subtitle:"Follow the causal sequence from the originating drivers down through the three chains of structural traps."},
     "gen-tab-categories":{title:"Generative Dynamics: Categories",subtitle:"The twelve category concepts, grouped by their five underlying disciplinary lenses."}
 };
 if(genTabCopy[t]){
@@ -1655,19 +1664,30 @@ if(e.target.closest('.gen-chain-lane')){
     const tabContent=laneEl.closest('.gen-tab-content')||document;
     tabContent.querySelectorAll('.gen-chain-lane.active').forEach(el=>el.classList.remove('active'));
     laneEl.classList.add('active');
-    const laneIdx=parseInt(laneEl.getAttribute('data-lane'),10);
-    const lane=genChainLanes[laneIdx];
+    const laneKey=laneEl.getAttribute('data-lane');
     const p=tabContent.querySelector('.gen-concept-panel');
     const contentEl=p.querySelector('.gen-concept-content');
-    const upArrow=`<div style="display:flex; justify-content:center; margin:0.75rem 0;"><svg style="width:22px; height:22px; color:var(--text-color); opacity:0.5;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><polyline points="6 7 12 1 18 7"></polyline></svg></div>`;
-    const laneIdsTopDown=lane.ids.slice().reverse();
-    let html=`<div style="width:100%;"><div style="font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; opacity:0.55; margin-bottom:1.5rem;">Chain ${laneIdx+1} of 3</div>`;
-    laneIdsTopDown.forEach((id,i)=>{
-        const c=genConceptById[id];
-        html+=`<div><span style="font-size:1.5rem; font-weight:600;">${c.title}</span><div style="font-size:1.1rem; margin-top:0.5rem; line-height:1.6; opacity:0.9;">${c.desc}</div></div>`;
-        if(i<laneIdsTopDown.length-1)html+=upArrow;
-    });
-    html+='</div>';
+    let html;
+    if('origin'===laneKey){
+        const originIds=genConcepts.filter(c=>'origin'===c.group).map(c=>c.id);
+        html=`<div style="width:100%;"><div style="font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; opacity:0.55; margin-bottom:1.5rem;">Originating Drivers</div>`;
+        originIds.forEach((id,i)=>{
+            const c=genConceptById[id];
+            html+=`<div${i>0?' style="margin-top:2rem;"':''}><span style="font-size:1.5rem; font-weight:600;">${c.title}</span><div style="font-size:1.1rem; margin-top:0.5rem; line-height:1.6; opacity:0.9;">${c.desc}</div></div>`;
+        });
+        html+='</div>';
+    }else{
+        const laneIdx=parseInt(laneKey,10);
+        const lane=genChainLanes[laneIdx];
+        const downArrow=`<div style="display:flex; justify-content:center; margin:0.75rem 0;"><svg style="width:22px; height:22px; color:var(--text-color); opacity:0.5;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><polyline points="18 17 12 23 6 17"></polyline></svg></div>`;
+        html=`<div style="width:100%;"><div style="font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; opacity:0.55; margin-bottom:1.5rem;">Chain ${laneIdx+1} of 3</div>`;
+        lane.ids.forEach((id,i)=>{
+            const c=genConceptById[id];
+            html+=`<div><span style="font-size:1.5rem; font-weight:600;">${c.title}</span><div style="font-size:1.1rem; margin-top:0.5rem; line-height:1.6; opacity:0.9;">${c.desc}</div></div>`;
+            if(i<lane.ids.length-1)html+=downArrow;
+        });
+        html+='</div>';
+    }
     contentEl.innerHTML=html;
     p.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
