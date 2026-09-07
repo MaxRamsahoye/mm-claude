@@ -583,7 +583,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 
     <div id="gen-tab-categories" class="gen-tab-content" style="display: none; width: 100%;">
         <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
-            <svg id="gen-categories-svg" viewBox="-18.75 71.25 3480 960" style="width: 100%; max-width: 1460px; height: auto; max-height: 78vh; overflow: visible;">
+            <svg id="gen-categories-svg" viewBox="-18.75 71.25 2460 1220" style="width: 100%; max-width: 1460px; height: auto; max-height: 78vh; overflow: visible;">
                 <g id="gen-categories-nodes"></g>
             </svg>
         </div>
@@ -1280,14 +1280,17 @@ function drawGenEdgeLine(x1, y1, x2, y2, extra) {
     return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--indicator-color-solid)" stroke-width="2.5" marker-start="url(#gen-arrowhead)" marker-end="url(#gen-arrowhead)" ${extra||''} />`;
 }
 
-function genCatRowLabelHtml(y, h, label, xOffset) {
-    xOffset = xOffset || 0;
-    return `<foreignObject x="${xOffset}" y="${y - h/2}" width="412.5" height="${h}">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:flex-end; text-align:right; text-transform:uppercase; font-size:1.6rem; letter-spacing:0.06em; font-weight:600; opacity:0.7; border-right:5px solid var(--interactive-color); padding-right:2.25rem; line-height:1.3; color:var(--text-color); font-family:var(--font-primary);">${label}</div>
+function genCatBracketLabelHtml(x1, x2, lineY, tick, label) {
+    return `<line x1="${x1}" y1="${lineY - tick}" x2="${x1}" y2="${lineY}" stroke="var(--interactive-color)" stroke-width="5" stroke-linecap="round" />
+    <line x1="${x2}" y1="${lineY - tick}" x2="${x2}" y2="${lineY}" stroke="var(--interactive-color)" stroke-width="5" stroke-linecap="round" />
+    <line x1="${x1}" y1="${lineY}" x2="${x2}" y2="${lineY}" stroke="var(--interactive-color)" stroke-width="5" stroke-linecap="round" />
+    <foreignObject x="${x1}" y="${lineY + 12}" width="${x2 - x1}" height="70">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; align-items:flex-start; justify-content:center; text-align:center; text-transform:uppercase; font-size:1.4rem; letter-spacing:0.05em; font-weight:600; opacity:0.7; color:var(--text-color); font-family:var(--font-primary); line-height:1.25;">${label}</div>
     </foreignObject>`;
 }
 
-const genCatRowBoxW = 431.25, genCatRowBoxH = 150, genCatRowGap = 37.5, genCatRowPitch = genCatRowBoxW + genCatRowGap, genCatRowContentX = 468.75;
+const genCatRowBoxW = 431.25, genCatRowBoxH = 150, genCatRowGap = 37.5, genCatRowPitch = genCatRowBoxW + genCatRowGap;
+const genCatBracketGap = 20, genCatBracketTick = 20, genCatRowStartY = 168.75, genCatRowPitchY = 300;
 
 const genChainBoxW = 500, genChainBoxH = 140, genChainLanePad = 32.5;
 const genChainLevelLabels = ['Geopolitical / Macroeconomic / Mass-Psychological', 'Game / Systems / Evolutionary Theory', 'Ontological / Phenomenological'];
@@ -1350,16 +1353,18 @@ function renderGenCategories() {
     genCategoryGroups.forEach(g => groupsByLabel[g.label] = g);
     const genCatBlockGap = 150;
     genCategoryRowLayout.forEach((rowLabels, i) => {
-        const y = 168.75 + i * 243.75;
+        const y = genCatRowStartY + i * genCatRowPitchY;
         let xOffset = 0;
         rowLabels.forEach(label => {
             const grp = groupsByLabel[label];
-            nodesHtml += genCatRowLabelHtml(y, genCatRowBoxH, grp.label, xOffset);
+            const blockWidth = grp.ids.length * genCatRowPitch - genCatRowGap;
             grp.ids.forEach((id, j) => {
-                const x = xOffset + genCatRowContentX + j * genCatRowPitch + genCatRowBoxW / 2;
+                const x = xOffset + j * genCatRowPitch + genCatRowBoxW / 2;
                 nodesHtml += genNodeBoxHtml(id, x, y, genCatRowBoxW, genCatRowBoxH, {fontSize: '1.6rem'});
             });
-            xOffset += genCatRowContentX + grp.ids.length * genCatRowPitch + genCatBlockGap;
+            const lineY = y + genCatRowBoxH / 2 + genCatBracketGap + genCatBracketTick;
+            nodesHtml += genCatBracketLabelHtml(xOffset, xOffset + blockWidth, lineY, genCatBracketTick, grp.label);
+            xOffset += blockWidth + genCatBlockGap;
         });
     });
     document.getElementById('gen-categories-nodes').innerHTML = nodesHtml;
