@@ -83,9 +83,12 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .attr-precursor-ref { font-size: 0.95rem; line-height: 1.5; opacity: 0.75; }
 .attr-precursor-ref-link { color: var(--interactive-color); text-decoration: underline; }
 #landscape-container .attr-precursor-row { display: block; }
-#landscape-container .attr-precursor-label { display: block; width: 100%; text-align: left; text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.02em; font-weight: 600; opacity: 1; border-right: none; border-bottom: 3px solid var(--interactive-color); padding-right: 0; padding-bottom: 0.85rem; margin-bottom: 1.75rem; }
+#landscape-container .attr-precursor-label { display: block; width: 100%; text-align: left; text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.02em; font-weight: 600; opacity: 1; border-right: none; padding-right: 0; margin-bottom: 1.75rem; }
 #landscape-container .attr-precursor-content { max-width: 900px; }
 #landscape-container .attr-precursor-title { font-size: 1.15rem; }
+#landscape-container .attr-precursor-works { gap: 2.5rem; }
+#landscape-container .attr-precursor-work { border-left: 3px solid var(--interactive-color); padding-left: 1.5rem; }
+#landscape-container .attr-precursor-work .attr-precursor-ref { margin-top: 1rem; }
 .landscape-toc { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; margin-bottom: 4.5rem; }
 .landscape-toc-link { font-size: 0.95rem; font-weight: 500; color: var(--interactive-color); opacity: 0.7; text-decoration: underline; cursor: pointer; transition: opacity 0.2s ease; }
 .landscape-toc-link:hover { opacity: 1; }
@@ -708,7 +711,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
 </div></main>
 
-<main id="landscape-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2rem; padding-bottom: 4rem;">
+<main id="landscape-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2rem; padding-bottom: 4rem;">
     <div style="width: 100%; margin-bottom: 0;">
         <div class="selected-header" style="margin-top: 0; justify-content: flex-start;"><h2 id="landscape-view-title" style="font-size: 2.8rem; letter-spacing: -0.02em;">Research Landscape: Organisations</h2></div>
         <div id="landscape-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 3rem; text-align: left; margin-left: 0; max-width: none;">Institutes and initiatives producing dedicated research on the metacrisis and civilisational transition.</div>
