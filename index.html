@@ -583,7 +583,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 
     <div id="gen-tab-categories" class="gen-tab-content" style="display: none; width: 100%;">
         <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
-            <svg id="gen-categories-svg" viewBox="-18.75 71.25 4020 960" style="width: 100%; max-width: 1460px; height: auto; max-height: 78vh; overflow: visible;">
+            <svg id="gen-categories-svg" viewBox="-18.75 71.25 3480 960" style="width: 100%; max-width: 1460px; height: auto; max-height: 78vh; overflow: visible;">
                 <g id="gen-categories-nodes"></g>
             </svg>
         </div>
@@ -1142,10 +1142,10 @@ const genCategoryGroups = [
     {label: 'Mytho-Poetic', ids: ['wisdom-gaps', 'moloch']}
 ];
 const genCategoryRowLayout = [
-    ['Techno-Economic', 'Game-Theoretic'],
-    ['Behavioural-Economic', 'Mytho-Poetic'],
-    ['Systems-Theoretic', 'Ontological-Phenomenological'],
-    ['Cultural-Psychological']
+    ['Cultural-Psychological'],
+    ['Systems-Theoretic', 'Techno-Economic'],
+    ['Ontological-Phenomenological', 'Game-Theoretic'],
+    ['Behavioural-Economic', 'Mytho-Poetic']
 ];
 
 const genChainEdges = [
@@ -1286,7 +1286,7 @@ function genCatRowLabelHtml(y, h, label, xOffset) {
     </foreignObject>`;
 }
 
-const genCatRowBoxW = 431.25, genCatRowBoxH = 150, genCatRowGap = 37.5, genCatRowPitch = genCatRowBoxW + genCatRowGap, genCatRowContentX = 468.75, genCatHalfWidth = 2100;
+const genCatRowBoxW = 431.25, genCatRowBoxH = 150, genCatRowGap = 37.5, genCatRowPitch = genCatRowBoxW + genCatRowGap, genCatRowContentX = 468.75;
 
 const genChainBoxW = 500, genChainBoxH = 140, genChainLanePad = 32.5;
 const genChainLevelLabels = ['Geopolitical / Macroeconomic / Mass-Psychological', 'Game / Systems / Evolutionary Theory', 'Ontological / Phenomenological'];
@@ -1347,16 +1347,18 @@ function renderGenCategories() {
     let nodesHtml = '';
     const groupsByLabel = {};
     genCategoryGroups.forEach(g => groupsByLabel[g.label] = g);
+    const genCatBlockGap = 150;
     genCategoryRowLayout.forEach((rowLabels, i) => {
         const y = 168.75 + i * 243.75;
-        rowLabels.forEach((label, col) => {
+        let xOffset = 0;
+        rowLabels.forEach(label => {
             const grp = groupsByLabel[label];
-            const xOffset = col * genCatHalfWidth;
             nodesHtml += genCatRowLabelHtml(y, genCatRowBoxH, grp.label, xOffset);
             grp.ids.forEach((id, j) => {
                 const x = xOffset + genCatRowContentX + j * genCatRowPitch + genCatRowBoxW / 2;
                 nodesHtml += genNodeBoxHtml(id, x, y, genCatRowBoxW, genCatRowBoxH, {fontSize: '1.6rem'});
             });
+            xOffset += genCatRowContentX + grp.ids.length * genCatRowPitch + genCatBlockGap;
         });
     });
     document.getElementById('gen-categories-nodes').innerHTML = nodesHtml;
