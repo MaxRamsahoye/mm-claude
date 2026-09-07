@@ -63,6 +63,10 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .gen-edge-group .gen-edge-line-vis { transition: all 0.3s ease; }
 .gen-edge-group:hover .gen-edge-line-vis, .gen-edge-group.active .gen-edge-line-vis { stroke: var(--interactive-color) !important; stroke-width: 3.5px !important; opacity: 1 !important; }
 #gen-ic-radial-svg .gen-edge-line-vis { opacity: 0.15; }
+.gen-chain-box rect { transition: all 0.3s ease; }
+.gen-chain-lane-bg { fill: var(--text-color); opacity: 0.04; stroke: transparent; stroke-width: 2px; transition: all 0.3s ease; }
+.gen-chain-lane:hover .gen-chain-box rect, .gen-chain-lane.active .gen-chain-box rect { stroke: var(--interactive-color) !important; stroke-width: 3px !important; }
+.gen-chain-lane:hover .gen-chain-lane-bg, .gen-chain-lane.active .gen-chain-lane-bg { opacity: 0.08; stroke: var(--interactive-color); }
 .attr-precursors-box { width: 100%; max-width: 1200px; margin-top: 0; align-self: center; box-sizing: border-box; }
 .attr-precursors-heading { font-family: var(--font-primary); font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; }
 .attr-precursors-grid { display: flex; flex-direction: column; gap: 4rem; }
@@ -546,7 +550,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 
     <div id="gen-tab-chain" class="gen-tab-content" style="display: none; width: 100%;">
         <div style="width: 100%; max-width: 1200px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
-            <svg id="gen-chain-svg" viewBox="0 0 1200 900" style="width: 100%; height: auto; max-height: 70vh; overflow: visible;">
+            <svg id="gen-chain-svg" viewBox="12 57 1476 987" style="width: 100%; height: auto; max-height: 77vh; overflow: visible;">
                 <defs>
                     <marker id="gen-arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
                         <path d="M0,0 L0,6 L9,3 z" fill="var(--indicator-color-solid)" />
@@ -562,8 +566,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
 
     <div id="gen-tab-categories" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100%; max-width: 1200px; margin-top: 0; position: relative; display: flex; justify-content: center; align-self: center;">
-            <svg id="gen-categories-svg" viewBox="0 0 1200 900" style="width: 100%; height: auto; max-height: 70vh; overflow: visible;">
+        <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
+            <svg id="gen-categories-svg" viewBox="-15 57 1875 930" style="width: 100%; max-width: 1460px; height: auto; max-height: 78vh; overflow: visible;">
                 <g id="gen-categories-nodes"></g>
             </svg>
         </div>
@@ -1089,11 +1093,17 @@ const genConceptById = {};
 genConcepts.forEach(c => genConceptById[c.id] = c);
 
 const genFlowPos = {
-    'exp-tech-accel': {x:200, y:100}, 'abstraction-cycle': {x:600, y:100}, 'collective-alienation': {x:1000, y:100},
-    'arms-races': {x:200, y:320}, 'embedded-growth': {x:600, y:320}, 'left-hemispheric': {x:1000, y:320},
-    'multipolar-traps': {x:200, y:540}, 'narrow-metric-chain': {x:600, y:540}, 'life-blind-search': {x:1000, y:540},
-    'structural-separation': {x:200, y:760}, 'isolated-problem-solving': {x:600, y:760}, 'reductionist-modelling': {x:1000, y:760}
+    'exp-tech-accel': {x:250, y:125}, 'abstraction-cycle': {x:750, y:125}, 'collective-alienation': {x:1250, y:125},
+    'arms-races': {x:250, y:400}, 'embedded-growth': {x:750, y:400}, 'left-hemispheric': {x:1250, y:400},
+    'multipolar-traps': {x:250, y:675}, 'narrow-metric-chain': {x:750, y:675}, 'life-blind-search': {x:1250, y:675},
+    'structural-separation': {x:250, y:950}, 'isolated-problem-solving': {x:750, y:950}, 'reductionist-modelling': {x:1250, y:950}
 };
+
+const genChainLanes = [
+    {ids: ['arms-races', 'multipolar-traps', 'structural-separation']},
+    {ids: ['embedded-growth', 'narrow-metric-chain', 'isolated-problem-solving']},
+    {ids: ['left-hemispheric', 'life-blind-search', 'reductionist-modelling']}
+];
 
 const genCategoryGroups = [
     {label: 'Game-Theoretic', ids: ['multipolar-traps', 'instrumental-convergence']},
@@ -1172,7 +1182,11 @@ function genNodeBoxHtml(id, x, y, w, h, opts) {
     const c = genConceptById[id];
     const label = opts.useShortTitle && c.shortTitle ? c.shortTitle : c.title;
     const fontSize = opts.fontSize || (w >= 280 ? '1.05rem' : '0.95rem');
-    return `<g class="gen-concept-node hoverable" data-concept="${id}" style="cursor:pointer;">
+    const interactive = opts.interactive !== false;
+    const groupClass = interactive ? 'gen-concept-node hoverable' : 'gen-chain-box';
+    const dataAttr = interactive ? ` data-concept="${id}"` : '';
+    const cursorStyle = interactive ? 'cursor:pointer;' : '';
+    return `<g class="${groupClass}"${dataAttr} style="${cursorStyle}">
         <rect x="${x - w/2}" y="${y - h/2}" width="${w}" height="${h}" rx="10" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2" />
         <foreignObject x="${x - w/2 + 8}" y="${y - h/2}" width="${w - 16}" height="${h}">
             <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center;">
@@ -1243,25 +1257,42 @@ function drawGenEdgeLine(x1, y1, x2, y2, extra) {
 }
 
 function genCatRowLabelHtml(y, h, label) {
-    return `<foreignObject x="0" y="${y - h/2}" width="220" height="${h}">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:flex-end; text-align:right; text-transform:uppercase; font-size:0.85rem; letter-spacing:0.06em; font-weight:600; opacity:0.7; border-right:3px solid var(--interactive-color); padding-right:1.2rem; line-height:1.3; color:var(--text-color); font-family:var(--font-primary);">${label}</div>
+    return `<foreignObject x="0" y="${y - h/2}" width="330" height="${h}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:flex-end; text-align:right; text-transform:uppercase; font-size:1.275rem; letter-spacing:0.06em; font-weight:600; opacity:0.7; border-right:4px solid var(--interactive-color); padding-right:1.8rem; line-height:1.3; color:var(--text-color); font-family:var(--font-primary);">${label}</div>
     </foreignObject>`;
 }
 
-const genCatRowBoxW = 230, genCatRowBoxH = 80, genCatRowGap = 20, genCatRowPitch = genCatRowBoxW + genCatRowGap, genCatRowContentX = 250;
+const genCatRowBoxW = 345, genCatRowBoxH = 120, genCatRowGap = 30, genCatRowPitch = genCatRowBoxW + genCatRowGap, genCatRowContentX = 375;
+
+const genChainBoxW = 400, genChainBoxH = 112, genChainLanePad = 26;
 
 function renderGenChain() {
     let edgesHtml = '';
     genChainEdges.forEach(([a, b]) => {
         const A = genFlowPos[a], B = genFlowPos[b];
-        edgesHtml += drawGenEdgeLine(A.x, A.y + 45, B.x, B.y - 45);
+        edgesHtml += drawGenEdgeLine(A.x, A.y + genChainBoxH / 2, B.x, B.y - genChainBoxH / 2);
     });
     document.getElementById('gen-chain-edges').innerHTML = edgesHtml;
 
     let nodesHtml = '';
-    genConcepts.filter(c => genFlowPos[c.id]).forEach(c => {
+    genConcepts.filter(c => c.group === 'origin').forEach(c => {
         const p = genFlowPos[c.id];
-        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, 320, 90, {fontSize: '1rem'});
+        nodesHtml += genNodeBoxHtml(c.id, p.x, p.y, genChainBoxW, genChainBoxH, {fontSize: '1.1rem', interactive: false});
+    });
+
+    genChainLanes.forEach((lane, i) => {
+        const positions = lane.ids.map(id => genFlowPos[id]);
+        const x = positions[0].x;
+        const topY = positions[0].y - genChainBoxH / 2 - genChainLanePad;
+        const bottomY = positions[positions.length - 1].y + genChainBoxH / 2 + genChainLanePad;
+        const bgX = x - genChainBoxW / 2 - genChainLanePad;
+        const bgW = genChainBoxW + genChainLanePad * 2;
+        let laneHtml = `<rect class="gen-chain-lane-bg" x="${bgX}" y="${topY}" width="${bgW}" height="${bottomY - topY}" rx="18" />`;
+        lane.ids.forEach(id => {
+            const p = genFlowPos[id];
+            laneHtml += genNodeBoxHtml(id, p.x, p.y, genChainBoxW, genChainBoxH, {fontSize: '1.1rem', interactive: false});
+        });
+        nodesHtml += `<g class="gen-chain-lane hoverable" data-lane="${i}" style="cursor:pointer;">${laneHtml}</g>`;
     });
     document.getElementById('gen-chain-nodes').innerHTML = nodesHtml;
 }
@@ -1269,11 +1300,11 @@ function renderGenChain() {
 function renderGenCategories() {
     let nodesHtml = '';
     genCategoryGroups.forEach((grp, i) => {
-        const y = 90 + i * 130;
+        const y = 135 + i * 195;
         nodesHtml += genCatRowLabelHtml(y, genCatRowBoxH, grp.label);
         grp.ids.forEach((id, j) => {
             const x = genCatRowContentX + j * genCatRowPitch + genCatRowBoxW / 2;
-            nodesHtml += genNodeBoxHtml(id, x, y, genCatRowBoxW, genCatRowBoxH, {fontSize: '0.85rem'});
+            nodesHtml += genNodeBoxHtml(id, x, y, genCatRowBoxW, genCatRowBoxH, {fontSize: '1.275rem'});
         });
     });
     document.getElementById('gen-categories-nodes').innerHTML = nodesHtml;
@@ -1578,10 +1609,31 @@ if(e.target.closest('.gen-edge-group')){
     p.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
 }
+if(e.target.closest('.gen-chain-lane')){
+    const laneEl=e.target.closest('.gen-chain-lane');
+    const tabContent=laneEl.closest('.gen-tab-content')||document;
+    tabContent.querySelectorAll('.gen-chain-lane.active').forEach(el=>el.classList.remove('active'));
+    laneEl.classList.add('active');
+    const laneIdx=parseInt(laneEl.getAttribute('data-lane'),10);
+    const lane=genChainLanes[laneIdx];
+    const p=tabContent.querySelector('.gen-concept-panel');
+    const contentEl=p.querySelector('.gen-concept-content');
+    const downArrow=`<div style="display:flex; justify-content:center; margin:0.75rem 0;"><svg style="width:22px; height:22px; color:var(--text-color); opacity:0.5;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><polyline points="18 17 12 23 6 17"></polyline></svg></div>`;
+    let html=`<div style="width:100%;"><div style="font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; opacity:0.55; margin-bottom:1.5rem;">Chain ${laneIdx+1} of 3</div>`;
+    lane.ids.forEach((id,i)=>{
+        const c=genConceptById[id];
+        html+=`<div><span style="font-size:1.5rem; font-weight:600;">${c.title}</span><div style="font-size:1.1rem; margin-top:0.5rem; line-height:1.6; opacity:0.9;">${c.desc}</div></div>`;
+        if(i<lane.ids.length-1)html+=downArrow;
+    });
+    html+='</div>';
+    contentEl.innerHTML=html;
+    p.style.opacity='1';
+    e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
+}
 if(e.target.closest('.prev-slide')){playSound("click");const row=e.target.closest('.gen-row');const viewport=row.querySelector('.gen-slider-viewport');const slides=viewport.querySelectorAll('.gen-slide');let activeIdx=Array.from(slides).findIndex(s=>s.classList.contains('active'));slides[activeIdx].classList.remove('active');activeIdx=(activeIdx-1+slides.length)%slides.length;slides[activeIdx].classList.add('active');}
 if(e.target.closest('.next-slide')){playSound("click");const row=e.target.closest('.gen-row');const viewport=row.querySelector('.gen-slider-viewport');const slides=viewport.querySelectorAll('.gen-slide');let activeIdx=Array.from(slides).findIndex(s=>s.classList.contains('active'));slides[activeIdx].classList.remove('active');activeIdx=(activeIdx+1)%slides.length;slides[activeIdx].classList.add('active');}
 
-if(e.target.closest(".menu-item")||e.target.closest(".local-back-btn")||e.target.closest("#theme-toggle")||e.target.closest("#accent-toggle")||e.target.closest(".nav-item")||e.target.closest("#title")||e.target.closest(".selected-header h2")||e.target.closest(".selected-header h3")||e.target.closest(".selected-header h4")||e.target.closest(".selected-header h5")||e.target.closest(".node-box")||e.target.closest(".glossary-item")||e.target.closest(".br-action-btn")||e.target.closest(".single-arrow")||e.target.closest(".double-arrow")||e.target.closest(".triple-arrow")||e.target.closest(".max-title")||e.target.closest(".map-arrow")||e.target.closest(".hex-edge-group")||e.target.closest(".attr-edge-group")||e.target.closest(".attr-node")||e.target.closest(".attr-tri-edge")||e.target.closest(".attr-matrix-cell")||e.target.closest(".module-nav-item")||e.target.closest(".gen-concept-node")||e.target.closest(".gen-edge-group"))e.target.closest(".local-back-btn")||playSound("click");if(e.target.closest(".module-nav-item")){const t=e.target.closest(".module-nav-item").getAttribute("data-section-target"),h=document.querySelector(`.module-heading[data-gid="${t}"]`);h&&h.scrollIntoView({behavior:"smooth",block:"start"})}if(e.target.closest("#title")){if(isTyping)return;if(titleElement.classList.contains("active"))return void collapseMainTree();document.getElementById("title-corners").classList.remove("visible"),titleElement.classList.remove("auto-pulse"),titleElement.classList.add("active"),defWrapper.classList.add("active"),document.getElementById("collapse-tree-btn").classList.add("visible"),updateProgress(),setTimeout(()=>{const e=document.getElementById("menu-2");e.classList.add("visible"),setTimeout(()=>{e.querySelectorAll(".clickable-indicator").forEach(e=>{e.classList.remove("auto-pulse"),void e.offsetWidth,e.classList.add("auto-pulse")})},400)},1200)}
+if(e.target.closest(".menu-item")||e.target.closest(".local-back-btn")||e.target.closest("#theme-toggle")||e.target.closest("#accent-toggle")||e.target.closest(".nav-item")||e.target.closest("#title")||e.target.closest(".selected-header h2")||e.target.closest(".selected-header h3")||e.target.closest(".selected-header h4")||e.target.closest(".selected-header h5")||e.target.closest(".node-box")||e.target.closest(".glossary-item")||e.target.closest(".br-action-btn")||e.target.closest(".single-arrow")||e.target.closest(".double-arrow")||e.target.closest(".triple-arrow")||e.target.closest(".max-title")||e.target.closest(".map-arrow")||e.target.closest(".hex-edge-group")||e.target.closest(".attr-edge-group")||e.target.closest(".attr-node")||e.target.closest(".attr-tri-edge")||e.target.closest(".attr-matrix-cell")||e.target.closest(".module-nav-item")||e.target.closest(".gen-concept-node")||e.target.closest(".gen-edge-group")||e.target.closest(".gen-chain-lane"))e.target.closest(".local-back-btn")||playSound("click");if(e.target.closest(".module-nav-item")){const t=e.target.closest(".module-nav-item").getAttribute("data-section-target"),h=document.querySelector(`.module-heading[data-gid="${t}"]`);h&&h.scrollIntoView({behavior:"smooth",block:"start"})}if(e.target.closest("#title")){if(isTyping)return;if(titleElement.classList.contains("active"))return void collapseMainTree();document.getElementById("title-corners").classList.remove("visible"),titleElement.classList.remove("auto-pulse"),titleElement.classList.add("active"),defWrapper.classList.add("active"),document.getElementById("collapse-tree-btn").classList.add("visible"),updateProgress(),setTimeout(()=>{const e=document.getElementById("menu-2");e.classList.add("visible"),setTimeout(()=>{e.querySelectorAll(".clickable-indicator").forEach(e=>{e.classList.remove("auto-pulse"),void e.offsetWidth,e.classList.add("auto-pulse")})},400)},1200)}
 if(e.target.closest(".hex-edge-group")){const eg=e.target.closest(".hex-edge-group");document.querySelectorAll(".hex-edge-group").forEach(el=>el.classList.remove("active"));eg.classList.add("active");const eid=eg.getAttribute("data-edge"),n1=eg.getAttribute("data-n1"),n2=eg.getAttribute("data-n2");const data=hexInteractions[eid]||hexInteractions[eid.split("-").reverse().join("-")];const p=document.getElementById("hex-interaction-panel");if(data){document.getElementById("hex-int-content").innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${n1}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline><polyline points="7 6 1 12 7 18"></polyline></svg><span>${n2}</span></h2><div class="hex-int-flow"><div class="hex-int-side-label">Crisis</div><div class="hex-int-flow-content"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${n1}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n2}</div><p class="hex-int-para">${data.c1.join(" ")}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${n2}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n1}</div><p class="hex-int-para">${data.c2.join(" ")}</p></div></div><div class="hex-int-side-label">Chrysalis</div><div class="hex-int-flow-content"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${n1}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n2}</div><p class="hex-int-para">${data.ch1.join(" ")}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${n2}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n1}</div><p class="hex-int-para">${data.ch2.join(" ")}</p></div></div></div></div>`;}else{document.getElementById("hex-int-content").innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}p.style.opacity="1";setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);}
 if(e.target.closest(".attr-edge-group")||e.target.closest(".attr-node")){const ag=e.target.closest(".attr-edge-group")||e.target.closest(".attr-node");document.querySelectorAll(".attr-edge-group, .attr-node").forEach(el=>el.classList.remove("active"));ag.classList.add("active");const aid=ag.getAttribute("data-attr");const data=attractorData[aid];const p=document.getElementById("attractors-info-panel");if(data){let pts=data.points.map(pt=>`<li style="font-size: 1.2rem; margin: 0.8rem 0; opacity: 0.9;">&bull; ${pt}</li>`).join("");document.getElementById("attr-int-content").innerHTML=`<div style="width:100%;"><ul style="list-style: none; padding-left: 0; margin: 0;"><li style="margin-bottom: 2.5rem;"><span style="font-size: 1.8rem; font-weight: 500;">${data.title}</span><div style="font-size: 1.15rem; margin-top: 0.5rem; line-height: 1.6; opacity: 0.9;">${data.desc}</div><ul style="padding-left: 0; margin-left: 0; border-left: none; margin-top: 1rem; list-style: none;">${pts}</ul></li></ul></div>`;}else{document.getElementById("attr-int-content").innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}p.style.opacity="1";e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);}
 if(e.target.closest(".attr-tri-edge")){const teg=e.target.closest(".attr-tri-edge");document.querySelectorAll(".attr-tri-edge").forEach(el=>el.classList.remove("active"));teg.classList.add("active");const eid=teg.getAttribute("data-edge"),n1=teg.getAttribute("data-n1"),n2=teg.getAttribute("data-n2");const data=attrInterconnections[eid]||attrInterconnections[eid.split("-").reverse().join("-")];const p2=document.getElementById("attr-interconnect-panel");if(data){document.getElementById("attr-interconnect-content").innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><h2 class="focused-title hex-main-title"><span>${n1}</span><svg style="width: 40px; height: 40px; flex-shrink: 0; color: var(--text-color);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline><polyline points="7 6 1 12 7 18"></polyline></svg><span>${n2}</span></h2><div class="hex-int-flow-content" style="width:100%;"><div class="hex-int-block align-left"><div class="hex-int-flow-label">${n1}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n2}</div><p class="hex-int-para">${data.a1.join(" ")}</p></div><div class="hex-int-block align-right"><div class="hex-int-flow-label">${n2}<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>${n1}</div><p class="hex-int-para">${data.a2.join(" ")}</p></div></div></div>`;}else{document.getElementById("attr-interconnect-content").innerHTML="<div style='font-size: 1.25rem; font-style: italic; opacity: 0.8;'>Interaction dynamics currently being mapped...</div>";}p2.style.opacity="1";e.isTrusted&&setTimeout(()=>{p2.scrollIntoView({behavior:'smooth',block:'start'});},150);}
