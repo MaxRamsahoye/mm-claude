@@ -134,6 +134,8 @@ body.app-left-align #app-container .content-panel-inner, body.app-left-align #me
 body.app-left-align #app-container .desc-text, body.app-left-align #metamod-app-container .desc-text { text-align: left !important; margin-left: 0 !important; margin-right: auto !important; max-width: 720px !important; }
 body.app-left-align #app-container .menu-row, body.app-left-align #metamod-app-container .menu-row { justify-content: flex-start !important; }
 .paradigm-diagram{display:flex;justify-content:center;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;margin-top:2rem;margin-bottom:4rem;}
+.paradigm-header-wrap{width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;}
+.paradigm-header-wrap-inner{width:calc(100% - 4rem);max-width:1300px;margin:0 auto;box-sizing:border-box;}
 .paradigm-diagram svg{width:calc(100% - 4rem);max-width:1300px;height:auto;overflow:visible;}
 .paradigm-node circle{transition:stroke .3s ease,stroke-width .3s ease;}
 .paradigm-node text{transition:fill .3s ease;}
@@ -144,8 +146,8 @@ body.app-left-align #app-container .menu-row, body.app-left-align #metamod-app-c
 .paradigm-info-panel .selected-header h3{font-size:1.8rem;letter-spacing:-0.01em;}
 .paradigm-features{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem 2.5rem;margin-top:2rem;width:100%;}
 .paradigm-feature{border-left:2px solid var(--interactive-color);padding-left:1rem;}
-.paradigm-feature-title{font-weight:600;margin-bottom:0.4rem;}
-.paradigm-feature-desc{font-size:0.95rem;line-height:1.55;opacity:0.85;}
+.paradigm-feature-title{font-weight:600;margin-bottom:0.4rem;font-size:1.3rem;}
+.paradigm-feature-desc{font-size:1.1rem;line-height:1.6;opacity:0.85;}
 @media (max-width:768px){.paradigm-features{grid-template-columns:1fr;}}
 .hex-int-para { font-size: 1.05rem; line-height: 1.6; margin: 0; }
 
@@ -829,10 +831,10 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 <main id="maximal-container" class="view-panel"><div id="maximal-list-view"><ul class="maximal-list"></ul></div></main>
 <main id="metamod-app-container" class="view-panel"><div style="text-align: center; width: 100%;"><div id="metamod-title-wrapper" style="margin-bottom:1rem;"><div id="metamod-title-corners" class="camera-corners"><div class="camera-corners-inner"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div></div><h1 id="metamod-title" class="hoverable"></h1></div><div id="metamod-def-wrapper" class="content-panel"><div class="content-panel-inner"><div id="metamod-definition" class="desc-text" style="font-size:1.25rem;max-width:800px;margin:1.5rem auto 0 auto;"></div><div class="menu-row" id="metamod-menu-2"></div></div></div><div id="metamod-stage-2-contents" style="width: 100%;"></div></div></main>
 <main id="paradigms-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2rem; padding-bottom: 4rem;">
-    <div style="width: 100%; margin-bottom: 0;">
+    <div class="paradigm-header-wrap"><div class="paradigm-header-wrap-inner">
         <div class="selected-header" style="margin-top: 0; justify-content: flex-start;"><h2 style="font-size: 2.8rem; letter-spacing: -0.02em;">Paradigms</h2></div>
         <div class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 3rem; text-align: left; margin-left: 0; max-width: none;">Four cultural paradigms in historical sequence, each defined by six characteristic features. Select a paradigm to see its features.</div>
-    </div>
+    </div></div>
     <div class="paradigm-diagram" id="paradigm-diagram"></div>
     <div class="paradigm-info-panel" id="paradigm-info-panel"></div>
 </div></main>
