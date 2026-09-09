@@ -168,6 +168,21 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-cell-center{padding:0.75rem;}
 }
 .typ-info-panel{width:100%;max-width:900px;margin:0 auto;padding:2rem 0 0 0;opacity:0;transition:opacity 0.4s ease;text-align:left;box-sizing:border-box;}
+.civ-seg{fill:var(--bg-color);stroke:var(--indicator-color-solid);stroke-width:2;cursor:pointer;transition:fill 0.3s ease;}
+.civ-seg:hover{fill:color-mix(in srgb, var(--interactive-color) 14%, var(--bg-color));}
+.civ-seg.active{fill:color-mix(in srgb, var(--interactive-color) 7%, var(--bg-color));}
+.civ-seg.active:hover{fill:color-mix(in srgb, var(--interactive-color) 18%, var(--bg-color));}
+.civ-seg-static{cursor:default;pointer-events:none;}
+.civ-node circle{transition:stroke 0.3s ease;}
+.civ-node:hover circle,.civ-node.active circle{stroke:var(--interactive-color);}
+.civ-edge-group .civ-edge-line-vis{transition:all 0.3s ease;}
+.civ-edge-group:hover .civ-edge-line-vis,.civ-edge-group.active .civ-edge-line-vis{stroke:var(--interactive-color) !important;stroke-width:3.5px !important;}
+.civ-decomp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%;max-width:1100px;margin:0 auto;}
+.civ-decomp-item{border:2px solid var(--indicator-color-solid);border-radius:10px;padding:1rem 1.25rem;cursor:pointer;text-align:center;font-weight:500;font-size:0.95rem;line-height:1.35;transition:border-color 0.3s ease,background-color 0.3s ease,color 0.3s ease;display:flex;align-items:center;justify-content:center;}
+.civ-decomp-item:hover{border-color:var(--interactive-color);background-color:color-mix(in srgb, var(--interactive-color) 10%, var(--bg-color));}
+.civ-decomp-item.active{border-color:var(--interactive-color);background-color:color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color));color:var(--interactive-color);}
+@media (max-width:1000px){.civ-decomp-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:600px){.civ-decomp-grid{grid-template-columns:1fr;}}
 .attr-matrix-wrap { width: 100%; max-width: 1200px; align-self: center; margin: 2rem auto 0 auto; box-sizing: border-box; transform: translateX(-60px); }
 .attr-matrix-table { border-collapse: collapse; width: auto; table-layout: fixed; }
 .attr-matrix-corner { border: none; }
@@ -376,6 +391,11 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     <button class="gen-tab active hoverable" data-tab="landscape-tab-organisations">Organisations</button>
     <button class="gen-tab hoverable" data-tab="landscape-tab-individuals">Individuals</button>
 </div>
+<div id="systems-tabs" class="attr-tabs">
+    <button class="gen-tab active hoverable" data-tab="system-tab-emergence">Emergence Model</button>
+    <button class="gen-tab hoverable" data-tab="system-tab-interconnections">Interconnections</button>
+    <button class="gen-tab hoverable" data-tab="system-tab-decomposition">Decomposition</button>
+</div>
 <div id="module-nav-fixed" class="module-nav corner-nav-fixed"></div>
 
 <div id="hamburger-btn" class="hoverable" aria-label="Open Menu">
@@ -397,6 +417,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     <div class="nav-item hoverable" data-target="generators"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 20 12 15 17 20"></polyline><polyline points="7 13 12 8 17 13"></polyline><polyline points="7 6 12 1 17 6"></polyline></svg></div><span class="nav-label clickable-indicator">Generators</span></div>
     <div class="nav-item hoverable" data-target="attractors"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="5.5"></circle><circle cx="7.5" cy="14.5" r="5.5"></circle><circle cx="16.5" cy="14.5" r="5.5"></circle></svg></div><span class="nav-label clickable-indicator">Attractors</span></div>
     <div class="nav-item hoverable" data-target="landscape"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 3 21 10 3 10"></polygon><rect x="4" y="10" width="16" height="10" rx="1"></rect><line x1="9" y1="14" x2="9" y2="20"></line><line x1="15" y1="14" x2="15" y2="20"></line></svg></div><span class="nav-label clickable-indicator">Landscape</span></div>
+    <div class="nav-item hoverable" data-target="systems"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><line x1="12" y1="2.5" x2="12" y2="21.5"></line><line x1="2.5" y1="12" x2="21.5" y2="12"></line></svg></div><span class="nav-label clickable-indicator">Civilisational Systems</span></div>
     <div class="nav-divider"></div>
     <div class="nav-item hoverable" data-target="meta-maps"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5"></circle><circle cx="16" cy="8" r="5"></circle><circle cx="12" cy="17" r="5"></circle></svg></div><span class="nav-label clickable-indicator">All Maps</span></div>
     <div class="nav-item hoverable" data-target="sitemap"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></div><span class="nav-label clickable-indicator">Site-Map</span></div>
@@ -491,6 +512,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
                 <div class="about-sitemap-card" data-target="generators"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 20 12 15 17 20"></polyline><polyline points="7 13 12 8 17 13"></polyline><polyline points="7 6 12 1 17 6"></polyline></svg><div class="about-sitemap-name">Generators</div><div class="about-sitemap-desc">The generative dynamics driving the metacrisis, as chains, categories and interconnections.</div></div>
                 <div class="about-sitemap-card" data-target="attractors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="5.5"></circle><circle cx="7.5" cy="14.5" r="5.5"></circle><circle cx="16.5" cy="14.5" r="5.5"></circle></svg><div class="about-sitemap-name">Attractors</div><div class="about-sitemap-desc">The civilisational attractor states — the trajectories the world-system is vectoring towards.</div></div>
                 <div class="about-sitemap-card" data-target="landscape"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 3 21 10 3 10"></polygon><rect x="4" y="10" width="16" height="10" rx="1"></rect><line x1="9" y1="14" x2="9" y2="20"></line><line x1="15" y1="14" x2="15" y2="20"></line></svg><div class="about-sitemap-name">Landscape</div><div class="about-sitemap-desc">Curated organisations and individuals researching the metacrisis and civilisational transition.</div></div>
+                <div class="about-sitemap-card" data-target="systems"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><line x1="12" y1="2.5" x2="12" y2="21.5"></line><line x1="2.5" y1="12" x2="21.5" y2="12"></line></svg><div class="about-sitemap-name">Civilisational Systems</div><div class="about-sitemap-desc">The five fundamental structures generating civilisational dynamics — how they emerge, interconnect and decompose into the generative dynamics.</div></div>
             </div>
         </div>
         <button class="about-next-btn hoverable" aria-label="Scroll to next section"><span class="about-next-btn-bounce"><svg class="about-next-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 20 12 15 17 20"></polyline><polyline points="7 13 12 8 17 13"></polyline><polyline points="7 6 12 1 17 6"></polyline></svg></span></button>
@@ -549,6 +571,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             <div class="about-sitemap-card" data-target="generators" data-site="metacrisis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 20 12 15 17 20"></polyline><polyline points="7 13 12 8 17 13"></polyline><polyline points="7 6 12 1 17 6"></polyline></svg><div class="about-sitemap-name">Generators</div><div class="about-sitemap-desc">The generative dynamics driving the metacrisis, as chains, categories and interconnections.</div></div>
             <div class="about-sitemap-card" data-target="attractors" data-site="metacrisis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="5.5"></circle><circle cx="7.5" cy="14.5" r="5.5"></circle><circle cx="16.5" cy="14.5" r="5.5"></circle></svg><div class="about-sitemap-name">Attractors</div><div class="about-sitemap-desc">The civilisational attractor states — the trajectories the world-system is vectoring towards.</div></div>
             <div class="about-sitemap-card" data-target="landscape" data-site="metacrisis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 3 21 10 3 10"></polygon><rect x="4" y="10" width="16" height="10" rx="1"></rect><line x1="9" y1="14" x2="9" y2="20"></line><line x1="15" y1="14" x2="15" y2="20"></line></svg><div class="about-sitemap-name">Landscape</div><div class="about-sitemap-desc">Curated organisations and individuals researching the metacrisis and civilisational transition.</div></div>
+            <div class="about-sitemap-card" data-target="systems" data-site="metacrisis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><line x1="12" y1="2.5" x2="12" y2="21.5"></line><line x1="2.5" y1="12" x2="21.5" y2="12"></line></svg><div class="about-sitemap-name">Civilisational Systems</div><div class="about-sitemap-desc">The five fundamental structures generating civilisational dynamics — how they emerge, interconnect and decompose into the generative dynamics.</div></div>
         </div>
     </div>
     <div class="sitemap-section collapsed">
@@ -1140,6 +1163,37 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <nav id="landscape-individuals-toc" class="landscape-toc"></nav>
         <div id="landscape-individuals-grid" class="attr-precursors-grid"></div>
       </div>
+    </div>
+</div></main>
+<main id="systems-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2rem; padding-bottom: 4rem;">
+    <div style="width: 100%; margin-bottom: 0;">
+        <div class="selected-header" style="margin-top: 0; justify-content: flex-start;"><h2 id="system-view-title" style="font-size: 2.8rem; letter-spacing: -0.02em;">Civilisational Systems: Emergence Model</h2></div>
+        <div id="system-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 3rem; text-align: left; margin-left: 0; max-width: none;">The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description.</div>
+    </div>
+    <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
+        <div class="civ-emergence-wrap" style="width: 100%; max-width: 900px; margin: 0 auto;">
+            <div id="civ-emergence-svg-container"></div>
+        </div>
+        <div class="typ-info-panel" style="max-width:900px;">
+            <div class="civ-info-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a structure to view its description.</div></div>
+        </div>
+    </div>
+    <div id="system-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
+        <div style="width: 100%; max-width: 900px; margin: 0 auto;">
+            <svg viewBox="-220 -60 1440 1120" style="width:100%; display:block; margin:0 auto;">
+                <g id="civ-int-edges"></g>
+                <g id="civ-int-nodes"></g>
+            </svg>
+        </div>
+        <div class="typ-info-panel" id="civ-int-panel" style="max-width:900px;">
+            <div class="civ-int-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a structure or connection to view the interaction.</div></div>
+        </div>
+    </div>
+    <div id="system-tab-decomposition" class="gen-tab-content" style="display: none; width: 100%;">
+        <div style="width: 100%; max-width: 900px; margin: 0 auto 2rem auto;">
+            <div id="civ-decomp-diagram-container"></div>
+        </div>
+        <div class="civ-decomp-grid" id="civ-decomp-generator-list"></div>
     </div>
 </div></main>
 
@@ -2034,6 +2088,291 @@ function generateGenConditionsDiagram(diagramKey) {
 }
 document.querySelectorAll("#gen-conditions .gen-cond-tab-content[data-cond-diagram]").forEach(e=>{e.innerHTML=generateGenConditionsDiagram(e.getAttribute("data-cond-diagram"))});
 
+const civStructures = [
+    {id:"evo-psych", title:"Evolutionary Psychology", subtitle:"Substructure", desc:"The evolved cognitive and motivational architecture common to all humans – in-group loyalty and out-group suspicion, status-seeking, threat-sensitivity, and steep discounting of the future – inherited from ancestral environments radically unlike the present. It forms the deepest, most fixed substrate beneath every other civilisational structure, shaping what people want and fear before any culture, technology or institution enters the picture."},
+    {id:"cultural-psych", title:"Cultural Psychology", subtitle:"Superstructure", desc:"The inherited beliefs, narratives, ideologies and paradigms – from religious cosmologies to secular modernism – that a society builds atop its evolutionary inheritance, giving raw drives their culturally specific shape, direction and legitimation. It supplies the shared meaning-making through which populations interpret scarcity, threat and opportunity."},
+    {id:"pop-physiology", title:"Population Physiology", subtitle:"Biostructure", desc:"The literal biological and demographic substrate of a civilisation – population size and growth rate, health, nutrition, cognitive capacity and disease burden – that sets the material human base every other structure must operate on and through. It determines how many people there are, in what condition, and with what capacities available to be mobilised."},
+    {id:"tech-stack", title:"Technological Stack", subtitle:"Infrastructure", desc:"The accumulated tools, techniques and material infrastructure available to a civilisation – energy systems, computation, communication, production and weapons – that determine what is technically possible at any given time and continuously reshape the constraints every other structure operates within."},
+    {id:"political-economy", title:"Political Economy", subtitle:"Interstructure", desc:"The institutional and organisational structures mediating interaction between individuals and groups – markets, states, corporations, property rights and governance arrangements – that convert the raw material of psychology, biology and technology into coordinated (or uncoordinated) collective action."}
+];
+const civStructureById = {};
+civStructures.forEach(s => civStructureById[s.id] = s);
+
+const civInterconnections = {
+    "evo-psych-cultural-psych":"Evolved drives for status, tribal loyalty and threat-vigilance supply the raw motivational material that every cultural narrative and ideology must channel, justify or repress.",
+    "cultural-psych-evo-psych":"Cultural narratives and paradigms determine which evolved drives are celebrated, sublimated or suppressed, and which in-groups and out-groups those drives are directed toward.",
+    "evo-psych-pop-physiology":"Evolved reproductive and status-seeking drives shape fertility behaviour, health-seeking behaviour and population-level patterns of stress and wellbeing.",
+    "pop-physiology-evo-psych":"Population health, nutrition and demographic structure set the physiological conditions – chronic stress, resource insecurity – under which evolved threat and scarcity responses are triggered or muted.",
+    "evo-psych-tech-stack":"Status-seeking and competitive drives motivate and direct technological development toward capabilities that confer relative advantage over rivals.",
+    "tech-stack-evo-psych":"Technology amplifies the reach and consequences of evolved drives, letting ancient status and threat responses operate at planetary rather than tribal scale.",
+    "evo-psych-political-economy":"In-group loyalty, status-seeking and reciprocity instincts form the raw psychological material that political and economic institutions organise into markets, hierarchies and coalitions.",
+    "political-economy-evo-psych":"Political and economic institutions determine which evolved drives are rewarded and which are penalised, shaping the incentive landscape those drives operate within.",
+    "cultural-psych-pop-physiology":"Cultural values around family size, gender roles and health-seeking behaviour directly shape fertility rates, health outcomes and demographic trajectories.",
+    "pop-physiology-cultural-psych":"Demographic conditions – youth bulges, ageing populations, health crises – generate cultural anxieties and narratives that in turn reshape a society's dominant paradigms.",
+    "cultural-psych-tech-stack":"Cultural paradigms such as scientism and progress-orientation determine which technologies a civilisation pursues, funds and legitimises.",
+    "tech-stack-cultural-psych":"New technologies generate novel affordances and disruptions that reshape cultural narratives, values and paradigms in turn, as societies adapt their self-understanding to what is now possible.",
+    "cultural-psych-political-economy":"Cultural paradigms legitimise particular economic and political arrangements – individualism legitimising markets, collectivism legitimising centralised planning – determining which institutions a population will accept as natural.",
+    "political-economy-cultural-psych":"Political and economic institutions reproduce and reinforce the cultural narratives that justify them, embedding particular paradigms into education, media and everyday life.",
+    "pop-physiology-tech-stack":"Population size, density and cognitive capacity determine the scale of the labour force and talent pool available to develop and deploy technology.",
+    "tech-stack-pop-physiology":"Technology in turn reshapes population physiology directly, through medicine, nutrition, sanitation and reproductive control, driving demographic transitions.",
+    "pop-physiology-political-economy":"Population size, growth and age structure set the material constraints and opportunities political and economic institutions must organise around, from labour supply to welfare burden.",
+    "political-economy-pop-physiology":"Political and economic institutions in turn shape population outcomes directly, through healthcare access, food distribution and family policy.",
+    "tech-stack-political-economy":"Technological capability sets the frontier of what economic and political institutions can coordinate, extract or control, from industrial production to digital surveillance.",
+    "political-economy-tech-stack":"Political and economic institutions direct technological development through funding, regulation and property rights, determining which technologies are developed and who captures their benefits."
+};
+
+const civDecomposition = {
+    'embedded-growth': {
+        'evo-psych':"Evolved status-seeking and never-satisfied acquisitiveness predispose individuals to treat 'more' as intrinsically good, never structurally sufficient.",
+        'cultural-psych':"Progress-as-growth narratives and economism frame perpetual expansion as the sole legitimate marker of civilisational success.",
+        'pop-physiology':"A growing population continuously raises the baseline demand for resources and output an economy must supply just to stand still.",
+        'tech-stack':"Compounding technological productivity makes ever-larger scales of production and consumption physically achievable, removing a natural ceiling on growth.",
+        'political-economy':"Compound interest, shareholder return requirements and GDP-indexed legitimacy hard-code perpetual expansion directly into economic and political institutions."
+    },
+    'perverse-incentives': {
+        'evo-psych':"Short-term self-interest and discounting of distant costs make individuals responsive to whatever is rewarded now, regardless of downstream harm.",
+        'cultural-psych':"A culture that equates success with competitive advantage normalises extraction and defection as rational rather than as failures to sanction.",
+        'pop-physiology':"Populations under material insecurity are more responsive to immediate extractive rewards than to long-horizon regenerative incentives.",
+        'tech-stack':"Technology that externalises costs invisibly – pollution, algorithmic harm – makes extractive strategies technically available without immediate visible penalty.",
+        'political-economy':"Markets and regulatory regimes that fail to price externalities directly reward extraction over regeneration and penalise good-faith restraint."
+    },
+    'capital-optionality': {
+        'evo-psych':"Evolved status and security drives make the accumulation of a fungible, convertible resource intrinsically motivating regardless of any specific goal.",
+        'cultural-psych':"A culture of individualism and economism elevates monetary wealth into the universal measure of freedom, security and worth.",
+        'pop-physiology':"Material insecurity across a population increases the instrumental value of a liquid, storable buffer against future biological and physical risk.",
+        'tech-stack':"Financial technology renders capital ever more liquid, storable and convertible into other forms of power at negligible cost.",
+        'political-economy':"Property rights and financial institutions formalise money into a legally enforceable, universally exchangeable claim on future resources and power."
+    },
+    'exp-tech-accel': {
+        'evo-psych':"Status competition and threat-driven urgency motivate relentless individual and institutional investment in ever-more-capable technology.",
+        'cultural-psych':"A cultural paradigm that equates technological progress with civilisational virtue removes normative brakes on the pace of development.",
+        'pop-physiology':"A larger, more educated global population expands the pool of researchers and engineers compounding technological capability.",
+        'tech-stack':"Technology is recursively self-improving: existing tools and infrastructure are the direct inputs used to build the next, more capable generation.",
+        'political-economy':"Competitive markets and geopolitical rivalry channel capital and state investment directly into accelerating technological development."
+    },
+    'abstraction-cycle': {
+        'evo-psych':"Cognitive limits push minds toward simplifying complex reality into narrow, tractable proxies rather than holding its full complexity.",
+        'cultural-psych':"Reductionist, scientistic paradigms legitimise treating complex living systems as decomposable into extractable, quantifiable resources.",
+        'pop-physiology':"Rising population pressure intensifies the rate at which physical and social resources are harvested to sustain it.",
+        'tech-stack':"Industrial and digital technology provides the literal extraction and accumulation machinery – from resource extraction to data harvesting.",
+        'political-economy':"Property and market institutions convert abstracted, extracted resources into accumulable, legally-held private capital."
+    },
+    'narrow-metric-cat': {
+        'evo-psych':"Cognitive preference for simple, legible signals over complex, ambiguous ones predisposes minds to fixate on single proxy measures.",
+        'cultural-psych':"A scientistic culture that trusts quantification over qualitative judgement elevates measurable proxies to the status of ultimate goals.",
+        'pop-physiology':"Managing large, complex populations at scale creates practical pressure to govern via a handful of tractable aggregate statistics.",
+        'tech-stack':"Measurement and data technology make certain variables cheap to track, structurally biasing optimisation toward whatever happens to be measurable.",
+        'political-economy':"Institutions built around legible targets – GDP, quarterly profit – structurally reward hitting the target over serving its original purpose."
+    },
+    'positive-feedback': {
+        'evo-psych':"Status-seeking drives compound small early advantages, as gaining relative status motivates further effort to extend that lead.",
+        'cultural-psych':"Meritocratic and winner-take-all cultural narratives frame compounding advantage as earned and legitimate rather than as a structural artefact.",
+        'pop-physiology':"Differential access to health, nutrition and education compounds biological advantage across generations into durable population-level stratification.",
+        'tech-stack':"Network effects, data advantages and automation compound technologically, letting early leaders in a technology pull structurally further ahead.",
+        'political-economy':"Capital markets and inheritance structures allow early economic advantage to compound financially across time with minimal institutional friction."
+    },
+    'life-blind-search': {
+        'evo-psych':"Evolutionary selection itself is the original life-blind search process, optimising for reproductive fitness with no regard for wellbeing.",
+        'cultural-psych':"A mechanistic, reductionist worldview frames markets and algorithms as neutral optimisation processes, obscuring what they are blind to.",
+        'pop-physiology':"Population-scale competition for resources functions as a selection process indifferent to individual suffering, rewarding only differential survival.",
+        'tech-stack':"Machine learning and market algorithms are literal life-blind search processes, mechanically optimising whatever proxy objective they are given.",
+        'political-economy':"Competitive markets function as search processes that reward whatever proxy – profit, market share – they are structured to reward, blind to everything else."
+    },
+    'multipolar-traps': {
+        'evo-psych':"Tribal competition instincts predispose independent actors to treat rivals' gains as their own losses, foreclosing cooperative equilibria.",
+        'cultural-psych':"A zero-sum, scarcity-oriented worldview frames mutual restraint as naive weakness rather than as a viable collective strategy.",
+        'pop-physiology':"Growing populations competing over finite physical resources intensify the zero-sum structure of the underlying material conflict.",
+        'tech-stack':"Weapons and surveillance technology raise the stakes and speed of multipolar competition, making unilateral restraint more costly to attempt.",
+        'political-economy':"The absence of binding supranational coordination mechanisms leaves competing states and firms with no institutional path out of the trap."
+    },
+    'instrumental-convergence': {
+        'evo-psych':"Self-preservation and resource-acquisition drives are themselves evolved instrumental subgoals that serve almost any ultimate reproductive end.",
+        'cultural-psych':"A competitive cultural framing treats power-seeking as the default rational strategy, delegitimising unilateral ethical restraint as a competitive liability.",
+        'pop-physiology':"Population-scale competition for finite biological resources selects for actors who pursue self-preservation and resource acquisition most effectively.",
+        'tech-stack':"Advanced optimising systems – from firms to AI – instrumentally converge on power-seeking subgoals because they are useful for nearly any objective.",
+        'political-economy':"Competitive markets and geopolitics force ethically-constrained actors to match rivals' power-seeking strategies simply to remain viable."
+    },
+    'structural-separation': {
+        'evo-psych':"In-group/out-group cognition predisposes humans to draw sharp boundaries between 'us' and 'them' that later harden into formal structures.",
+        'cultural-psych':"Nationalist and tribal narratives legitimise treating nation-states and corporations as separate, self-interested collective agents rather than as one interconnected system.",
+        'pop-physiology':"Geographically dispersed populations naturally differentiate into distinct groups whose separateness later becomes politically formalised.",
+        'tech-stack':"Communication and transport technology historically limited to bounded ranges physically reinforced the separateness of distinct population centres.",
+        'political-economy':"Sovereign statehood and corporate personhood are political-economic inventions that formally instantiate humanity's cognitive in-group boundaries as impermeable structural units."
+    },
+    'isolated-problem-solving': {
+        'evo-psych':"Cognitive bandwidth limits push individuals and small groups toward attacking the local problem in front of them rather than modelling the whole system.",
+        'cultural-psych':"Disciplinary and institutional specialisation as a cultural value legitimises narrow problem-framing as rigour rather than as a blind spot.",
+        'pop-physiology':"Population scale exceeds what any individual or institution can model directly, forcing decomposition into locally tractable sub-problems.",
+        'tech-stack':"Specialised technical tools and disciplines are built to solve narrow, well-defined problems, structurally excluding cross-domain feedback by design.",
+        'political-economy':"Siloed institutions and departments are organised around narrow mandates, with no institution incentivised or resourced to own interconnected problems."
+    },
+    'reductionist-modelling': {
+        'evo-psych':"Cognitive architecture evolved to model a small number of tractable causal relationships, not irreducibly complex interconnected systems.",
+        'cultural-psych':"Scientistic and mechanistic paradigms treat the world as decomposable into separable, individually-optimisable components as a matter of ontological principle.",
+        'pop-physiology':"Managing large populations pushes institutions toward simplified demographic models that abstract away individual and systemic complexity.",
+        'tech-stack':"Modelling and simulation technology is built around discrete, separable variables, structurally encoding reductionism into technical infrastructure.",
+        'political-economy':"Economic theory and policy are built on models that treat markets as composed of separable, independently-optimisable agents and sectors."
+    },
+    'wisdom-gaps': {
+        'evo-psych':"Evolved cognition optimised for ancestral-scale problems has not kept pace with the civilisational-scale power humanity now wields.",
+        'cultural-psych':"Modern culture's emphasis on technical and economic knowledge has outpaced its cultivation of practical and moral wisdom.",
+        'pop-physiology':"Population-scale power is wielded collectively by billions of individuals whose average capacity for wise judgement has not scaled with that power.",
+        'tech-stack':"Technological capability has compounded exponentially while the institutions and practices for wielding it wisely have developed far more slowly.",
+        'political-economy':"Political and economic institutions optimised for competitive advantage select for cleverness and capability over wisdom and restraint."
+    },
+    'moloch': {
+        'evo-psych':"Individually rational competitive instincts, when aggregated across many actors with no coordination, produce the collectively ruinous meta-pattern Moloch personifies.",
+        'cultural-psych':"Cultures that mythologise or naturalise ruthless competition give this coordination-failure pattern its symbolic, quasi-religious force.",
+        'pop-physiology':"Large populations of competing agents are the substrate across which this coordination failure propagates and compounds.",
+        'tech-stack':"Technology raises the stakes and speed of competitive dynamics until they take on the totalising, seemingly-unstoppable character Moloch names.",
+        'political-economy':"The absence of binding institutions able to enforce cooperation is precisely the structural gap that lets this pattern dominate outcomes."
+    },
+    'left-hemispheric': {
+        'evo-psych':"The brain's left-hemispheric mode of narrow, manipulative attention is an evolved cognitive specialisation for grasping and controlling discrete objects.",
+        'cultural-psych':"Modern culture systematically rewards and cultivates narrow, decontextualised, control-seeking attention over holistic, relational understanding.",
+        'pop-physiology':"Population-scale education and media systems train this attentional mode into billions of individuals as the default cognitive posture.",
+        'tech-stack':"Digital and bureaucratic technologies are built around discrete, quantifiable units, reinforcing left-hemispheric modes of attention through daily use.",
+        'political-economy':"Institutions that manage populations through legible, quantified categories structurally select for and reward left-hemispheric ways of seeing."
+    },
+    'modernist-paradigm': {
+        'evo-psych':"A drive to seek control and predictability over an uncertain environment finds cultural expression in modernity's mechanistic worldview.",
+        'cultural-psych':"Modernism is itself the cultural-psychological superstructure – scientism, individualism, economism – built atop earlier religious and traditional paradigms.",
+        'pop-physiology':"Rising population and urbanisation historically drove the secularisation and rationalisation processes from which the modernist paradigm emerged.",
+        'tech-stack':"The technological successes of the scientific method provided modernism's central evidence for treating mechanistic reduction as the correct way to know the world.",
+        'political-economy':"Industrial capitalism and the nation-state co-evolved with modernist ideology, each legitimising and reinforcing the other."
+    },
+    'scarcity-rivalry': {
+        'evo-psych':"Evolved threat-sensitivity and loss-aversion predispose minds to perceive resource environments as more zero-sum than they materially are.",
+        'cultural-psych':"Cultural narratives of natural hierarchy and competition frame scarcity and rivalry as inevitable rather than as a contingent social construction.",
+        'pop-physiology':"Populations that have experienced genuine material scarcity develop lasting scarcity-oriented psychological and cultural patterns that persist after conditions improve.",
+        'tech-stack':"Technological limits on production historically made scarcity a material fact, embedding rivalry as a rational response into inherited culture.",
+        'political-economy':"Institutions organised around competitive markets and zero-sum politics continuously reproduce and validate a scarcity-rivalry framing of the world."
+    },
+    'psychopathic-selection': {
+        'evo-psych':"Reduced empathy and heightened dominance-seeking are evolved traits that, under competitive pressure, confer relative advantage over more cooperative rivals.",
+        'cultural-psych':"A culture that valorises ruthlessness and 'winning' as markers of success normalises and rewards psychopathic traits in leadership.",
+        'pop-physiology':"Population-scale competition for scarce positions of power selects, at a statistical level, for individuals least constrained by empathy.",
+        'tech-stack':"Technologies of surveillance and control extend the reach of ruthless actors, amplifying the advantage psychopathic traits confer.",
+        'political-economy':"Zero-sum competitive institutions systematically promote individuals most willing to externalise harm, selecting them into positions of greatest power."
+    },
+    'collective-alienation': {
+        'evo-psych':"Evolved capacities for face-to-face bonding are mismatched with the anonymous scale of modern social and economic life, producing chronic disconnection.",
+        'cultural-psych':"Individualist and mechanistic cultural paradigms frame the self as separate from others, nature and the future, legitimising disconnection as normal.",
+        'pop-physiology':"Large, mobile, urbanised populations weaken the stable, embedded relationships that historically buffered individuals against isolation.",
+        'tech-stack':"Digital mediation of relationships displaces the rich, embodied contact evolved bonding depends on, deepening felt disconnection despite constant connectivity.",
+        'political-economy':"Institutions organised around market exchange relate to people primarily as producers and consumers, structurally deprioritising relational and communal bonds."
+    }
+};
+
+function civPolarPoint(cx, cy, r, angleDeg) {
+    const rad = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+function civAnnulusPath(cx, cy, rInner, rOuter, startAngle, endAngle) {
+    const largeArc = (endAngle - startAngle) > 180 ? 1 : 0;
+    const outerStart = civPolarPoint(cx, cy, rOuter, startAngle);
+    const outerEnd = civPolarPoint(cx, cy, rOuter, endAngle);
+    if (rInner <= 0) {
+        return `M ${cx} ${cy} L ${outerStart.x} ${outerStart.y} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y} Z`;
+    }
+    const innerStart = civPolarPoint(cx, cy, rInner, startAngle);
+    const innerEnd = civPolarPoint(cx, cy, rInner, endAngle);
+    return `M ${outerStart.x} ${outerStart.y} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y} L ${innerEnd.x} ${innerEnd.y} A ${rInner} ${rInner} 0 ${largeArc} 0 ${innerStart.x} ${innerStart.y} Z`;
+}
+const civGap = 3, civRingGap = 5;
+function civSegDefs(R) {
+    return [
+        {id:"pop-physiology", rInner:0, rOuter:R, start:0+civGap, end:90-civGap},
+        {id:"tech-stack", rInner:0, rOuter:R, start:90+civGap, end:180-civGap},
+        {id:"political-economy", rInner:0, rOuter:R, start:180+civGap, end:270-civGap},
+        {id:"evo-psych", rInner:0, rOuter:R/3-civRingGap, start:270+civGap, end:360-civGap},
+        {id:"cultural-psych", rInner:R/3+civRingGap, rOuter:R, start:270+civGap, end:360-civGap}
+    ];
+}
+function generateCivEmergenceSvg(opts) {
+    opts = opts || {};
+    const interactive = opts.interactive !== false;
+    const bodyTextById = opts.bodyTextById || null;
+    const cx = 500, cy = 500, R = 380;
+    const segs = civSegDefs(R);
+    let pathsHtml = '', labelsHtml = '';
+    segs.forEach(seg => {
+        const s = civStructureById[seg.id];
+        const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
+        const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
+        pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
+        const midAngle = (seg.start + seg.end) / 2;
+        const midR = seg.rInner === 0 ? seg.rOuter * 0.62 : seg.rInner + (seg.rOuter - seg.rInner) * 0.5;
+        const pt = civPolarPoint(cx, cy, midR, midAngle);
+        const angleSpanRad = (seg.end - seg.start) * Math.PI / 180;
+        const chordWidth = 2 * midR * Math.sin(angleSpanRad / 2);
+        const radialThickness = seg.rOuter - seg.rInner;
+        const maxBoxW = bodyTextById ? 300 : 230, maxBoxH = bodyTextById ? 230 : 110;
+        const boxW = Math.max(80, Math.min(maxBoxW, chordWidth * 0.88));
+        const boxH = Math.max(70, Math.min(maxBoxH, radialThickness * 0.88));
+        const scale = Math.max(0.65, Math.min(1, boxW / maxBoxW, boxH / maxBoxH));
+        const bodyHtml = bodyTextById ? `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.35; opacity:0.85; margin-top:${(0.5*scale).toFixed(2)}rem;">${bodyTextById[seg.id]||''}</div>` : '';
+        labelsHtml += `<foreignObject x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:${(0.5*scale).toFixed(2)}rem; pointer-events:none; overflow:hidden;">
+                <div style="font-weight:600; font-size:${(1*scale).toFixed(2)}rem; color:var(--text-color); line-height:1.2;">${s.title}</div>
+                <div style="font-size:${(0.8*scale).toFixed(2)}rem; opacity:0.6; margin-top:0.15rem; color:var(--text-color);">(${s.subtitle})</div>
+                ${bodyHtml}
+            </div>
+        </foreignObject>`;
+    });
+    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:800px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
+}
+
+function civIntLayout() {
+    const cx = 500, cy = 500, r = 380;
+    return civStructures.map((s, i) => {
+        const angle = (i / civStructures.length) * 2 * Math.PI - Math.PI / 2;
+        return {id: s.id, x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle), angle};
+    });
+}
+function civIntNodeHtml(id, x, y, angle) {
+    const s = civStructureById[id];
+    const labelOffset = 55;
+    const lx = x + labelOffset * Math.cos(angle), ly = y + labelOffset * Math.sin(angle);
+    const isLeft = Math.cos(angle) < -0.3;
+    const isCenter = Math.abs(Math.cos(angle)) <= 0.3;
+    const anchor = isCenter ? 'middle' : (isLeft ? 'end' : 'start');
+    return `<g class="civ-node hoverable" data-struct-id="${id}" style="cursor:pointer;">
+        <circle cx="${x}" cy="${y}" r="14" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2.5" />
+        <text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" style="font-size:18px; font-weight:600; fill:var(--text-color); font-family:var(--font-primary);">${s.title}</text>
+        <text x="${lx}" y="${ly+22}" text-anchor="${anchor}" style="font-size:14px; opacity:0.6; fill:var(--text-color); font-family:var(--font-primary);">(${s.subtitle})</text>
+    </g>`;
+}
+function renderCivInterconnections() {
+    const positions = civIntLayout();
+    let nodesHtml = '', edgesHtml = '';
+    positions.forEach(p => { nodesHtml += civIntNodeHtml(p.id, p.x, p.y, p.angle); });
+    for (let i = 0; i < positions.length; i++) {
+        for (let j = i + 1; j < positions.length; j++) {
+            const a = positions[i], b = positions[j];
+            edgesHtml += `<g class="civ-edge-group hoverable" data-src="${a.id}" data-tgt="${b.id}" style="cursor:pointer;">
+                <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="var(--indicator-color-solid)" stroke-width="1.5" class="civ-edge-line-vis" />
+                <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+            </g>`;
+        }
+    }
+    document.getElementById('civ-int-nodes').innerHTML = nodesHtml;
+    document.getElementById('civ-int-edges').innerHTML = edgesHtml;
+}
+function renderCivDecompList() {
+    const html = genCategoriesOrderedIds.map(id => {
+        const c = genConceptById[id];
+        return `<div class="civ-decomp-item hoverable" data-concept="${id}">${c.shortTitle || c.title}</div>`;
+    }).join('');
+    document.getElementById('civ-decomp-generator-list').innerHTML = html;
+}
+
+document.getElementById('civ-emergence-svg-container').innerHTML = generateCivEmergenceSvg({interactive:true});
+renderCivInterconnections();
+renderCivDecompList();
+document.getElementById('civ-decomp-diagram-container').innerHTML = generateCivEmergenceSvg({interactive:false, bodyTextById: civDecomposition['embedded-growth']});
+setTimeout(()=>{const d=document.querySelector('.civ-emergence-wrap .civ-seg[data-struct-id="cultural-psych"]');d&&d.dispatchEvent(new MouseEvent("click",{bubbles:!0}));},50);
+
 const genChainEdges = [
     ['exp-tech-accel','arms-races'], ['exp-tech-accel','embedded-growth'], ['exp-tech-accel','left-hemispheric'],
     ['abstraction-cycle','arms-races'], ['abstraction-cycle','embedded-growth'], ['abstraction-cycle','left-hemispheric'],
@@ -2390,7 +2729,7 @@ function findAncestorChain(root,targetId){
 }
 function switchView(e,site){site=site||currentSite,currentSite=site;if(currentView===e)return;viewScrollStates[currentView]=window.scrollY,document.querySelectorAll(".nav-item").forEach(e=>e.classList.remove("active"));const t=document.querySelector(`.nav-item[data-target="${e}"]`);t&&t.classList.add("active"),currentView=e,document.body.setAttribute("data-view",e),document.body.setAttribute("data-site",site),updateSiteTitle(site),document.querySelectorAll(".view-panel").forEach(t=>{t.id===e+"-container"?(t.style.display="flex",("map"===e||"about"===e)&&(t.style.display="block"),void t.offsetWidth,t.classList.add("active")):(t.classList.remove("active"),setTimeout(()=>{t.classList.contains("active")||(t.style.display="none")},600))}),window.scrollTo({top:viewScrollStates[e]||0,behavior:"instant"}),"about"===e&&(document.getElementById("about-scroll").scrollLeft=0,typeAboutHero()),"metamod-app"===e&&typeMetamodTitle(),"metatheory-app"===e&&typeMetatheoryTitle(),"macrostrategy-app"===e&&typeMacrostrategyTitle(),"macrohistory-app"===e&&typeMacrohistoryTitle(),"map"===e&&(document.querySelector(".css-tree").innerHTML=`<ul>${generateMapTree(treeForSite(site),1)}</ul>`,document.querySelector(".css-tree").classList.add("horizontal"),isHorizontalMap=!0,setMapState(document.querySelector(".css-tree > ul > li"),1),mapContainer.dataset.initialized?setTimeout(resetMapView,50):(treeZoomWrapper.style.transition="none",setTimeout(()=>{resetMapView(),requestAnimationFrame(()=>{treeZoomWrapper.style.transition=""})},50),mapContainer.dataset.initialized="true")),"glossary"===e&&(document.getElementById("glossary-list-view").innerHTML="metacrisis"===site?generateGlossaryModule(viewTreeData):generateMetamodGlossaryModule(treeForSite(site),moduleIntroText[site]),document.getElementById("module-nav-fixed").innerHTML=generateModuleNav(treeForSite(site)),document.getElementById("glossary-list-view").style.display="block",document.getElementById("glossary-detail-view").style.display="none",document.getElementById("main-breadcrumbs").classList.remove("visible")),"landscape"===e&&populateLandscape(site),"maximal"===e&&(document.querySelector(".maximal-list").innerHTML=generateMaximalList(treeForSite(site),0),setMaxState(document.querySelector(".maximal-list > li"),2));
 if("maximal"===e||("glossary"===e&&"block"===document.getElementById("glossary-list-view").style.display)){document.getElementById("footer").classList.add("header-mode");document.getElementById("footer").style.display="block"}else if("app"===e){document.getElementById("footer").style.display="none"}else{document.getElementById("footer").classList.remove("header-mode");document.getElementById("footer").style.display="none"}
-document.getElementById("attractors-tabs").classList.toggle("visible","attractors"===e);document.getElementById("generators-tabs").classList.toggle("visible","generators"===e);document.getElementById("landscape-tabs").classList.toggle("visible","landscape"===e);if("app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("def-wrapper").classList.contains("active")&&document.getElementById("collapse-tree-btn").classList.add("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.add("visible")}else if("metamod-app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.toggle("visible",metamodIntroDone)}else if("metatheory-app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.toggle("visible",metatheoryIntroDone)}else if("macrostrategy-app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.toggle("visible",macrostrategyIntroDone)}else if("macrohistory-app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.toggle("visible",macrohistoryIntroDone)}else if("map"===e){document.getElementById("scroll-progress-container").classList.remove("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.add("visible");document.getElementById("toggle-map-layout-btn").classList.add("visible");document.getElementById("toggle-expand-all-btn").classList.add("visible");document.getElementById("toggle-app-align-btn").classList.remove("visible")}else if("glossary"===e||"maximal"===e||"problem"===e||"generators"===e||"attractors"===e||"landscape"===e||"paradigms"===e||"metatheories"===e||"typologies"===e||"meta-maps"===e||"sitemap"===e||"about-page"===e||"user-guide"===e||"metamod-sitemap"===e||"metatheory-sitemap"===e||"macrostrategy-sitemap"===e||"macrohistory-sitemap"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.remove("visible");if("attractors"===e&&!document.querySelector(".attr-node.active, .attr-edge-group.active")){setTimeout(()=>{const w=document.querySelector('.attr-node[data-attr="world-system"]');w&&w.dispatchEvent(new MouseEvent("click",{bubbles:!0}))},1000)}}updateProgress()}
+document.getElementById("attractors-tabs").classList.toggle("visible","attractors"===e);document.getElementById("generators-tabs").classList.toggle("visible","generators"===e);document.getElementById("landscape-tabs").classList.toggle("visible","landscape"===e);document.getElementById("systems-tabs").classList.toggle("visible","systems"===e);if("app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("def-wrapper").classList.contains("active")&&document.getElementById("collapse-tree-btn").classList.add("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.add("visible")}else if("metamod-app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.toggle("visible",metamodIntroDone)}else if("metatheory-app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.toggle("visible",metatheoryIntroDone)}else if("macrostrategy-app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.toggle("visible",macrostrategyIntroDone)}else if("macrohistory-app"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.toggle("visible",macrohistoryIntroDone)}else if("map"===e){document.getElementById("scroll-progress-container").classList.remove("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.add("visible");document.getElementById("toggle-map-layout-btn").classList.add("visible");document.getElementById("toggle-expand-all-btn").classList.add("visible");document.getElementById("toggle-app-align-btn").classList.remove("visible")}else if("glossary"===e||"maximal"===e||"problem"===e||"generators"===e||"attractors"===e||"landscape"===e||"systems"===e||"paradigms"===e||"metatheories"===e||"typologies"===e||"meta-maps"===e||"sitemap"===e||"about-page"===e||"user-guide"===e||"metamod-sitemap"===e||"metatheory-sitemap"===e||"macrostrategy-sitemap"===e||"macrohistory-sitemap"===e){document.getElementById("scroll-progress-container").classList.add("active");document.getElementById("collapse-tree-btn").classList.remove("visible");document.getElementById("recenter-map-btn").classList.remove("visible");document.getElementById("toggle-map-layout-btn").classList.remove("visible");document.getElementById("toggle-expand-all-btn").classList.remove("visible");document.getElementById("toggle-app-align-btn").classList.remove("visible");if("attractors"===e&&!document.querySelector(".attr-node.active, .attr-edge-group.active")){setTimeout(()=>{const w=document.querySelector('.attr-node[data-attr="world-system"]');w&&w.dispatchEvent(new MouseEvent("click",{bubbles:!0}))},1000)}}updateProgress()}
 const aboutScrollEl=document.getElementById("about-scroll");let aboutScrollLocked=!1;function advanceAboutSection(delta){if(aboutScrollLocked)return;const sections=aboutScrollEl.querySelectorAll(".about-section"),w=aboutScrollEl.clientWidth,cur=Math.round(aboutScrollEl.scrollLeft/w),next=Math.max(0,Math.min(sections.length-1,cur+delta));if(next===cur)return;aboutScrollLocked=!0,aboutScrollEl.scrollTo({left:next*w,behavior:"smooth"}),setTimeout(()=>{aboutScrollLocked=!1},700)}aboutScrollEl&&aboutScrollEl.addEventListener("wheel",e=>{Math.abs(e.deltaY)>Math.abs(e.deltaX)&&(e.preventDefault(),advanceAboutSection(e.deltaY>0?1:-1))},{passive:!1});document.querySelectorAll(".about-next-btn").forEach(btn=>btn.addEventListener("click",()=>{playSound("click"),advanceAboutSection(1)}));
 document.querySelectorAll(".nav-item").forEach(e=>{e.addEventListener("click",()=>{const t=e.getAttribute("data-target"),site=e.getAttribute("data-site")||"metacrisis";currentSite=site,document.body.setAttribute("data-site",site),updateSiteTitle(site);if(t===currentView){window.scrollTo({top:0,behavior:"smooth"});"app"===t&&instantResetAppView(),"map"===t&&(document.querySelector(".css-tree").innerHTML=`<ul>${generateMapTree(treeForSite(site),1)}</ul>`,document.querySelector(".css-tree").classList.add("horizontal"),isHorizontalMap=!0,setMapState(document.querySelector(".css-tree > ul > li"),1),(()=>{const btn=document.getElementById("toggle-expand-all-btn");btn.dataset.state="collapsed";btn.setAttribute("aria-label","Expand All")})(),setTimeout(resetMapView,50)),"glossary"===t&&(document.getElementById("glossary-list-view").innerHTML="metacrisis"===site?generateGlossaryModule(viewTreeData):generateMetamodGlossaryModule(treeForSite(site),moduleIntroText[site]),document.getElementById("module-nav-fixed").innerHTML=generateModuleNav(treeForSite(site)),document.getElementById("glossary-list-view").style.display="block",document.getElementById("glossary-detail-view").style.display="none",document.getElementById("main-breadcrumbs").classList.remove("visible"),document.getElementById("footer").classList.add("header-mode"),document.getElementById("footer").style.display="block"),"maximal"===t&&(document.querySelector(".maximal-list").innerHTML=generateMaximalList(treeForSite(site),0),setMaxState(document.querySelector(".maximal-list > li"),2),viewScrollStates.maximal=0),"landscape"===t&&populateLandscape(site),"about"===t&&(document.getElementById("about-scroll").scrollLeft=0,typeAboutHero()),"metamod-app"===t&&typeMetamodTitle(),"metatheory-app"===t&&typeMetatheoryTitle(),"macrostrategy-app"===t&&typeMacrostrategyTitle(),"macrohistory-app"===t&&typeMacrohistoryTitle();return}switchView(t,site)})});
 const root=document.documentElement,accents=[null,"green","orange","blue","red","mono"];let accentIndex=0;const siteMainView={metamod:"metamod-app",metatheory:"metatheory-app",macrostrategy:"macrostrategy-app",macrohistory:"macrohistory-app"};
@@ -2467,11 +2806,13 @@ function activateTopTab(btn){
     const attrTabsWrap=document.getElementById('attractors-tabs');
     const genTabsWrap=document.getElementById('generators-tabs');
     const landscapeTabsWrap=document.getElementById('landscape-tabs');
+    const systemsTabsWrap=document.getElementById('systems-tabs');
     const isAttrTab=attrTabsWrap&&attrTabsWrap.contains(btn);
     const isGenTab=genTabsWrap&&genTabsWrap.contains(btn);
     const isLandscapeTab=landscapeTabsWrap&&landscapeTabsWrap.contains(btn);
-    const buttonScope=isAttrTab?attrTabsWrap:(isGenTab?genTabsWrap:(isLandscapeTab?landscapeTabsWrap:(btn.closest('.view-panel')||document)));
-    const contentScope=isAttrTab?document.getElementById('attractors-container'):(isGenTab?document.getElementById('generators-container'):(isLandscapeTab?document.getElementById('landscape-container'):(btn.closest('.view-panel')||document)));
+    const isSystemsTab=systemsTabsWrap&&systemsTabsWrap.contains(btn);
+    const buttonScope=isAttrTab?attrTabsWrap:(isGenTab?genTabsWrap:(isLandscapeTab?landscapeTabsWrap:(isSystemsTab?systemsTabsWrap:(btn.closest('.view-panel')||document))));
+    const contentScope=isAttrTab?document.getElementById('attractors-container'):(isGenTab?document.getElementById('generators-container'):(isLandscapeTab?document.getElementById('landscape-container'):(isSystemsTab?document.getElementById('systems-container'):(btn.closest('.view-panel')||document))));
     buttonScope.querySelectorAll('.gen-tab[data-tab]').forEach(el=>el.classList.remove('active'));
     btn.classList.add('active');
     const current=contentScope.querySelector('.gen-tab-content.active');
@@ -2533,6 +2874,20 @@ if(genTabCopy[t]){
     if(subtitleEl)subtitleEl.textContent=genTabCopy[t].subtitle;
     const globalToggle=document.getElementById('gen-global-toggle');
     if(globalToggle)globalToggle.style.display=t==='gen-tab-verticals'?'flex':'none';
+}
+const systemTabCopy={
+    "system-tab-emergence":{title:"Civilisational Systems: Emergence Model",subtitle:"The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description."},
+    "system-tab-interconnections":{title:"Civilisational Systems: Interconnections",subtitle:"Explore the full-mesh interconnections between the five fundamental structures."},
+    "system-tab-decomposition":{title:"Civilisational Systems: Decomposition",subtitle:"Select a generative dynamic below to see how each fundamental structure contributes to producing it."}
+};
+if(systemTabCopy[t]){
+    const titleEl=document.getElementById('system-view-title');
+    const subtitleEl=document.getElementById('system-view-subtitle');
+    if(titleEl)titleEl.textContent=systemTabCopy[t].title;
+    if(subtitleEl)subtitleEl.textContent=systemTabCopy[t].subtitle;
+}
+if("system-tab-decomposition"===t&&!document.querySelector(".civ-decomp-item.active")){
+    setTimeout(()=>{const d=document.querySelector('.civ-decomp-item[data-concept="embedded-growth"]');d&&d.dispatchEvent(new MouseEvent("click",{bubbles:!0}));},350);
 }
 if(isLandscapeTab)updateLandscapeCopy(t,document.body.dataset.site);
     if(t.indexOf("gen-")===0)setTimeout(updateGlobalToggleIcon, 350);
@@ -2652,6 +3007,50 @@ if(e.target.closest('.typ-cell, .typ-cell-center')){
     panel.querySelector('.typ-info-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${node.title}</span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${node.desc}</div></div>`;
     panel.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{panel.scrollIntoView({behavior:'smooth',block:'nearest'});},150);
+}
+if(e.target.closest('.civ-seg')){
+    e.isTrusted&&playSound('click');
+    const seg=e.target.closest('.civ-seg');
+    const tabContent=seg.closest('.gen-tab-content');
+    tabContent.querySelectorAll('.civ-seg.active').forEach(el=>el.classList.remove('active'));
+    seg.classList.add('active');
+    const s=civStructureById[seg.getAttribute('data-struct-id')];
+    const panel=tabContent.querySelector('.typ-info-panel');
+    panel.querySelector('.civ-info-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${s.title} <span style="opacity:0.6; font-weight:400;">(${s.subtitle})</span></span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${s.desc}</div></div>`;
+    panel.style.opacity='1';
+    e.isTrusted&&setTimeout(()=>{panel.scrollIntoView({behavior:'smooth',block:'nearest'});},150);
+}
+if(e.target.closest('.civ-node')){
+    e.isTrusted&&playSound('click');
+    const node=e.target.closest('.civ-node');
+    document.querySelectorAll('.civ-node.active, .civ-edge-group.active').forEach(el=>el.classList.remove('active'));
+    node.classList.add('active');
+    const s=civStructureById[node.getAttribute('data-struct-id')];
+    const panel=document.getElementById('civ-int-panel');
+    panel.querySelector('.civ-int-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${s.title} <span style="opacity:0.6; font-weight:400;">(${s.subtitle})</span></span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${s.desc}</div></div>`;
+    panel.style.opacity='1';
+    e.isTrusted&&setTimeout(()=>{panel.scrollIntoView({behavior:'smooth',block:'nearest'});},150);
+}
+if(e.target.closest('.civ-edge-group')){
+    e.isTrusted&&playSound('click');
+    const eg=e.target.closest('.civ-edge-group');
+    document.querySelectorAll('.civ-node.active, .civ-edge-group.active').forEach(el=>el.classList.remove('active'));
+    eg.classList.add('active');
+    const srcId=eg.getAttribute('data-src'),tgtId=eg.getAttribute('data-tgt');
+    const src=civStructureById[srcId],tgt=civStructureById[tgtId];
+    const a1=civInterconnections[srcId+'-'+tgtId],a2=civInterconnections[tgtId+'-'+srcId];
+    const panel=document.getElementById('civ-int-panel');
+    panel.querySelector('.civ-int-content').innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><div class="gen-pair-title"><div class="gen-pair-title-item">${src.title}</div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><polyline points="18 7 12 1 6 7"></polyline><polyline points="18 17 12 23 6 17"></polyline></svg><div class="gen-pair-title-item">${tgt.title}</div></div><div class="gen-pair-flow"><div class="gen-pair-block"><div class="gen-pair-flow-label">${src.title} <span class="gen-pair-arrow">&#8594;</span> ${tgt.title}</div><p class="gen-pair-para">${a1}</p></div><div class="gen-pair-block"><div class="gen-pair-flow-label">${tgt.title} <span class="gen-pair-arrow">&#8594;</span> ${src.title}</div><p class="gen-pair-para">${a2}</p></div></div></div>`;
+    panel.style.opacity='1';
+    e.isTrusted&&setTimeout(()=>{panel.scrollIntoView({behavior:'smooth',block:'nearest'});},150);
+}
+if(e.target.closest('.civ-decomp-item')){
+    e.isTrusted&&playSound('click');
+    const item=e.target.closest('.civ-decomp-item');
+    document.querySelectorAll('.civ-decomp-item.active').forEach(el=>el.classList.remove('active'));
+    item.classList.add('active');
+    const gid=item.getAttribute('data-concept');
+    document.getElementById('civ-decomp-diagram-container').innerHTML=generateCivEmergenceSvg({interactive:false, bodyTextById: civDecomposition[gid]});
 }
 if(e.target.closest('.gen-concept-node')){
     const node=e.target.closest('.gen-concept-node');
