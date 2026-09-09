@@ -855,6 +855,10 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div class="gen-concept-panel" style="width: 100%; max-width: 1000px; padding: 2.5rem 3rem; margin-top: 1rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
             <div class="gen-concept-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a concept to view its description.</div></div>
         </div>
+        <div id="gen-categories-all-list" style="width: 100%; max-width: 1000px; padding: 1.5rem 3rem 0 3rem; margin-top: 0.5rem; opacity: 0; transition: opacity 0.4s ease; text-align: left; box-sizing: border-box; margin-left: auto; margin-right: auto;">
+            <div class="about-eyebrow">All Generators</div>
+            <div class="attr-precursor-works" id="gen-categories-all-list-items"></div>
+        </div>
     </div>
 </div></main>
 
@@ -1751,6 +1755,7 @@ const genCategoryRowLayout = [
     ['Ontological-Phenomenological', 'Mytho-Poetic'],
     ['Cultural-Psychological']
 ];
+const genCategoriesOrderedIds = genCategoryRowLayout.flatMap(rowLabels => rowLabels.flatMap(label => genCategoryGroups.find(g => g.label === label).ids));
 
 const genChainEdges = [
     ['exp-tech-accel','arms-races'], ['exp-tech-accel','embedded-growth'], ['exp-tech-accel','left-hemispheric'],
@@ -1972,9 +1977,17 @@ function renderGenCategories() {
     });
     document.getElementById('gen-categories-nodes').innerHTML = nodesHtml;
 }
+function renderGenCategoriesAllList() {
+    const html = genCategoriesOrderedIds.map(id => {
+        const c = genConceptById[id];
+        return `<div class="attr-precursor-work"><div class="attr-precursor-title">${c.title}</div><div class="attr-precursor-desc">${c.desc}</div></div>`;
+    }).join('');
+    document.getElementById('gen-categories-all-list-items').innerHTML = html;
+}
 renderGenRadial();
 renderGenChain();
 renderGenCategories();
+renderGenCategoriesAllList();
 let attrTriEdgesHtml = '';
 for (let i = 0; i < attrTriNodesData.length; i++) {
     for (let j = i + 1; j < attrTriNodesData.length; j++) {
@@ -2303,6 +2316,7 @@ if(e.target.closest('.gen-concept-node')){
     const descMarginTop=tabContent.id==='gen-tab-interconnections'?'1.75rem':'1rem';
     if(c){p.querySelector('.gen-concept-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${c.title}</span><div style="font-size: 1.15rem; margin-top: ${descMarginTop}; line-height: 1.6; opacity: 0.9;">${c.desc}</div></div>`;}
     p.style.opacity='1';
+    if(tabContent.id==='gen-tab-categories'){const allList=tabContent.querySelector('#gen-categories-all-list');allList&&(allList.style.opacity='1');}
     e.isTrusted&&setTimeout(()=>{p.scrollIntoView({behavior:'smooth',block:'start'});},150);
 }
 if(e.target.closest('.gen-edge-group')){
