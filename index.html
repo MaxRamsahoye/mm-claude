@@ -1200,10 +1200,14 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
         </div>
         <div id="civ-emergence-gamea" class="civ-emergence-tab-content" style="display:none;">
-            <div style="text-align:center; padding: 4rem 0; opacity: 0.6; font-style: italic; font-size: 1.25rem;">This diagram is currently being mapped...</div>
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1800px; margin-left: calc(50% - min(50vw, 900px)); box-sizing: border-box; padding: 0 2rem;">
+                <div id="civ-emergence-gamea-svg-container"></div>
+            </div>
         </div>
         <div id="civ-emergence-gameb" class="civ-emergence-tab-content" style="display:none;">
-            <div style="text-align:center; padding: 4rem 0; opacity: 0.6; font-style: italic; font-size: 1.25rem;">This diagram is currently being mapped...</div>
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1800px; margin-left: calc(50% - min(50vw, 900px)); box-sizing: border-box; padding: 0 2rem;">
+                <div id="civ-emergence-gameb-svg-container"></div>
+            </div>
         </div>
     </div>
     <div id="system-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
@@ -2292,6 +2296,21 @@ const civDecomposition = {
     }
 };
 
+const civGameA = {
+    'political-economy':"Game A enforces itself here through the discipline of competitive markets and capital mobility: any jurisdiction, firm or contract that unilaterally adopts cooperative, non-extractive terms is simply out-competed and replaced by rivals who won’t.",
+    'cultural-psych':"Narratives of scarcity, individualism and meritocratic competition legitimise winner-takes-all outcomes as natural and deserved, making Game A feel like common sense rather than one contingent arrangement among others.",
+    'evo-psych':"Inherited dispositions toward status-seeking, tribalism and zero-sum threat perception are amplified rather than tempered, since Game A’s rules reward exploiting these dispositions rather than restraining them.",
+    'tech-stack':"Technology is developed and deployed primarily as a competitive weapon – for surveillance, extraction, or military and economic advantage – rather than as shared infrastructure for collective flourishing.",
+    'pop-physiology':civStructureById['pop-physiology'].desc
+};
+const civGameB = {
+    'political-economy':"Game B would need new contractual and ownership forms – stakeholder governance, regenerative finance, commons-based property – engineered so that cooperative, non-extractive terms are no longer competitively punished.",
+    'cultural-psych':"Narratives of interdependence, sufficiency and collective flourishing would need to displace meritocratic competition as the marker of a life well-lived, making cooperation feel like common sense rather than naive idealism.",
+    'evo-psych':"The same inherited dispositions toward status-seeking and tribalism would need to be consciously accounted for and channelled toward prosocial ends through deliberate institutional design, rather than left to run unchecked.",
+    'tech-stack':"Technology would need to be stewarded as shared infrastructure for collective coordination and flourishing, with safety and distributed benefit designed in rather than left to competitive pressure.",
+    'pop-physiology':civStructureById['pop-physiology'].desc
+};
+
 function civPolarPoint(cx, cy, r, angleDeg) {
     const rad = (angleDeg - 90) * Math.PI / 180;
     return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
@@ -2351,11 +2370,12 @@ function generateCivEmergenceSvg(opts) {
     return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1800px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
+const civIntPositionOrder = ["tech-stack", "cultural-psych", "evo-psych", "pop-physiology", "political-economy"];
 function civIntLayout() {
     const cx = 1000, cy = 1000, r = 760;
-    return civStructures.map((s, i) => {
-        const angle = (i / civStructures.length) * 2 * Math.PI - Math.PI / 2;
-        return {id: s.id, x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle), angle};
+    return civIntPositionOrder.map((id, i) => {
+        const angle = (i / civIntPositionOrder.length) * 2 * Math.PI - Math.PI / 2;
+        return {id, x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle), angle};
     });
 }
 function civIntNodeHtml(id, x, y, angle) {
@@ -2401,6 +2421,8 @@ function renderCivDecompList() {
 }
 
 document.getElementById('civ-emergence-svg-container').innerHTML = generateCivEmergenceSvg({interactive:true});
+document.getElementById('civ-emergence-gamea-svg-container').innerHTML = generateCivEmergenceSvg({interactive:false, bodyTextById: civGameA});
+document.getElementById('civ-emergence-gameb-svg-container').innerHTML = generateCivEmergenceSvg({interactive:false, bodyTextById: civGameB});
 renderCivInterconnections();
 renderCivDecompList();
 document.getElementById('civ-decomp-diagram-container').innerHTML = generateCivEmergenceSvg({interactive:false, bodyTextById: civDecomposition['embedded-growth']});
