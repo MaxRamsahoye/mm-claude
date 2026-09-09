@@ -168,15 +168,25 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-cell-center{padding:0.75rem;}
 }
 .typ-info-panel{width:100%;max-width:900px;margin:0 auto;padding:2rem 0 0 0;opacity:0;transition:opacity 0.4s ease;text-align:left;box-sizing:border-box;}
-.civ-seg{fill:var(--bg-color);stroke:var(--indicator-color-solid);stroke-width:2;cursor:pointer;transition:fill 0.3s ease;}
-.civ-seg:hover{fill:color-mix(in srgb, var(--interactive-color) 14%, var(--bg-color));}
-.civ-seg.active{fill:color-mix(in srgb, var(--interactive-color) 7%, var(--bg-color));}
-.civ-seg.active:hover{fill:color-mix(in srgb, var(--interactive-color) 18%, var(--bg-color));}
+.civ-emergence-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px;width:100%;max-width:1100px;aspect-ratio:1/1;margin:0 auto;}
+.civ-quad{position:relative;background-color:var(--bg-color);border:2px solid var(--indicator-color-solid);box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;padding:1.5rem;transition:background-color 0.3s ease;}
+.civ-quad-tl{align-items:flex-start;justify-content:flex-start;}
+.civ-quad-tl > .civ-quad-label{align-self:flex-start;}
+.civ-quad-inner{position:absolute;right:0;bottom:0;width:64%;height:64%;padding:0.9rem;}
+.civ-quad-label{width:100%;pointer-events:none;}
+.civ-quad-title{font-weight:600;font-size:1.15rem;color:var(--text-color);line-height:1.25;}
+.civ-quad-subtitle{font-size:0.9rem;opacity:0.6;margin-top:0.2rem;color:var(--text-color);}
+.civ-quad-body{font-size:0.9rem;line-height:1.4;opacity:0.85;margin-top:0.6rem;color:var(--text-color);}
+.civ-seg:hover{background-color:color-mix(in srgb, var(--interactive-color) 14%, var(--bg-color));}
+.civ-seg.active{background-color:color-mix(in srgb, var(--interactive-color) 7%, var(--bg-color));}
+.civ-seg.active:hover{background-color:color-mix(in srgb, var(--interactive-color) 18%, var(--bg-color));}
 .civ-seg-static{cursor:default;pointer-events:none;}
 .civ-node circle{transition:stroke 0.3s ease;}
 .civ-node:hover circle,.civ-node.active circle{stroke:var(--interactive-color);}
 .civ-edge-group .civ-edge-line-vis{transition:all 0.3s ease;}
-.civ-edge-group:hover .civ-edge-line-vis,.civ-edge-group.active .civ-edge-line-vis{stroke:var(--interactive-color) !important;stroke-width:3.5px !important;}
+.civ-edge-group:hover .civ-edge-line-vis,.civ-edge-group.active .civ-edge-line-vis{stroke:var(--interactive-color) !important;stroke-width:6px !important;}
+.civ-pair-title{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:1.25rem;width:100%;margin-bottom:3.5rem;text-align:center;flex-wrap:wrap;}
+.civ-pair-title svg{width:24px;height:24px;flex-shrink:0;color:var(--text-color);opacity:0.55;}
 .civ-decomp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%;max-width:1100px;margin:0 auto;}
 .civ-decomp-item{border:2px solid var(--indicator-color-solid);border-radius:10px;padding:1rem 1.25rem;cursor:pointer;text-align:center;font-weight:500;font-size:0.95rem;line-height:1.35;transition:border-color 0.3s ease,background-color 0.3s ease,color 0.3s ease;display:flex;align-items:center;justify-content:center;}
 .civ-decomp-item:hover{border-color:var(--interactive-color);background-color:color-mix(in srgb, var(--interactive-color) 10%, var(--bg-color));}
@@ -393,8 +403,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 </div>
 <div id="systems-tabs" class="attr-tabs">
     <button class="gen-tab active hoverable" data-tab="system-tab-emergence">Emergence Model</button>
-    <button class="gen-tab hoverable" data-tab="system-tab-interconnections">Interconnections</button>
     <button class="gen-tab hoverable" data-tab="system-tab-decomposition">Decomposition</button>
+    <button class="gen-tab hoverable" data-tab="system-tab-interconnections">Interconnections</button>
 </div>
 <div id="module-nav-fixed" class="module-nav corner-nav-fixed"></div>
 
@@ -416,8 +426,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     <div class="nav-item hoverable" data-target="problem"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8 22 16 12 22 2 16 2 8 12 2"></polygon></svg></div><span class="nav-label clickable-indicator">Problems</span></div>
     <div class="nav-item hoverable" data-target="generators"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 20 12 15 17 20"></polyline><polyline points="7 13 12 8 17 13"></polyline><polyline points="7 6 12 1 17 6"></polyline></svg></div><span class="nav-label clickable-indicator">Generators</span></div>
     <div class="nav-item hoverable" data-target="attractors"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="5.5"></circle><circle cx="7.5" cy="14.5" r="5.5"></circle><circle cx="16.5" cy="14.5" r="5.5"></circle></svg></div><span class="nav-label clickable-indicator">Attractors</span></div>
+    <div class="nav-item hoverable" data-target="systems"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><line x1="12" y1="2.5" x2="12" y2="21.5"></line><line x1="2.5" y1="12" x2="21.5" y2="12"></line></svg></div><span class="nav-label clickable-indicator">Civilisational</span></div>
     <div class="nav-item hoverable" data-target="landscape"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 3 21 10 3 10"></polygon><rect x="4" y="10" width="16" height="10" rx="1"></rect><line x1="9" y1="14" x2="9" y2="20"></line><line x1="15" y1="14" x2="15" y2="20"></line></svg></div><span class="nav-label clickable-indicator">Landscape</span></div>
-    <div class="nav-item hoverable" data-target="systems"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><line x1="12" y1="2.5" x2="12" y2="21.5"></line><line x1="2.5" y1="12" x2="21.5" y2="12"></line></svg></div><span class="nav-label clickable-indicator">Civilisational Systems</span></div>
     <div class="nav-divider"></div>
     <div class="nav-item hoverable" data-target="meta-maps"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5"></circle><circle cx="16" cy="8" r="5"></circle><circle cx="12" cy="17" r="5"></circle></svg></div><span class="nav-label clickable-indicator">All Maps</span></div>
     <div class="nav-item hoverable" data-target="sitemap"><div class="nav-toggle-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></div><span class="nav-label clickable-indicator">Site-Map</span></div>
@@ -1171,26 +1181,26 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div id="system-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 3rem; text-align: left; margin-left: 0; max-width: none;">The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description.</div>
     </div>
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
-        <div class="civ-emergence-wrap" style="width: 100%; max-width: 900px; margin: 0 auto;">
+        <div class="civ-emergence-wrap" style="width: 100%; max-width: 1100px; margin: 0 auto;">
             <div id="civ-emergence-svg-container"></div>
         </div>
-        <div class="typ-info-panel" style="max-width:900px;">
+        <div class="typ-info-panel" style="max-width:1100px;">
             <div class="civ-info-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a structure to view its description.</div></div>
         </div>
     </div>
     <div id="system-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100%; max-width: 900px; margin: 0 auto;">
-            <svg viewBox="-220 -60 1440 1120" style="width:100%; display:block; margin:0 auto;">
+        <div style="width: 100vw; max-width: 1800px; margin-left: calc(50% - 50vw); box-sizing: border-box; padding: 0 2rem;">
+            <svg viewBox="-440 -120 2880 2240" style="width:100%; display:block; margin:0 auto;">
                 <g id="civ-int-edges"></g>
                 <g id="civ-int-nodes"></g>
             </svg>
         </div>
-        <div class="typ-info-panel" id="civ-int-panel" style="max-width:900px;">
+        <div class="typ-info-panel" id="civ-int-panel" style="max-width:1200px;">
             <div class="civ-int-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a structure or connection to view the interaction.</div></div>
         </div>
     </div>
     <div id="system-tab-decomposition" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100%; max-width: 900px; margin: 0 auto 2rem auto;">
+        <div style="width: 100%; max-width: 1100px; margin: 0 auto 2rem auto;">
             <div id="civ-decomp-diagram-container"></div>
         </div>
         <div class="civ-decomp-grid" id="civ-decomp-generator-list"></div>
@@ -2264,67 +2274,31 @@ const civDecomposition = {
     }
 };
 
-function civPolarPoint(cx, cy, r, angleDeg) {
-    const rad = (angleDeg - 90) * Math.PI / 180;
-    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
-}
-function civAnnulusPath(cx, cy, rInner, rOuter, startAngle, endAngle) {
-    const largeArc = (endAngle - startAngle) > 180 ? 1 : 0;
-    const outerStart = civPolarPoint(cx, cy, rOuter, startAngle);
-    const outerEnd = civPolarPoint(cx, cy, rOuter, endAngle);
-    if (rInner <= 0) {
-        return `M ${cx} ${cy} L ${outerStart.x} ${outerStart.y} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y} Z`;
-    }
-    const innerStart = civPolarPoint(cx, cy, rInner, startAngle);
-    const innerEnd = civPolarPoint(cx, cy, rInner, endAngle);
-    return `M ${outerStart.x} ${outerStart.y} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y} L ${innerEnd.x} ${innerEnd.y} A ${rInner} ${rInner} 0 ${largeArc} 0 ${innerStart.x} ${innerStart.y} Z`;
-}
-const civGap = 3, civRingGap = 5;
-function civSegDefs(R) {
-    return [
-        {id:"pop-physiology", rInner:0, rOuter:R, start:0+civGap, end:90-civGap},
-        {id:"tech-stack", rInner:0, rOuter:R, start:90+civGap, end:180-civGap},
-        {id:"political-economy", rInner:0, rOuter:R, start:180+civGap, end:270-civGap},
-        {id:"evo-psych", rInner:0, rOuter:R/3-civRingGap, start:270+civGap, end:360-civGap},
-        {id:"cultural-psych", rInner:R/3+civRingGap, rOuter:R, start:270+civGap, end:360-civGap}
-    ];
+function civQuadLabelHtml(id, bodyTextById) {
+    const s = civStructureById[id];
+    const bodyHtml = bodyTextById ? `<div class="civ-quad-body">${bodyTextById[id]||''}</div>` : '';
+    return `<div class="civ-quad-label"><div class="civ-quad-title">${s.title}</div><div class="civ-quad-subtitle">(${s.subtitle})</div>${bodyHtml}</div>`;
 }
 function generateCivEmergenceSvg(opts) {
     opts = opts || {};
     const interactive = opts.interactive !== false;
     const bodyTextById = opts.bodyTextById || null;
-    const cx = 500, cy = 500, R = 380;
-    const segs = civSegDefs(R);
-    let pathsHtml = '', labelsHtml = '';
-    segs.forEach(seg => {
-        const s = civStructureById[seg.id];
-        const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
-        const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
-        pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        const midAngle = (seg.start + seg.end) / 2;
-        const midR = seg.rInner === 0 ? seg.rOuter * 0.62 : seg.rInner + (seg.rOuter - seg.rInner) * 0.5;
-        const pt = civPolarPoint(cx, cy, midR, midAngle);
-        const angleSpanRad = (seg.end - seg.start) * Math.PI / 180;
-        const chordWidth = 2 * midR * Math.sin(angleSpanRad / 2);
-        const radialThickness = seg.rOuter - seg.rInner;
-        const maxBoxW = bodyTextById ? 300 : 230, maxBoxH = bodyTextById ? 230 : 110;
-        const boxW = Math.max(80, Math.min(maxBoxW, chordWidth * 0.88));
-        const boxH = Math.max(70, Math.min(maxBoxH, radialThickness * 0.88));
-        const scale = Math.max(0.65, Math.min(1, boxW / maxBoxW, boxH / maxBoxH));
-        const bodyHtml = bodyTextById ? `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.35; opacity:0.85; margin-top:${(0.5*scale).toFixed(2)}rem;">${bodyTextById[seg.id]||''}</div>` : '';
-        labelsHtml += `<foreignObject x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}">
-            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:${(0.5*scale).toFixed(2)}rem; pointer-events:none; overflow:hidden;">
-                <div style="font-weight:600; font-size:${(1*scale).toFixed(2)}rem; color:var(--text-color); line-height:1.2;">${s.title}</div>
-                <div style="font-size:${(0.8*scale).toFixed(2)}rem; opacity:0.6; margin-top:0.15rem; color:var(--text-color);">(${s.subtitle})</div>
-                ${bodyHtml}
+    const clsFor = id => interactive ? `civ-seg hoverable civ-quad civ-quad-${id}` : `civ-seg civ-seg-static civ-quad civ-quad-${id}`;
+    return `<div class="civ-emergence-grid">
+        <div class="${clsFor('tl')}" data-struct-id="cultural-psych">
+            ${civQuadLabelHtml('cultural-psych', bodyTextById)}
+            <div class="${clsFor('inner')}" data-struct-id="evo-psych">
+                ${civQuadLabelHtml('evo-psych', bodyTextById)}
             </div>
-        </foreignObject>`;
-    });
-    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:800px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
+        </div>
+        <div class="${clsFor('tr')}" data-struct-id="pop-physiology">${civQuadLabelHtml('pop-physiology', bodyTextById)}</div>
+        <div class="${clsFor('bl')}" data-struct-id="political-economy">${civQuadLabelHtml('political-economy', bodyTextById)}</div>
+        <div class="${clsFor('br')}" data-struct-id="tech-stack">${civQuadLabelHtml('tech-stack', bodyTextById)}</div>
+    </div>`;
 }
 
 function civIntLayout() {
-    const cx = 500, cy = 500, r = 380;
+    const cx = 1000, cy = 1000, r = 760;
     return civStructures.map((s, i) => {
         const angle = (i / civStructures.length) * 2 * Math.PI - Math.PI / 2;
         return {id: s.id, x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle), angle};
@@ -2332,15 +2306,15 @@ function civIntLayout() {
 }
 function civIntNodeHtml(id, x, y, angle) {
     const s = civStructureById[id];
-    const labelOffset = 55;
+    const labelOffset = 110;
     const lx = x + labelOffset * Math.cos(angle), ly = y + labelOffset * Math.sin(angle);
     const isLeft = Math.cos(angle) < -0.3;
     const isCenter = Math.abs(Math.cos(angle)) <= 0.3;
     const anchor = isCenter ? 'middle' : (isLeft ? 'end' : 'start');
     return `<g class="civ-node hoverable" data-struct-id="${id}" style="cursor:pointer;">
-        <circle cx="${x}" cy="${y}" r="14" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2.5" />
-        <text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" style="font-size:18px; font-weight:600; fill:var(--text-color); font-family:var(--font-primary);">${s.title}</text>
-        <text x="${lx}" y="${ly+22}" text-anchor="${anchor}" style="font-size:14px; opacity:0.6; fill:var(--text-color); font-family:var(--font-primary);">(${s.subtitle})</text>
+        <circle cx="${x}" cy="${y}" r="28" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="5" />
+        <text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" style="font-size:36px; font-weight:600; fill:var(--text-color); font-family:var(--font-primary);">${s.title}</text>
+        <text x="${lx}" y="${ly+44}" text-anchor="${anchor}" style="font-size:28px; opacity:0.6; fill:var(--text-color); font-family:var(--font-primary);">(${s.subtitle})</text>
     </g>`;
 }
 function renderCivInterconnections() {
@@ -2351,8 +2325,8 @@ function renderCivInterconnections() {
         for (let j = i + 1; j < positions.length; j++) {
             const a = positions[i], b = positions[j];
             edgesHtml += `<g class="civ-edge-group hoverable" data-src="${a.id}" data-tgt="${b.id}" style="cursor:pointer;">
-                <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="var(--indicator-color-solid)" stroke-width="1.5" class="civ-edge-line-vis" />
-                <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+                <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="var(--indicator-color-solid)" stroke-width="3" class="civ-edge-line-vis" />
+                <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="transparent" stroke-width="28" pointer-events="stroke" />
             </g>`;
         }
     }
@@ -3040,7 +3014,7 @@ if(e.target.closest('.civ-edge-group')){
     const src=civStructureById[srcId],tgt=civStructureById[tgtId];
     const a1=civInterconnections[srcId+'-'+tgtId],a2=civInterconnections[tgtId+'-'+srcId];
     const panel=document.getElementById('civ-int-panel');
-    panel.querySelector('.civ-int-content').innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><div class="gen-pair-title"><div class="gen-pair-title-item">${src.title}</div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><polyline points="18 7 12 1 6 7"></polyline><polyline points="18 17 12 23 6 17"></polyline></svg><div class="gen-pair-title-item">${tgt.title}</div></div><div class="gen-pair-flow"><div class="gen-pair-block"><div class="gen-pair-flow-label">${src.title} <span class="gen-pair-arrow">&#8594;</span> ${tgt.title}</div><p class="gen-pair-para">${a1}</p></div><div class="gen-pair-block"><div class="gen-pair-flow-label">${tgt.title} <span class="gen-pair-arrow">&#8594;</span> ${src.title}</div><p class="gen-pair-para">${a2}</p></div></div></div>`;
+    panel.querySelector('.civ-int-content').innerHTML=`<div style="width:100%; display:flex; flex-direction:column; align-items:center;"><div class="civ-pair-title"><div class="gen-pair-title-item">${src.title}</div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"></line><polyline points="17 6 23 12 17 18"></polyline><polyline points="7 6 1 12 7 18"></polyline></svg><div class="gen-pair-title-item">${tgt.title}</div></div><div class="gen-pair-flow"><div class="gen-pair-block"><div class="gen-pair-flow-label">${src.title} <span class="gen-pair-arrow">&#8594;</span> ${tgt.title}</div><p class="gen-pair-para">${a1}</p></div><div class="gen-pair-block"><div class="gen-pair-flow-label">${tgt.title} <span class="gen-pair-arrow">&#8594;</span> ${src.title}</div><p class="gen-pair-para">${a2}</p></div></div></div>`;
     panel.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{panel.scrollIntoView({behavior:'smooth',block:'nearest'});},150);
 }
