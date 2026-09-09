@@ -115,17 +115,17 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-tick-x-low{bottom:-28px;left:14%;}
 .typ-tick-x-high{bottom:-28px;right:14%;}
 .typ-matrix-grid{position:relative;width:100%;aspect-ratio:1.3/1;background-color:var(--indicator-color-solid);border:1px solid var(--indicator-color-solid);overflow:hidden;}
-.typ-cell{position:absolute;background-color:var(--bg-color);cursor:default;transition:background-color 0.3s ease;}
-.typ-cell:hover{background-color:var(--indicator-color);}
+.typ-cell{position:absolute;background-color:var(--bg-color);cursor:pointer;transition:box-shadow 0.3s ease;}
+.typ-cell:hover{box-shadow:inset 0 0 0 3px var(--interactive-color);}
 .typ-cell-content{position:absolute;width:calc(100% - 3.5rem);box-sizing:border-box;transition:transform 0.3s ease;}
-.typ-cell:hover .typ-cell-content{transform:translateY(-3px);}
-.typ-cell-tl .typ-cell-content{top:1.75rem;left:1.75rem;text-align:left;}
-.typ-cell-tr .typ-cell-content{top:1.75rem;right:1.75rem;text-align:right;}
-.typ-cell-bl .typ-cell-content{bottom:1.75rem;left:1.75rem;text-align:left;}
-.typ-cell-br .typ-cell-content{bottom:1.75rem;right:1.75rem;text-align:right;}
-.typ-cell h4{margin:0 0 0.25rem 0;font-size:1.15rem;font-weight:600;color:var(--text-color);}
-.typ-cell-subtitle{display:block;margin-bottom:0.6rem;font-size:0.85rem;opacity:0.6;color:var(--text-color);}
-.typ-cell p{margin:0;font-size:0.9rem;line-height:1.45;color:var(--text-color);opacity:0.85;}
+.typ-cell-tl .typ-cell-content{top:1.75rem;left:1.75rem;text-align:left;transform-origin:left top;}
+.typ-cell-tr .typ-cell-content{top:1.75rem;right:1.75rem;text-align:right;transform-origin:right top;}
+.typ-cell-bl .typ-cell-content{bottom:1.75rem;left:1.75rem;text-align:left;transform-origin:left bottom;}
+.typ-cell-br .typ-cell-content{bottom:1.75rem;right:1.75rem;text-align:right;transform-origin:right bottom;}
+.typ-cell:hover .typ-cell-content{transform:scale(1.5);}
+.typ-cell.active{box-shadow:inset 0 0 0 2px var(--interactive-color);}
+.typ-cell h4{margin:0;font-size:1.15rem;font-weight:600;color:var(--text-color);}
+.typ-cell-subtitle{display:block;margin-top:0.25rem;font-size:0.85rem;opacity:0.6;color:var(--text-color);}
 .typ-matrix-grid.typ-plain .typ-cell{width:calc(50% - 1px);height:calc(50% - 1px);}
 .typ-matrix-grid.typ-plain .typ-cell-tl{left:0;top:0;}
 .typ-matrix-grid.typ-plain .typ-cell-tr{right:0;top:0;}
@@ -136,10 +136,11 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-matrix-grid.typ-with-center .typ-cell-tr{right:0;top:0;clip-path:polygon(0 0,100% 0,100% 100%,50% 100%,50% 60%,0 60%);}
 .typ-matrix-grid.typ-with-center .typ-cell-bl{left:0;bottom:0;clip-path:polygon(0 0,50% 0,50% 40%,100% 40%,100% 100%,0 100%);}
 .typ-matrix-grid.typ-with-center .typ-cell-br{right:0;bottom:0;clip-path:polygon(50% 0,100% 0,100% 100%,0 100%,0 40%,50% 40%);}
-.typ-cell-center{position:absolute;left:25%;top:30%;width:50%;height:40%;background-color:var(--bg-color);border:1px solid var(--indicator-color-solid);z-index:10;display:flex;align-items:center;justify-content:center;text-align:center;padding:1.5rem;box-sizing:border-box;transition:background-color 0.3s ease;}
-.typ-cell-center:hover{background-color:var(--indicator-color);}
-.typ-cell-center .typ-cell-content{position:relative;width:100%;transform:none!important;}
-.typ-cell-center:hover .typ-cell-content{transform:none;}
+.typ-cell-center{position:absolute;left:25%;top:30%;width:50%;height:40%;background-color:var(--bg-color);border:1px solid var(--indicator-color-solid);z-index:10;display:flex;align-items:center;justify-content:center;text-align:center;padding:1.5rem;box-sizing:border-box;cursor:pointer;transition:box-shadow 0.3s ease;}
+.typ-cell-center:hover{box-shadow:inset 0 0 0 3px var(--interactive-color);}
+.typ-cell-center.active{box-shadow:inset 0 0 0 2px var(--interactive-color);}
+.typ-cell-center .typ-cell-content{position:relative;width:100%;transform-origin:center;}
+.typ-cell-center:hover .typ-cell-content{transform:scale(1.5);}
 @media (max-width:1000px){
 .typ-cell-content{width:calc(100% - 2.5rem);}
 .typ-cell-tl .typ-cell-content{top:1.1rem;left:1.1rem;}
@@ -147,7 +148,6 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-cell-bl .typ-cell-content{bottom:1.1rem;left:1.1rem;}
 .typ-cell-br .typ-cell-content{bottom:1.1rem;right:1.1rem;}
 .typ-cell h4{font-size:1rem;}
-.typ-cell p{font-size:0.8rem;line-height:1.35;}
 }
 @media (max-width:768px){
 .typ-matrix-wrapper{margin-left:1rem;margin-right:1rem;max-width:calc(100% - 2rem);padding-left:56px;}
@@ -155,12 +155,12 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-tick-y-high{left:0;width:52px;text-align:right;}
 .typ-tick-y-low{left:0;width:52px;text-align:right;}
 .typ-matrix-grid{aspect-ratio:1/1.15;}
-.typ-cell p{display:none;}
-.typ-cell-subtitle{margin-bottom:0.2rem;}
+.typ-cell-subtitle{margin-top:0.15rem;}
 .typ-axis-label{font-size:0.9rem;}
 .typ-tick{font-size:0.8rem;}
 .typ-cell-center{padding:0.75rem;}
 }
+.typ-info-panel{width:100%;max-width:900px;margin:0 auto;padding:2rem 0 0 0;opacity:0;transition:opacity 0.4s ease;text-align:left;box-sizing:border-box;}
 .attr-matrix-wrap { width: 100%; max-width: 1200px; align-self: center; margin: 2rem auto 0 auto; box-sizing: border-box; transform: translateX(-60px); }
 .attr-matrix-table { border-collapse: collapse; width: auto; table-layout: fixed; }
 .attr-matrix-corner { border: none; }
@@ -266,6 +266,11 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .gen-tab-dropdown-wrap:hover .gen-tab-dropdown, .gen-tab-dropdown-wrap:focus-within .gen-tab-dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
 .gen-subtab { background: transparent; border: none; color: var(--text-color); padding: 0; font-size: 0.82rem; font-family: inherit; font-weight: 500; opacity: 0.5; text-align: left; transition: opacity 0.3s ease, color 0.3s ease; }
 .gen-subtab:hover, .gen-subtab.active { opacity: 1; color: var(--interactive-color); }
+.gen-cond-tabs { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; width: 100%; }
+.gen-cond-tab { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
+.gen-cond-tab:hover { transform: translateY(-2px); border-color: var(--interactive-color); color: var(--interactive-color); }
+.gen-cond-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); }
+.gen-cond-tab-content { width: 100%; }
 .corner-nav-fixed { position: fixed; top: 2rem; left: 2rem; z-index: 100; max-width: calc(100vw - 4rem); opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .corner-nav-fixed.visible { opacity: 1; pointer-events: auto; }
 .module-nav.corner-nav-fixed { width: auto; margin: 0; }
@@ -288,7 +293,7 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .gen-side-cell { display: flex; align-items: center; justify-content: flex-end; text-align: right; font-family:var(--font-primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; font-weight: 600; opacity: 0.7; border-right: 2px solid var(--interactive-color); padding-right: 1.5rem; padding-top: 1rem; padding-bottom: 1rem; line-height: 1.4; transition: opacity 0.4s ease; }
 .gen-row { display: flex; justify-content: center; gap: 0; width: 100%; position: relative; z-index: 2; transition: opacity 0.4s ease; }
 .gen-node-wrapper { flex: 1 1 0; display: flex; justify-content: center; align-items: stretch; min-width: 0; position: relative; height: 100%; padding: 0 0.75rem; box-sizing: border-box; }
-.gen-conn-0, .gen-conn-1, .gen-conn-2, .gen-conn-0b, .gen-conn-1b { width: 100%; height: 100px; position: relative; z-index: 1; margin: -2px 0; transition: opacity 0.4s ease; }
+.gen-conn-0, .gen-conn-1, .gen-conn-2, .gen-conn-0b, .gen-conn-1b, .gen-conn { width: 100%; height: 100px; position: relative; z-index: 1; margin: -2px 0; transition: opacity 0.4s ease; }
 .gen-node { display: flex; flex-direction: column; text-align: left; width: 100%; max-width: 460px; min-width: 280px; padding: 1.25rem 1.5rem; align-items: flex-start; cursor: default; background: var(--bg-color); box-sizing: border-box; }
 .gen-node-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.8rem; line-height: 1.3; white-space: nowrap; text-align: center; width: 100%; }
 .gen-node.center-node { border-color: var(--interactive-color); }
@@ -319,7 +324,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 @media (max-width:900px){.hex-int-flow{grid-template-columns:100px 1fr;gap:2.5rem 1.5rem;} .module-grid.three-col{grid-template-columns:1fr;max-width:800px;} .module-grid.two-col{grid-template-columns:1fr;max-width:800px;} .node-box.root{font-size:1.4rem;padding:12px 20px;} .node-box.l2{font-size:1rem;min-width:100px;} .node-box.l3{font-size:.8rem;padding:8px 10px;} .node-box.l4{font-size:.75rem;padding:6px 8px;} .node-box.l5{font-size:.65rem;padding:4px 6px;} .css-tree li{padding:15px 6px 0;} .css-tree ul{padding-top:15px;} .css-tree li::before,.css-tree li::after,.css-tree ul ul::before{height:15px;} .css-tree.horizontal ul{padding-top:0;padding-left:15px;} .css-tree.horizontal li{padding:5px 0 5px 15px;} .css-tree.horizontal li::before,.css-tree.horizontal li::after{width:15px;} .css-tree.horizontal ul ul::before{width:15px;} #glossary-detail-view{padding-left:0;} #glossary-back-btn{position:static;margin-right:15px;margin-bottom:1rem;} .gen-grid { grid-template-columns: 100px 1fr; gap: 0 2rem; padding: 40px 0; } .gen-node-wrapper { flex: 1 1 100%; max-width: 100%; } .prev-slide { left: -1rem; z-index: 20; } .next-slide { right: -1rem; z-index: 20; } .gen-node { min-width: 0; max-width: none; } .attr-precursor-row { grid-template-columns: 1fr; gap: 0.5rem 0; } .attr-precursor-label { border-right: none; text-align: left; padding-right: 0; padding-bottom: 0.5rem; } .attr-precursor-content { max-width: 100%; } .attr-matrix-table, .attr-matrix-table tbody, .attr-matrix-table tr, .attr-matrix-table td { display: block; width: auto !important; } .attr-matrix-corner { display: none; } .attr-matrix-colhead, .attr-matrix-rowhead { text-align: left; padding: 0.5rem 0 !important; border: none !important; font-size: 0.9rem; } .attr-matrix-cell { padding: 1.25rem 1.25rem; border: 2px solid var(--indicator-color-solid) !important; margin-bottom: 1rem; } .attr-matrix-wrap { transform: none; }}
 @media (max-width:768px){#view-manager{padding:7rem 1.5rem 8rem;} h1{font-size:2.6rem;} .desc-text{font-size:1rem!important;} .focused-title{font-size:2.2rem;} #definition,#g-desc{font-size:1.1rem;} #bottom-left-controls{bottom:1.5rem;left:1.5rem;gap:1rem; transform: translateX(0); opacity: 1; pointer-events: auto;} #hamburger-btn{display: none;} .nav-toggle-btn{width:24px;height:24px;} .nav-label{font-size:.65rem;} #toggle-container{top:1.5rem;right:1.5rem;width:32px;height:32px;} #site-title{top:1.5rem;right:calc(1.5rem + 32px + .7rem);height:32px;font-size:1rem;} #accent-toggle{width:28px;height:28px;} #theme-toggle{width:12px;height:12px;} #main-breadcrumbs{top:1.5rem;left:1.5rem;max-width:65vw;font-size:.75rem;} #footer{bottom:1.5rem;font-size:.65rem;white-space:normal;text-align:center;max-width:50vw;} #footer.header-mode{top:1.5rem;left:1.5rem;max-width:70vw;text-align:left;} .br-action-btn{bottom:1.5rem;right:1.5rem;width:32px;height:32px;} #scroll-progress-container{width:8px;} .menu-row{flex-direction:column;gap:1.5rem;margin-top:2rem;} .l3-menu{gap:1.25rem;margin-top:1.5rem;} .l4-menu{gap:1rem;margin-top:1.25rem;} .l5-menu{gap:.8rem;margin-top:1rem;} .site-stage-2-contents-tight .l3-menu{gap:.5rem;} .site-stage-2-contents-tight .l4-menu{gap:.4rem;} .site-stage-2-contents-tight .l5-menu{gap:.34rem;} .site-stage-2-contents-tight .l6-menu{gap:.3rem;} .menu-item{font-size:1.3rem;white-space:normal;text-align:center;} .l3-menu .menu-item{font-size:1.2rem;} .l4-menu .menu-item{font-size:1.1rem;} .l5-menu .menu-item{font-size:1rem;} .selected-header h2{font-size:1.6rem;} .selected-header h3{font-size:1.3rem;} .selected-header h4{font-size:1.1rem;} .selected-header h5{font-size:1rem;} .selected-header{padding:0 40px;width:auto;max-width:100%;box-sizing:border-box;} .local-back-btn{right:auto;left:0;margin-right:0;transform:translateX(-10px);} .local-back-btn.visible{transform:translateX(0);} .css-tree{padding:2rem 1rem;} .css-tree ul{padding-top:15px;} .css-tree li{padding:15px 4px 0;} .css-tree li::before,.css-tree li::after,.css-tree ul ul::before{height:15px;} .node-box{padding:8px 10px;border-width:1.5px;} .node-box.root{font-size:1.2rem;padding:12px 16px;} .node-box.l2{font-size:.95rem;min-width:100px;} .node-box.l3{font-size:.75rem;padding:8px;} .archive-list>li>.glossary-item{font-size:1.1rem;} .archive-list>li>ul>li>.glossary-item{font-size:1rem;} .archive-list>li>ul>li>ul>li>.glossary-item{font-size:0.92rem;} .archive-list>li>ul>li>ul>li>ul>li>.glossary-item{font-size:0.88rem;} .archive-list>li>ul>li>ul>li>ul>li>ul>li>.glossary-item{font-size:0.85rem;} .archive-list ul{padding-left:1rem;} #maximal-list-view{padding-top:4rem;} .maximal-list .max-header .max-title{font-size:1.8rem;} .maximal-list ul .max-header .max-title{font-size:1.5rem;} .maximal-list ul ul .max-header .max-title{font-size:1.3rem;} .maximal-list ul ul ul .max-header .max-title{font-size:1.15rem;} .maximal-list ul ul ul ul .max-header .max-title{font-size:1.05rem;} .max-desc{font-size:1rem;} .maximal-list ul{padding-left:1rem;margin-left:.5rem;margin-top:.5rem;margin-bottom:1.5rem;} .maximal-list li{margin:1rem 0;} #loading-svg{width:280px;height:280px;} #toggle-map-layout-btn,#collapse-tree-btn{bottom:4rem;} #toggle-expand-all-btn{bottom:7.5rem;} body[data-view*="app"] #scroll-top-btn{bottom:4rem;} .hex-node foreignObject span { font-size: 1.35rem; }
 .hex-int-block { max-width: 88%; } .hex-int-flow { grid-template-columns: 1fr; gap: 1rem 0; } .hex-int-side-label { border-right: none; justify-content: flex-start; text-align: left; padding-right: 0; padding-bottom: 0.5rem; } .hex-main-title { font-size: 1.6rem; gap: 0.5rem; margin-bottom: 2rem; } .hex-main-title svg { width: 24px !important; height: 24px !important; } .hex-int-para { font-size: 1rem; } .hex-int-side-label { font-size: 0.8rem; } 
-.gen-grid { grid-template-columns: 1fr; gap: 0; padding: 40px 0; } .gen-side-cell { display: none; } .gen-row { flex-direction: column; align-items: center; gap: 1.5rem; } .gen-slide { flex-direction: column; } .gen-node-title { white-space: normal; text-align: center; } .gen-conn-0 svg, .gen-conn-1 svg, .gen-conn-2 svg, .gen-conn-0b svg, .gen-conn-1b svg { display: none; } .gen-conn-0, .gen-conn-1, .gen-conn-2, .gen-conn-0b, .gen-conn-1b { height: 30px; border-left: 2px solid var(--indicator-color-solid); width: 2px; margin: 0 auto; } .gen-tabs { justify-content: center; }}
+.gen-grid { grid-template-columns: 1fr; gap: 0; padding: 40px 0; } .gen-side-cell { display: none; } .gen-row { flex-direction: column; align-items: center; gap: 1.5rem; } .gen-slide { flex-direction: column; } .gen-node-title { white-space: normal; text-align: center; } .gen-conn-0 svg, .gen-conn-1 svg, .gen-conn-2 svg, .gen-conn-0b svg, .gen-conn-1b svg, .gen-conn svg { display: none; } .gen-conn-0, .gen-conn-1, .gen-conn-2, .gen-conn-0b, .gen-conn-1b, .gen-conn { height: 30px; border-left: 2px solid var(--indicator-color-solid); width: 2px; margin: 0 auto; } .gen-tabs { justify-content: center; }}
 @media (max-width:480px){#site-title{display:none;} h1{font-size:2.1rem;} .node-box.l3{font-size:.65rem;} .local-back-btn{width:28px;height:28px;} .l3-header .local-back-btn,.l4-header .local-back-btn,.l5-header .local-back-btn{width:24px;height:24px;} #bottom-left-controls{bottom:1.2rem;left:1.2rem;} .br-action-btn{bottom:1.2rem;right:1.2rem;} #footer{bottom:1.2rem;} .nav-label{display:none;} .nav-item{gap:0;} #toggle-map-layout-btn,#collapse-tree-btn{bottom:3.8rem;} #toggle-expand-all-btn{bottom:7.3rem;} body[data-view*="app"] #scroll-top-btn{bottom:3.8rem;}}
 #mobile-block-screen{display:none;}
 @media (max-width:768px){#mobile-block-screen{display:flex;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:var(--bg-color);color:var(--text-color);align-items:center;justify-content:center;text-align:center;padding:2.5rem;box-sizing:border-box;} .mobile-block-message{font-family:var(--font-primary);font-size:1.2rem;line-height:1.7;max-width:26rem;} body{overflow:hidden!important;}}
@@ -345,6 +350,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div class="gen-tab-dropdown">
             <button class="gen-subtab active hoverable" data-subtab="gen-mpt">The Multi-Polar Trap</button>
             <button class="gen-subtab hoverable" data-subtab="gen-nmo">Narrow Metric Optimisation</button>
+            <button class="gen-subtab hoverable" data-subtab="gen-conditions">Conditions</button>
         </div>
     </div>
     <button class="gen-tab hoverable" data-tab="gen-tab-interconnections">Interconnections<span style="color: var(--interactive-color); font-weight: 700; margin-left: 0.4em;">(WIP)</span></button>
@@ -936,6 +942,16 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             </div>
         </div>
     </div>
+
+    <!-- Subtab 3: Conditions -->
+    <div id="gen-conditions" class="gen-subtab-content" style="display: none; width: 100%;">
+        <div class="gen-cond-tabs">
+            <button class="gen-cond-tab active hoverable" data-condtab="existential-risk">Existential Risk</button>
+            <button class="gen-cond-tab hoverable" data-condtab="existential-flourishing">Existential Flourishing</button>
+        </div>
+        <div id="gen-cond-existential-risk" class="gen-cond-tab-content active" data-cond-diagram="existential-risk"></div>
+        <div id="gen-cond-existential-flourishing" class="gen-cond-tab-content" style="display: none;" data-cond-diagram="existential-flourishing"></div>
+    </div>
     </div>
     <div id="gen-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
         <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
@@ -1497,7 +1513,7 @@ function typCellHtml(id,posClass){
   const node=findNodeById(macrostrategyTreeData,id);
   const m=node.title.match(/^(.*?)\s*\(([^)]+)\)$/);
   const mainTitle=m?m[1]:node.title,subtitle=m?m[2]:"";
-  return `<div class="typ-cell ${posClass}"><div class="typ-cell-content"><h4>${mainTitle}</h4>${subtitle?`<span class="typ-cell-subtitle">(${subtitle})</span>`:""}<p>${node.desc}</p></div></div>`;
+  return `<div class="typ-cell ${posClass} hoverable" data-typ-id="${id}"><div class="typ-cell-content"><h4>${mainTitle}</h4>${subtitle?`<span class="typ-cell-subtitle">(${subtitle})</span>`:""}</div></div>`;
 }
 function generateTypMatrix(diagramId){
   const cfg=typDiagrams[diagramId];
@@ -1505,13 +1521,15 @@ function generateTypMatrix(diagramId){
   let html=`<div class="typ-matrix-wrapper"><div class="typ-axis-label typ-y-axis">${cfg.yAxis}</div><div class="typ-tick typ-tick-y-high">${cfg.yHigh}</div><div class="typ-tick typ-tick-y-low">${cfg.yLow}</div>`;
   html+=`<div class="typ-matrix-grid ${hasCenter?"typ-with-center":"typ-plain"}">`;
   html+=typCellHtml(cfg.tl,"typ-cell-tl")+typCellHtml(cfg.tr,"typ-cell-tr")+typCellHtml(cfg.bl,"typ-cell-bl")+typCellHtml(cfg.br,"typ-cell-br");
-  if(hasCenter)html+=typCellHtml(cfg.center,"typ-cell-center").replace('class="typ-cell typ-cell-center"','class="typ-cell-center"');
+  if(hasCenter)html+=typCellHtml(cfg.center,"typ-cell-center").replace('class="typ-cell typ-cell-center hoverable"','class="typ-cell-center hoverable"');
   html+=`</div><div class="typ-axis-label typ-x-axis">${cfg.xAxis}</div><div class="typ-tick typ-tick-x-low">${cfg.xLow}</div><div class="typ-tick typ-tick-x-high">${cfg.xHigh}</div></div>`;
+  html+=`<div class="typ-info-panel"><div class="typ-info-content"><div style="font-size:1.25rem;font-style:italic;opacity:0.8;">Select a quadrant to view its description.</div></div></div>`;
   return html;
 }
 function generateMaximalList(e,t=0){let o=getMaxDepth(e),n=o>1,c=`<li><div class="max-header"><div class="max-title hoverable clickable-indicator">${e.title}</div>`;if(n||e.desc){c+=`<div class="max-arrows"><span class="single-arrow hoverable collapsed"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>`,o>2&&(c+=`<span class="double-arrow hoverable collapsed"><svg viewBox="0 0 24 24"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg></span>`),o>3&&(c+=`<span class="triple-arrow hoverable collapsed"><svg viewBox="0 0 24 24"><polyline points="7 18 12 23 17 18"></polyline><polyline points="7 11 12 16 17 11"></polyline><polyline points="7 4 12 9 17 4"></polyline></svg></span>`),c+="</div>"}return c+=`</div><div class="max-desc-collapsible collapsed"><div class="max-collapsible-inner"><div class="max-desc">${e.desc||""}</div></div></div>`,n&&(c+=`<div class="max-children-collapsible collapsed"><div class="max-collapsible-inner"><ul>${e.children.map(e=>generateMaximalList(e,t+1)).join("")}</ul></div></div>`),c+"</li>"}
 document.getElementById("definition").innerHTML=treeData.desc,document.getElementById("menu-2").innerHTML=treeData.children.map((e,i)=>(4===i?'<div class="menu-row-break" style="flex-basis:100%;width:0;height:0;margin:0;padding:0;"></div>':"")+`<div class="menu-item hoverable clickable-indicator" data-target="${e.id}">${getShort(e)}</div>`).join(""),document.getElementById("stage-2-contents").innerHTML=generateAppPanels(treeData.children,2),document.querySelector(".css-tree").innerHTML=`<ul>${generateMapTree(viewTreeData,1)}</ul>`,document.getElementById("glossary-list-view").innerHTML=generateGlossaryModule(viewTreeData),document.getElementById("module-nav-fixed").innerHTML=generateModuleNav(viewTreeData),document.querySelector(".maximal-list").innerHTML=generateMaximalList(viewTreeData,0),setMapState(document.querySelector(".css-tree > ul > li"),1),setMaxState(document.querySelector(".maximal-list > li"),2),document.getElementById("metamod-definition").innerHTML=metamodTreeData.desc,document.getElementById("metamod-menu-2").innerHTML=metamodTreeData.children.map((e,i)=>(4===i?'<div class="menu-row-break" style="flex-basis:100%;width:0;height:0;margin:0;padding:0;"></div>':"")+`<div class="menu-item hoverable clickable-indicator" data-target="${e.id}">${getShort(e)}</div>`).join(""),document.getElementById("metamod-stage-2-contents").innerHTML=generateAppPanels(metamodTreeData.children,2),document.getElementById("metatheory-definition").innerHTML=metatheoryTreeData.desc,document.getElementById("metatheory-menu-2").innerHTML=metatheoryTreeData.children.map((e,i)=>((4===i||8===i)?'<div class="menu-row-break" style="flex-basis:100%;width:0;height:0;margin:0;padding:0;"></div>':"")+`<div class="menu-item hoverable clickable-indicator" data-target="${e.id}">${getShort(e)}</div>`).join(""),document.getElementById("macrostrategy-definition").innerHTML=macrostrategyTreeData.desc,document.getElementById("macrostrategy-menu-2").innerHTML=macrostrategyTreeData.children.map((e,i)=>(4===i?'<div class="menu-row-break" style="flex-basis:100%;width:0;height:0;margin:0;padding:0;"></div>':"")+`<div class="menu-item hoverable clickable-indicator" data-target="${e.id}">${getShort(e)}</div>`).join(""),document.getElementById("macrostrategy-stage-2-contents").innerHTML=generateAppPanels(macrostrategyTreeData.children,2),document.getElementById("macrohistory-definition").innerHTML=macrohistoryTreeData.desc,document.getElementById("macrohistory-menu-2").innerHTML=macrohistoryTreeData.children.map((e,i)=>(4===i?'<div class="menu-row-break" style="flex-basis:100%;width:0;height:0;margin:0;padding:0;"></div>':"")+`<div class="menu-item hoverable clickable-indicator" data-target="${e.id}">${getShort(e)}</div>`).join(""),document.getElementById("macrohistory-stage-2-contents").innerHTML=generateAppPanels(macrohistoryTreeData.children,2),document.getElementById("metatheory-stage-2-contents").innerHTML=generateAppPanels(metatheoryTreeData.children,2),document.getElementById("paradigm-diagram").innerHTML=generateParadigmDiagram(metamodTreeData.children.slice(0,4)),document.getElementById("paradigm-info-panel").innerHTML=generateParadigmInfo(metamodTreeData.children[0]),document.getElementById("metatheory-diagram").innerHTML=generateMetatheoryDiagram(metatheoryTreeData.children.slice(0,8)),document.getElementById("metatheory-info-panel").innerHTML=generateMetatheoryInfo(metatheoryTreeData.children[0]),balanceMenuRows();
 document.querySelectorAll("#typologies-container .typ-subtab-content[data-diagram]").forEach(e=>{e.innerHTML=generateTypMatrix(e.getAttribute("data-diagram"))});
+setTimeout(()=>{document.querySelectorAll("#typologies-container .typ-subtab-content[data-diagram]").forEach(e=>{const cell=e.querySelector(".typ-cell, .typ-cell-center");cell&&cell.dispatchEvent(new MouseEvent("click",{bubbles:!0}));});},50);
 const landscapeTabCopy={
     metacrisis:{
         "landscape-tab-organisations":{title:"Research Landscape: Organisations",subtitle:"Institutes and initiatives producing dedicated research on the metacrisis and civilisational transition."},
@@ -1931,6 +1949,52 @@ const genCategoryRowLayout = [
     ['Cultural-Psychological']
 ];
 const genCategoriesOrderedIds = genCategoryRowLayout.flatMap(rowLabels => rowLabels.flatMap(label => genCategoryGroups.find(g => g.label === label).ids));
+
+const genConditionsDiagrams = {
+    "existential-risk": [
+        {label:"Self-Termination", boxes:["Existential Risk","Exterminism"]},
+        {label:"Emergent Escalation", boxes:["Exponential Technology"]},
+        {label:"Game-Theoretic Structure", boxes:["Zero-Sum Games"]},
+        {label:"Civilisational Evolutionary Process", boxes:["Military-Economic Adaptationism","Cultural-Psychological Adaptationism"]},
+        {label:"Political-Economic Dynamics", boxes:["Hierarchy & Inequality (Power Asymmetries)","Competition & Conflict (Arms Races)"]},
+        {label:"Generative Conditions", boxes:["Material Scarcity","Cultural Divergence"]}
+    ],
+    "existential-flourishing": [
+        {label:"Self-Sustainability", boxes:["Existential Security & Flourishing"]},
+        {label:"Emergent Intentionality", boxes:["Appropriate-Axiological-Aligned Technology"]},
+        {label:"Game-Theoretic Structure", boxes:["Positive-Sum Games"]},
+        {label:"Civilisational Evolutionary Process", boxes:["Demilitarisation","Collective Actualisation"]},
+        {label:"Political-Economic Dynamics", boxes:["Egalitarianism","Integralism"]},
+        {label:"Generative Conditions", boxes:["Post-Scarcity","Cultural Convergence"]}
+    ]
+};
+function genCondConnectorSvg(fromN, toN) {
+    const fromXs = Array.from({length: fromN}, (_, i) => (i + 0.5) / fromN * 100);
+    const toXs = Array.from({length: toN}, (_, i) => (i + 0.5) / toN * 100);
+    let lines = '';
+    fromXs.forEach(x => { lines += `<line x1="${x}%" y1="0" x2="${x}%" y2="50%" stroke="var(--indicator-color-solid)" stroke-width="2" />`; });
+    if (fromN > 1 || toN > 1) {
+        const allXs = [...fromXs, ...toXs];
+        lines += `<line x1="${Math.min(...allXs)}%" y1="50%" x2="${Math.max(...allXs)}%" y2="50%" stroke="var(--indicator-color-solid)" stroke-width="2" />`;
+    }
+    toXs.forEach(x => { lines += `<line x1="${x}%" y1="50%" x2="${x}%" y2="100%" stroke="var(--indicator-color-solid)" stroke-width="2" />`; });
+    return `<svg width="100%" height="100%" style="overflow: visible;">${lines}</svg>`;
+}
+function generateGenConditionsDiagram(diagramKey) {
+    const levels = genConditionsDiagrams[diagramKey];
+    let html = '<div class="gen-grid">';
+    levels.forEach((lvl, i) => {
+        html += `<div class="gen-side-cell">${lvl.label}</div>`;
+        html += `<div class="gen-row">${lvl.boxes.map(b => `<div class="gen-node-wrapper"><div class="node-box hoverable gen-node"><div class="gen-node-title">${b}</div></div></div>`).join('')}</div>`;
+        if (i < levels.length - 1) {
+            html += `<div class="gen-side-cell" style="border-color: transparent;"></div>`;
+            html += `<div class="gen-conn">${genCondConnectorSvg(lvl.boxes.length, levels[i+1].boxes.length)}</div>`;
+        }
+    });
+    html += '</div>';
+    return html;
+}
+document.querySelectorAll("#gen-conditions .gen-cond-tab-content[data-cond-diagram]").forEach(e=>{e.innerHTML=generateGenConditionsDiagram(e.getAttribute("data-cond-diagram"))});
 
 const genChainEdges = [
     ['exp-tech-accel','arms-races'], ['exp-tech-accel','embedded-growth'], ['exp-tech-accel','left-hemispheric'],
@@ -2506,6 +2570,17 @@ if(e.target.closest('.gen-subtab')){
     }
     if(targetId==='gen-tab-verticals')setTimeout(updateGlobalToggleIcon, 350);
 }
+if(e.target.closest('.gen-cond-tab')){
+    playSound('click');
+    const btn=e.target.closest('.gen-cond-tab');
+    const wrap=btn.closest('.gen-subtab-content');
+    wrap.querySelectorAll(':scope > .gen-cond-tabs > .gen-cond-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const t=btn.getAttribute('data-condtab');
+    wrap.querySelectorAll(':scope > .gen-cond-tab-content').forEach(c=>{
+        if(c.getAttribute('data-cond-diagram')===t){c.style.display='block';c.classList.add('active')}else{c.style.display='none';c.classList.remove('active')}
+    });
+}
 if(e.target.closest('.typ-tab')){
     playSound('click');
     const btn=e.target.closest('.typ-tab');
@@ -2527,6 +2602,18 @@ if(e.target.closest('.typ-subtab')){
     wrap.querySelectorAll('.typ-subtab-content').forEach(c=>{
         if(c.id===t){c.style.display='block';c.classList.add('active')}else{c.style.display='none';c.classList.remove('active')}
     });
+}
+if(e.target.closest('.typ-cell, .typ-cell-center')){
+    e.isTrusted&&playSound('click');
+    const cell=e.target.closest('.typ-cell, .typ-cell-center');
+    const wrap=cell.closest('.typ-subtab-content');
+    wrap.querySelectorAll('.typ-cell.active, .typ-cell-center.active').forEach(el=>el.classList.remove('active'));
+    cell.classList.add('active');
+    const node=findNodeById(macrostrategyTreeData,cell.getAttribute('data-typ-id'));
+    const panel=wrap.querySelector('.typ-info-panel');
+    panel.querySelector('.typ-info-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${node.title}</span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${node.desc}</div></div>`;
+    panel.style.opacity='1';
+    e.isTrusted&&setTimeout(()=>{panel.scrollIntoView({behavior:'smooth',block:'nearest'});},150);
 }
 if(e.target.closest('.gen-concept-node')){
     const node=e.target.closest('.gen-concept-node');
