@@ -1053,7 +1053,7 @@ const metatheoryTreeData={id:"mt-root",title:"Metatheory",desc:"Metatheory is th
     {id:"mt-7-4",title:"Developmental Logic",desc:"Human and cultural development is the ongoing unfolding of Eros into ever more differentiated, intimate and dignity-affirming forms of relationship, community and identity, moving beyond both pre-modern conformity and postmodern relativism toward a unique self fully realised in intimate relation to others and to the whole."},
     {id:"mt-7-5",title:"Practical Application",desc:"Applied to relationship and sexuality education, spiritual community-building and social ethics through practices and teachings that seek to restore a felt sense of cosmic belonging, personal uniqueness and dignified intimacy to modern life."}
   ]},
-  {id:"mt-8",title:"Complex Integral Realism",type:"archtheory",linksTo:["mt-1","mt-2","mt-5"],desc:"An archtheory proposed in dialogue between Roy Bhaskar, Sean Esbjörn-Hargens, Nicholas Hedlund and Mervyn Hartwig, which explicitly synthesises Critical Realism's stratified ontology, Integral Theory's multi-perspectival AQAL model and Edgar Morin's Complex Thought into a single overarching meta-theory for understanding reality as differentiated, developmental and irreducibly interconnected.",children:[
+  {id:"mt-8",title:"Complex Integral Realism",type:"archtheory",linksTo:["mt-5","mt-1","mt-2"],desc:"An archtheory proposed in dialogue between Roy Bhaskar, Sean Esbjörn-Hargens, Nicholas Hedlund and Mervyn Hartwig, which explicitly synthesises Critical Realism's stratified ontology, Integral Theory's multi-perspectival AQAL model and Edgar Morin's Complex Thought into a single overarching meta-theory for understanding reality as differentiated, developmental and irreducibly interconnected.",children:[
     {id:"mt-8-1",title:"Core Claim",desc:"The most defensible account of reality has to hold together what each contributing framework gets right: Critical Realism's stratified, mind-independent structures, Integral Theory's insistence that any phenomenon must be read across interior/exterior and individual/collective quadrants, and Complex Thought's refusal to simplify away paradox, uncertainty and self-organisation."},
     {id:"mt-8-2",title:"View of Reality",desc:"Reality is simultaneously stratified (layers of emergent causal powers), holarchic (nested wholes-within-wholes developing through stages) and dialogically complex (order and disorder generating each other rather than one simply defeating the other), three descriptions of the same many-sided totality rather than competing claims."},
     {id:"mt-8-3",title:"View of Knowledge",desc:"No single discipline or mode of knowing, empirical science, developmental psychology, contemplative insight, systems modelling, can grasp the whole; valid understanding requires deliberately triangulating between them, since each corrects the blind spots the others are prone to."},
@@ -1123,7 +1123,7 @@ function generateMetatheoryDiagram(frameworks){
   const defaultId=frameworks[0].id;
   const rest=frameworks.filter(f=>f!==arch);
   const linkIds=arch.linksTo||[];
-  const linked=rest.filter(f=>linkIds.includes(f.id));
+  const linked=linkIds.map(id=>rest.find(f=>f.id===id)).filter(Boolean);
   const others=rest.filter(f=>!linkIds.includes(f.id));
   const half=Math.ceil(others.length/2);
   const row=[...others.slice(0,half),...linked,...others.slice(half)];
