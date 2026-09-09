@@ -161,8 +161,8 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .meta-maps-grid{display:flex;flex-direction:column;align-items:center;gap:5rem;margin-top:2rem;}
 .meta-maps-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6rem;}
 .meta-maps-card{position:relative;display:inline-block;padding:18px 36px;cursor:pointer;}
-.meta-maps-underline{position:absolute;left:0;right:0;bottom:6px;height:2px;background-color:var(--interactive-color);transform:scaleX(0);transform-origin:left;animation:metaMapsUnderline 3.2s ease-in-out infinite;pointer-events:none;}
-@keyframes metaMapsUnderline{0%{transform:scaleX(0);transform-origin:left;}18.75%{transform:scaleX(1);transform-origin:left;}19.1%{transform:scaleX(1);transform-origin:right;}37.5%{transform:scaleX(0);transform-origin:right;}62.5%{transform:scaleX(0);transform-origin:right;}81.25%{transform:scaleX(1);transform-origin:right;}81.65%{transform:scaleX(1);transform-origin:left;}100%{transform:scaleX(0);transform-origin:left;}}
+.meta-maps-underline{position:absolute;left:0;right:0;bottom:6px;height:2px;background-color:var(--interactive-color);transform:scaleX(0);transform-origin:left;animation:metaMapsUnderline 4s ease-in-out infinite;pointer-events:none;}
+@keyframes metaMapsUnderline{0%{transform:scaleX(0);transform-origin:left;}15%{transform:scaleX(1);transform-origin:left;}15.3%{transform:scaleX(1);transform-origin:right;}30%{transform:scaleX(0);transform-origin:right;}50%{transform:scaleX(0);transform-origin:right;}65%{transform:scaleX(1);transform-origin:right;}65.3%{transform:scaleX(1);transform-origin:left;}80%{transform:scaleX(0);transform-origin:left;}100%{transform:scaleX(0);transform-origin:left;}}
 .meta-maps-card-title{font-weight:600;font-size:3.4rem;letter-spacing:-0.02em;white-space:nowrap;}
 @media (max-width:900px){.meta-maps-card-title{font-size:2rem;} .meta-maps-grid{gap:3rem;} .meta-maps-row{gap:2rem;}}
 
