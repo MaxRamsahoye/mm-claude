@@ -161,7 +161,8 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .meta-maps-grid{display:flex;flex-direction:column;align-items:center;gap:5rem;margin-top:2rem;}
 .meta-maps-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6rem;}
 .meta-maps-card{position:relative;display:inline-block;padding:18px 36px;cursor:pointer;}
-.meta-maps-underline{position:absolute;left:0;right:0;bottom:6px;height:2px;background-color:var(--interactive-color);transform:scaleX(0);transform-origin:left;animation:autoUnderline 1.2s ease-in-out infinite alternate;pointer-events:none;}
+.meta-maps-underline{position:absolute;left:0;right:0;bottom:6px;height:2px;background-color:var(--interactive-color);transform:scaleX(0);transform-origin:left;animation:metaMapsUnderline 3.2s ease-in-out infinite;pointer-events:none;}
+@keyframes metaMapsUnderline{0%{transform:scaleX(0);transform-origin:left;}18.75%{transform:scaleX(1);transform-origin:left;}19.1%{transform:scaleX(1);transform-origin:right;}37.5%{transform:scaleX(0);transform-origin:right;}62.5%{transform:scaleX(0);transform-origin:right;}81.25%{transform:scaleX(1);transform-origin:right;}81.65%{transform:scaleX(1);transform-origin:left;}100%{transform:scaleX(0);transform-origin:left;}}
 .meta-maps-card-title{font-weight:600;font-size:3.4rem;letter-spacing:-0.02em;white-space:nowrap;}
 @media (max-width:900px){.meta-maps-card-title{font-size:2rem;} .meta-maps-grid{gap:3rem;} .meta-maps-row{gap:2rem;}}
 
@@ -444,13 +445,13 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 <main id="meta-maps-container" class="view-panel"><div style="text-align: center; width: 100%; max-width: 1100px; margin: 0 auto;">
     <div class="meta-maps-grid">
         <div class="meta-maps-row meta-maps-row-top">
-            <div class="meta-maps-card hoverable" data-site-target="app" data-site="metacrisis"><div class="meta-maps-underline"></div><div class="meta-maps-card-title clickable-indicator">The Metacrisis</div></div>
+            <div class="meta-maps-card hoverable" data-site-target="app" data-site="metacrisis"><div class="meta-maps-underline"></div><div class="meta-maps-card-title">The Metacrisis</div></div>
         </div>
         <div class="meta-maps-row meta-maps-row-bottom">
-            <div class="meta-maps-card hoverable" data-site-target="metamod-app" data-site="metamod"><div class="meta-maps-underline"></div><div class="meta-maps-card-title clickable-indicator">Metamodernism</div></div>
-            <div class="meta-maps-card hoverable" data-site-target="metatheory-app" data-site="metatheory"><div class="meta-maps-underline"></div><div class="meta-maps-card-title clickable-indicator">Metatheory</div></div>
-            <div class="meta-maps-card hoverable" data-site-target="macrostrategy-app" data-site="macrostrategy"><div class="meta-maps-underline"></div><div class="meta-maps-card-title clickable-indicator">Macrostrategy</div></div>
-            <div class="meta-maps-card hoverable" data-site-target="macrohistory-app" data-site="macrohistory"><div class="meta-maps-underline"></div><div class="meta-maps-card-title clickable-indicator">Macrohistory</div></div>
+            <div class="meta-maps-card hoverable" data-site-target="metamod-app" data-site="metamod"><div class="meta-maps-underline"></div><div class="meta-maps-card-title">Metamodernism</div></div>
+            <div class="meta-maps-card hoverable" data-site-target="metatheory-app" data-site="metatheory"><div class="meta-maps-underline"></div><div class="meta-maps-card-title">Metatheory</div></div>
+            <div class="meta-maps-card hoverable" data-site-target="macrostrategy-app" data-site="macrostrategy"><div class="meta-maps-underline"></div><div class="meta-maps-card-title">Macrostrategy</div></div>
+            <div class="meta-maps-card hoverable" data-site-target="macrohistory-app" data-site="macrohistory"><div class="meta-maps-underline"></div><div class="meta-maps-card-title">Macrohistory</div></div>
         </div>
     </div>
 </div></main>
