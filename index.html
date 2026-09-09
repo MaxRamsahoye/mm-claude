@@ -158,10 +158,11 @@ body.app-left-align #app-container .menu-row, body.app-left-align #metamod-app-c
 .metatheory-dimension-title{font-weight:600;font-size:1.3rem;margin-bottom:0.4rem;}
 .metatheory-dimension-desc{font-size:1.1rem;line-height:1.6;opacity:0.85;}
 .metatheory-type-badge{font-family:var(--font-primary);text-transform:uppercase;font-size:0.8rem;letter-spacing:0.12em;opacity:0.55;text-align:left;margin-bottom:0.25rem;}
-.meta-maps-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;margin-top:2rem;}
-.meta-maps-card{font-size:1.9rem;font-weight:600;padding:2.5rem 2.5rem;min-width:220px;border:2px solid var(--indicator-color-solid);border-radius:16px;cursor:pointer;transition:border-color .3s ease,transform .3s ease;}
-.meta-maps-card:hover{border-color:var(--interactive-color);transform:translateY(-4px);}
-@media (max-width:768px){.meta-maps-card{font-size:1.5rem;padding:2rem 1.5rem;min-width:0;width:100%;}}
+.meta-maps-grid{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2.5rem 3.5rem;margin-top:3rem;}
+.meta-maps-card{position:relative;display:inline-block;padding:14px 30px;cursor:pointer;}
+.meta-maps-card:hover .camera-corners{opacity:0!important;transition:opacity .3s ease;}
+.meta-maps-card-title{font-weight:600;font-size:2.5rem;letter-spacing:-0.02em;white-space:nowrap;}
+@media (max-width:900px){.meta-maps-card-title{font-size:1.7rem;} .meta-maps-grid{gap:1.5rem 1rem;}}
 
 @media (max-width:768px){.metatheory-dimension{gap:1rem;}.metatheory-dimension-num{width:2.2rem;font-size:1.3rem;}}
 .paradigm-features{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem 2.5rem;margin-top:2rem;width:100%;}
@@ -418,9 +419,9 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     <div class="selected-header" style="margin-top: 0; justify-content: center;"><h2 style="font-size: 2.8rem; letter-spacing: -0.02em;">Meta-Maps</h2></div>
     <div class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">Three maps, three lenses on the same underlying territory. Select one to explore.</div>
     <div class="meta-maps-grid">
-        <div class="meta-maps-card hoverable clickable-indicator" data-site-target="app" data-site="metacrisis">The Metacrisis</div>
-        <div class="meta-maps-card hoverable clickable-indicator" data-site-target="metamod-app" data-site="metamod">Metamodernism</div>
-        <div class="meta-maps-card hoverable clickable-indicator" data-site-target="metatheory-app" data-site="metatheory">Metatheory</div>
+        <div class="meta-maps-card hoverable" data-site-target="app" data-site="metacrisis"><div class="camera-corners visible"><div class="camera-corners-inner"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div></div><div class="meta-maps-card-title clickable-indicator">The Metacrisis</div></div>
+        <div class="meta-maps-card hoverable" data-site-target="metamod-app" data-site="metamod"><div class="camera-corners visible"><div class="camera-corners-inner"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div></div><div class="meta-maps-card-title clickable-indicator">Metamodernism</div></div>
+        <div class="meta-maps-card hoverable" data-site-target="metatheory-app" data-site="metatheory"><div class="camera-corners visible"><div class="camera-corners-inner"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div></div><div class="meta-maps-card-title clickable-indicator">Metatheory</div></div>
     </div>
 </div></main>
 <main id="sitemap-container" class="view-panel"><div style="width:100%;max-width:1200px;margin:0 auto;text-align:left;padding-top:2rem;padding-bottom:4rem;">
