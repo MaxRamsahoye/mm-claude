@@ -303,6 +303,11 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .gen-cond-tab:hover { transform: translateY(-2px); border-color: var(--interactive-color); color: var(--interactive-color); }
 .gen-cond-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); }
 .gen-cond-tab-content { width: 100%; }
+.civ-emergence-tabs { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; width: 100%; }
+.civ-emergence-tab { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
+.civ-emergence-tab:hover { transform: translateY(-2px); border-color: var(--interactive-color); color: var(--interactive-color); }
+.civ-emergence-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); }
+.civ-emergence-tab-content { width: 100%; }
 .corner-nav-fixed { position: fixed; top: 2rem; left: 2rem; z-index: 100; max-width: calc(100vw - 4rem); opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .corner-nav-fixed.visible { opacity: 1; pointer-events: auto; }
 .module-nav.corner-nav-fixed { width: auto; margin: 0; }
@@ -1181,15 +1186,28 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div id="system-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 3rem; text-align: left; margin-left: 0; max-width: none;">The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description.</div>
     </div>
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
-        <div class="civ-emergence-wrap" style="width: 100%; max-width: 1100px; margin: 0 auto;">
-            <div id="civ-emergence-svg-container"></div>
+        <div class="civ-emergence-tabs">
+            <button class="civ-emergence-tab active hoverable" data-emergencetab="civ-emergence-structures">Structures</button>
+            <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gamea">Game A</button>
+            <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gameb">Game B</button>
         </div>
-        <div class="typ-info-panel" style="max-width:1100px;">
-            <div class="civ-info-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a structure to view its description.</div></div>
+        <div id="civ-emergence-structures" class="civ-emergence-tab-content active">
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1800px; margin-left: calc(50% - min(50vw, 900px)); box-sizing: border-box; padding: 0 2rem;">
+                <div id="civ-emergence-svg-container"></div>
+            </div>
+            <div class="typ-info-panel" style="max-width:1100px;">
+                <div class="civ-info-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a structure to view its description.</div></div>
+            </div>
+        </div>
+        <div id="civ-emergence-gamea" class="civ-emergence-tab-content" style="display:none;">
+            <div style="text-align:center; padding: 4rem 0; opacity: 0.6; font-style: italic; font-size: 1.25rem;">This diagram is currently being mapped...</div>
+        </div>
+        <div id="civ-emergence-gameb" class="civ-emergence-tab-content" style="display:none;">
+            <div style="text-align:center; padding: 4rem 0; opacity: 0.6; font-style: italic; font-size: 1.25rem;">This diagram is currently being mapped...</div>
         </div>
     </div>
     <div id="system-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100vw; max-width: 1350px; margin-left: calc(50% - 50vw); box-sizing: border-box; padding: 0 2rem;">
+        <div style="width: 100vw; max-width: 1350px; margin-left: calc(50% - min(50vw, 675px)); box-sizing: border-box; padding: 0 2rem;">
             <svg viewBox="-440 -120 2880 2240" style="width:100%; display:block; margin:0 auto;">
                 <g id="civ-int-edges"></g>
                 <g id="civ-int-nodes"></g>
@@ -1200,10 +1218,10 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         </div>
     </div>
     <div id="system-tab-decomposition" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100%; max-width: 1100px; margin: 0 auto 2rem auto;">
+        <div style="width: 100vw; max-width: 1800px; margin-left: calc(50% - min(50vw, 900px)); box-sizing: border-box; padding: 0 2rem; margin-bottom: 2rem;">
             <div id="civ-decomp-diagram-container"></div>
         </div>
-        <div class="civ-decomp-grid" id="civ-decomp-generator-list"></div>
+        <div id="civ-decomp-generator-list" style="width:100%;"></div>
     </div>
 </div></main>
 
@@ -2330,7 +2348,7 @@ function generateCivEmergenceSvg(opts) {
             </div>
         </foreignObject>`;
     });
-    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:900px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
+    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1800px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
 function civIntLayout() {
@@ -2370,9 +2388,14 @@ function renderCivInterconnections() {
     document.getElementById('civ-int-edges').innerHTML = edgesHtml;
 }
 function renderCivDecompList() {
-    const html = genCategoriesOrderedIds.map(id => {
-        const c = genConceptById[id];
-        return `<div class="civ-decomp-item hoverable" data-concept="${id}">${c.shortTitle || c.title}</div>`;
+    const orderedLabels = genCategoryRowLayout.flatMap(rowLabels => rowLabels);
+    const html = orderedLabels.map(label => {
+        const grp = genCategoryGroups.find(g => g.label === label);
+        const items = grp.ids.map(id => {
+            const c = genConceptById[id];
+            return `<div class="civ-decomp-item hoverable" data-concept="${id}">${c.shortTitle || c.title}</div>`;
+        }).join('');
+        return `<div class="gen-categories-list-group"><div class="about-eyebrow">${grp.label} (${grp.ids.length})</div><div class="civ-decomp-grid">${items}</div></div>`;
     }).join('');
     document.getElementById('civ-decomp-generator-list').innerHTML = html;
 }
@@ -2888,12 +2911,12 @@ if(genTabCopy[t]){
 const systemTabCopy={
     "system-tab-emergence":{title:"Civilisational Systems: Emergence Model",subtitle:"The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description."},
     "system-tab-interconnections":{title:"Civilisational Systems: Interconnections",subtitle:"Explore the full-mesh interconnections between the five fundamental structures."},
-    "system-tab-decomposition":{title:"Civilisational Systems: Decomposition of the Generative Dynamics",subtitle:"Select a generative dynamic below to see how each fundamental structure contributes to producing it."}
+    "system-tab-decomposition":{title:"Civilisational Systems: Decomposition of the Generative Dynamics",subtitle:"Select a generative dynamic below to see how each fundamental structure contributes to producing it.",titleFontSize:"1.85rem"}
 };
 if(systemTabCopy[t]){
     const titleEl=document.getElementById('system-view-title');
     const subtitleEl=document.getElementById('system-view-subtitle');
-    if(titleEl)titleEl.textContent=systemTabCopy[t].title;
+    if(titleEl){titleEl.textContent=systemTabCopy[t].title;titleEl.style.fontSize=systemTabCopy[t].titleFontSize||"2.8rem";titleEl.style.whiteSpace=systemTabCopy[t].titleFontSize?"nowrap":"normal";}
     if(subtitleEl)subtitleEl.textContent=systemTabCopy[t].subtitle;
 }
 if("system-tab-decomposition"===t&&!document.querySelector(".civ-decomp-item.active")){
@@ -2982,6 +3005,17 @@ if(e.target.closest('.gen-cond-tab')){
     const t=btn.getAttribute('data-condtab');
     wrap.querySelectorAll(':scope > .gen-cond-tab-content').forEach(c=>{
         if(c.getAttribute('data-cond-diagram')===t){c.style.display='block';c.classList.add('active')}else{c.style.display='none';c.classList.remove('active')}
+    });
+}
+if(e.target.closest('.civ-emergence-tab')){
+    playSound('click');
+    const btn=e.target.closest('.civ-emergence-tab');
+    const wrap=btn.closest('.gen-tab-content');
+    wrap.querySelectorAll(':scope > .civ-emergence-tabs > .civ-emergence-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const t=btn.getAttribute('data-emergencetab');
+    wrap.querySelectorAll(':scope > .civ-emergence-tab-content').forEach(c=>{
+        if(c.id===t){c.style.display='block';c.classList.add('active')}else{c.style.display='none';c.classList.remove('active')}
     });
 }
 if(e.target.closest('.typ-tab')){
