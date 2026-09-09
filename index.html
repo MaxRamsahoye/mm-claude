@@ -1839,14 +1839,14 @@ const cursorDot=document.getElementById("cursor-dot"),cursorOutline=document.get
         }
     }
 });
-const cursorTrailCount=24,cursorTrailContainer=document.getElementById("cursor-trail");let trailMouseX=-100,trailMouseY=-100,trailActive=false;
+const cursorTrailCount=12,cursorTrailContainer=document.getElementById("cursor-trail");let trailMouseX=-100,trailMouseY=-100,trailActive=false;
 const svgNS="http://www.w3.org/2000/svg";
 const cursorTrailPoints=Array.from({length:cursorTrailCount},(_,i)=>({x:-100,y:-100,ease:0.35*Math.pow(0.9,i)}));
 const cursorTrailSegments=Array.from({length:cursorTrailCount-1},(_,i)=>{
     const seg=document.createElementNS(svgNS,"line");
     const scale=1-i/cursorTrailCount;
     seg.setAttribute("stroke-width",(8*scale+1.5).toFixed(2));
-    seg.setAttribute("stroke-linecap","round");
+    seg.setAttribute("stroke-linecap","butt");
     seg.style.opacity=(0.4*Math.pow(scale,1.4)).toFixed(2);
     seg.style.filter=`blur(${(1-scale)*1.6}px)`;
     cursorTrailContainer.appendChild(seg);
