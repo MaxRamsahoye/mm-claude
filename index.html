@@ -174,18 +174,10 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-cell-center{padding:0.75rem;}
 }
 .typ-info-panel{width:100%;max-width:900px;margin:0 auto;padding:2rem 0 0 0;opacity:0;transition:opacity 0.4s ease;text-align:left;box-sizing:border-box;}
-.civ-emergence-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px;width:100%;max-width:1100px;aspect-ratio:1/1;margin:0 auto;}
-.civ-quad{position:relative;background-color:var(--bg-color);border:2px solid var(--indicator-color-solid);box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;padding:1.5rem;transition:background-color 0.3s ease;}
-.civ-quad-tl{align-items:flex-start;justify-content:flex-start;}
-.civ-quad-tl > .civ-quad-label{align-self:flex-start;}
-.civ-quad-inner{position:absolute;right:0;bottom:0;width:64%;height:64%;padding:0.9rem;}
-.civ-quad-label{width:100%;pointer-events:none;}
-.civ-quad-title{font-weight:600;font-size:1.15rem;color:var(--text-color);line-height:1.25;}
-.civ-quad-subtitle{font-size:0.9rem;opacity:0.6;margin-top:0.2rem;color:var(--text-color);}
-.civ-quad-body{font-size:0.9rem;line-height:1.4;opacity:0.85;margin-top:0.6rem;color:var(--text-color);}
-.civ-seg:hover{background-color:color-mix(in srgb, var(--interactive-color) 14%, var(--bg-color));}
-.civ-seg.active{background-color:color-mix(in srgb, var(--interactive-color) 7%, var(--bg-color));}
-.civ-seg.active:hover{background-color:color-mix(in srgb, var(--interactive-color) 18%, var(--bg-color));}
+.civ-seg{fill:var(--bg-color);stroke:var(--indicator-color-solid);stroke-width:2;cursor:pointer;transition:fill 0.3s ease;}
+.civ-seg:hover{fill:color-mix(in srgb, var(--interactive-color) 14%, var(--bg-color));}
+.civ-seg.active{fill:color-mix(in srgb, var(--interactive-color) 7%, var(--bg-color));}
+.civ-seg.active:hover{fill:color-mix(in srgb, var(--interactive-color) 18%, var(--bg-color));}
 .civ-seg-static{cursor:default;pointer-events:none;}
 .civ-node circle{transition:stroke 0.3s ease;}
 .civ-node:hover circle,.civ-node.active circle{stroke:var(--interactive-color);}
@@ -193,6 +185,8 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .civ-edge-group:hover .civ-edge-line-vis,.civ-edge-group.active .civ-edge-line-vis{stroke:var(--interactive-color) !important;stroke-width:6px !important;}
 .civ-pair-title{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:1.25rem;width:100%;margin-bottom:3.5rem;text-align:center;flex-wrap:wrap;}
 .civ-pair-title svg{width:24px;height:24px;flex-shrink:0;color:var(--text-color);opacity:0.55;}
+.civ-int-content .gen-pair-flow-label{font-size:1.25rem;}
+.civ-int-content .gen-pair-para{font-size:1.3rem;}
 .civ-decomp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%;max-width:1100px;margin:0 auto;}
 .civ-decomp-item{border:2px solid var(--indicator-color-solid);border-radius:10px;padding:1rem 1.25rem;cursor:pointer;text-align:center;font-weight:500;font-size:0.95rem;line-height:1.35;transition:border-color 0.3s ease,background-color 0.3s ease,color 0.3s ease;display:flex;align-items:center;justify-content:center;}
 .civ-decomp-item:hover{border-color:var(--interactive-color);background-color:color-mix(in srgb, var(--interactive-color) 10%, var(--bg-color));}
@@ -1195,7 +1189,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         </div>
     </div>
     <div id="system-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100vw; max-width: 1800px; margin-left: calc(50% - 50vw); box-sizing: border-box; padding: 0 2rem;">
+        <div style="width: 100vw; max-width: 1350px; margin-left: calc(50% - 50vw); box-sizing: border-box; padding: 0 2rem;">
             <svg viewBox="-440 -120 2880 2240" style="width:100%; display:block; margin:0 auto;">
                 <g id="civ-int-edges"></g>
                 <g id="civ-int-nodes"></g>
@@ -2280,27 +2274,63 @@ const civDecomposition = {
     }
 };
 
-function civQuadLabelHtml(id, bodyTextById) {
-    const s = civStructureById[id];
-    const bodyHtml = bodyTextById ? `<div class="civ-quad-body">${bodyTextById[id]||''}</div>` : '';
-    return `<div class="civ-quad-label"><div class="civ-quad-title">${s.title}</div><div class="civ-quad-subtitle">(${s.subtitle})</div>${bodyHtml}</div>`;
+function civPolarPoint(cx, cy, r, angleDeg) {
+    const rad = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+function civAnnulusPath(cx, cy, rInner, rOuter, startAngle, endAngle) {
+    const largeArc = (endAngle - startAngle) > 180 ? 1 : 0;
+    const outerStart = civPolarPoint(cx, cy, rOuter, startAngle);
+    const outerEnd = civPolarPoint(cx, cy, rOuter, endAngle);
+    if (rInner <= 0) {
+        return `M ${cx} ${cy} L ${outerStart.x} ${outerStart.y} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y} Z`;
+    }
+    const innerStart = civPolarPoint(cx, cy, rInner, startAngle);
+    const innerEnd = civPolarPoint(cx, cy, rInner, endAngle);
+    return `M ${outerStart.x} ${outerStart.y} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y} L ${innerEnd.x} ${innerEnd.y} A ${rInner} ${rInner} 0 ${largeArc} 0 ${innerStart.x} ${innerStart.y} Z`;
+}
+const civGap = 3, civRingGap = 6;
+function civSegDefs(R) {
+    return [
+        {id:"pop-physiology", rInner:0, rOuter:R, start:0+civGap, end:90-civGap},
+        {id:"tech-stack", rInner:0, rOuter:R, start:90+civGap, end:180-civGap},
+        {id:"political-economy", rInner:0, rOuter:R, start:180+civGap, end:270-civGap},
+        {id:"evo-psych", rInner:0, rOuter:R*0.46-civRingGap, start:270+civGap, end:360-civGap},
+        {id:"cultural-psych", rInner:R*0.46+civRingGap, rOuter:R, start:270+civGap, end:360-civGap}
+    ];
 }
 function generateCivEmergenceSvg(opts) {
     opts = opts || {};
     const interactive = opts.interactive !== false;
-    const bodyTextById = opts.bodyTextById || null;
-    const clsFor = id => interactive ? `civ-seg hoverable civ-quad civ-quad-${id}` : `civ-seg civ-seg-static civ-quad civ-quad-${id}`;
-    return `<div class="civ-emergence-grid">
-        <div class="${clsFor('tl')}" data-struct-id="cultural-psych">
-            ${civQuadLabelHtml('cultural-psych', bodyTextById)}
-            <div class="${clsFor('inner')}" data-struct-id="evo-psych">
-                ${civQuadLabelHtml('evo-psych', bodyTextById)}
+    const bodyTextById = opts.bodyTextById || (interactive ? Object.fromEntries(civStructures.map(s => [s.id, s.desc])) : null);
+    const cx = 500, cy = 500, R = 380;
+    const segs = civSegDefs(R);
+    let pathsHtml = '', labelsHtml = '';
+    segs.forEach(seg => {
+        const s = civStructureById[seg.id];
+        const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
+        const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
+        pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
+        const midAngle = (seg.start + seg.end) / 2;
+        const midR = seg.rInner === 0 ? seg.rOuter * 0.62 : seg.rInner + (seg.rOuter - seg.rInner) * 0.5;
+        const pt = civPolarPoint(cx, cy, midR, midAngle);
+        const angleSpanRad = (seg.end - seg.start) * Math.PI / 180;
+        const chordWidth = 2 * midR * Math.sin(angleSpanRad / 2);
+        const radialThickness = seg.rOuter - seg.rInner;
+        const maxBoxW = 300, maxBoxH = 260;
+        const boxW = Math.max(90, Math.min(maxBoxW, chordWidth * 0.88));
+        const boxH = Math.max(80, Math.min(maxBoxH, radialThickness * 0.88));
+        const scale = Math.max(0.6, Math.min(1, boxW / maxBoxW, boxH / maxBoxH));
+        const bodyHtml = bodyTextById ? `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.35; opacity:0.85; margin-top:${(0.5*scale).toFixed(2)}rem;">${bodyTextById[seg.id]||''}</div>` : '';
+        labelsHtml += `<foreignObject x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}" style="pointer-events:none;" pointer-events="none">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:${(0.5*scale).toFixed(2)}rem; pointer-events:none; overflow:hidden;">
+                <div style="font-size:${(0.8*scale).toFixed(2)}rem; opacity:0.6; color:var(--text-color);">(${s.subtitle})</div>
+                <div style="font-weight:600; font-size:${(1*scale).toFixed(2)}rem; color:var(--text-color); line-height:1.2; margin-top:0.15rem;">${s.title}</div>
+                ${bodyHtml}
             </div>
-        </div>
-        <div class="${clsFor('tr')}" data-struct-id="pop-physiology">${civQuadLabelHtml('pop-physiology', bodyTextById)}</div>
-        <div class="${clsFor('bl')}" data-struct-id="political-economy">${civQuadLabelHtml('political-economy', bodyTextById)}</div>
-        <div class="${clsFor('br')}" data-struct-id="tech-stack">${civQuadLabelHtml('tech-stack', bodyTextById)}</div>
-    </div>`;
+        </foreignObject>`;
+    });
+    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:900px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
 function civIntLayout() {
@@ -3007,7 +3037,7 @@ if(e.target.closest('.civ-node')){
     node.classList.add('active');
     const s=civStructureById[node.getAttribute('data-struct-id')];
     const panel=document.getElementById('civ-int-panel');
-    panel.querySelector('.civ-int-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${s.title} <span style="opacity:0.6; font-weight:400;">(${s.subtitle})</span></span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${s.desc}</div></div>`;
+    panel.querySelector('.civ-int-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${s.title} <span style="opacity:0.6; font-weight:400;">(${s.subtitle})</span></span><div style="font-size: 1.3rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${s.desc}</div></div>`;
     panel.style.opacity='1';
     e.isTrusted&&setTimeout(()=>{panel.scrollIntoView({behavior:'smooth',block:'nearest'});},150);
 }
