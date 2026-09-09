@@ -2086,7 +2086,7 @@ const cursorDot=document.getElementById("cursor-dot"),cursorOutline=document.get
     trailMouseX=e.clientX;trailMouseY=e.clientY;trailActive=true;
 
     if(document.body.classList.contains('hud-ready')) {
-        if(e.clientX <= window.innerWidth / 4) {
+        if(e.clientX <= window.innerWidth / 8) {
             document.body.classList.add('left-menu-open');
         } else {
             document.body.classList.remove('left-menu-open');
