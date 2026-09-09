@@ -7,7 +7,9 @@
 #loading-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:var(--bg-color);z-index:9998;display:flex;justify-content:center;align-items:center;transition:opacity .6s ease;} #loading-svg{width:340px;height:340px;overflow:visible;} .draw-trunk1,.draw-drops1,.draw-trunk2,.draw-arms2,.draw-drops2{stroke-dasharray:22;stroke-dashoffset:22;transition:stroke-dashoffset .2s linear;} .draw-arms1{stroke-dasharray:62;stroke-dashoffset:62;transition:stroke-dashoffset .2s linear;} .loading-node{opacity:0;fill:var(--bg-color);stroke:var(--text-color);stroke-width:2.5;transition:opacity .2s ease;}
 #view-manager{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;flex:1;max-width:1400px;padding:9rem 2rem;box-sizing:border-box;} .view-panel{position:absolute;width:100%;display:none;flex-direction:column;align-items:center;opacity:0;pointer-events:none;transform:scale(0.98);transition:opacity .6s ease,transform .6s ease;} .view-panel.active{position:relative;display:flex;opacity:1;pointer-events:auto;transform:scale(1);}
 #map-container.view-panel{position:fixed;top:0;left:0;width:100vw;height:100vh;max-width:none;margin:0;padding:0;overflow:hidden;justify-content:flex-start;align-items:flex-start;z-index:10;background:var(--bg-color);} #map-container.view-panel.active{display:block;} #tree-zoom-wrapper{transform-origin:0 0;display:inline-block;will-change:transform;transition:transform 0.1s linear;}
-#about-container.view-panel{position:fixed;top:0;left:0;width:100vw;height:100vh;max-width:none;margin:0;padding:0;overflow:hidden;justify-content:flex-start;align-items:flex-start;z-index:10;background:var(--bg-color);} #about-container.view-panel.active{display:block;} #about-scroll{display:flex;flex-direction:row;width:100vw;height:100vh;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;} .about-section{flex:0 0 100vw;width:100vw;height:100vh;scroll-snap-align:start;box-sizing:border-box;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:5rem 7vw;} .about-hero{justify-content:flex-end;align-items:flex-start;padding:0 0 2.5vh 5vw;} .about-hero-title{display:flex;flex-direction:column;font-weight:600;letter-spacing:-0.03em;line-height:0.95;text-align:left;cursor:pointer;transition:opacity .3s ease;user-select:none;-webkit-user-select:none;} .about-hero-title:hover{opacity:0.7;} .about-hero-title span{font-size:min(26vh,16vw);white-space:nowrap;} .about-content{align-items:center;text-align:left;} .about-content-inner{max-width:820px;} .about-eyebrow{font-family:var(--font-primary);text-transform:uppercase;font-size:0.85rem;letter-spacing:0.15em;opacity:0.55;margin-bottom:0.75rem;} .gen-cat-bracket{font-size:1.4em;font-weight:300;opacity:0.45;padding:0 0.2em;display:inline-block;} .about-content h2{font-size:3rem;font-weight:600;margin:0 0 1.5rem 0;letter-spacing:-0.02em;} .about-content p{font-size:1.25rem;line-height:1.65;margin:0 0 1.25rem 0;max-width:750px;} .about-guide-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1.5rem;max-width:750px;} .about-guide-list li{font-size:1.15rem;line-height:1.6;padding-left:1.75rem;position:relative;} .about-guide-list li::before{content:'';position:absolute;left:0;top:0.6em;width:0.8rem;height:2px;background:var(--interactive-color);} .about-guide-list strong{font-weight:600;} .about-sitemap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;width:100%;max-width:1180px;} .about-sitemap-card{border:2px solid var(--indicator-color-solid);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column;gap:0.7rem;cursor:pointer;transition:border-color .3s ease,transform .3s ease;} .about-sitemap-card:hover{border-color:var(--interactive-color);transform:translateY(-3px);} .about-sitemap-card svg{width:24px;height:24px;stroke:var(--text-color);flex-shrink:0;} .about-sitemap-name{font-size:1.05rem;font-weight:600;} .about-sitemap-desc{font-size:0.88rem;line-height:1.45;opacity:0.75;} .sitemap-section{margin-bottom:2.5rem;} .sitemap-section-title{font-family:var(--font-primary);text-transform:uppercase;font-size:0.85rem;letter-spacing:0.15em;opacity:0.55;margin-bottom:1rem;} .sitemap-section-toggle{cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;user-select:none;} .sitemap-section-chevron{width:12px;height:12px;flex-shrink:0;transition:transform .3s ease;} .sitemap-section:not(.collapsed) .sitemap-section-chevron{transform:rotate(90deg);} .sitemap-collapsible{display:grid;grid-template-rows:1fr;transition:grid-template-rows .4s ease;} .sitemap-section.collapsed .sitemap-collapsible{grid-template-rows:0fr;} .sitemap-collapsible-inner{overflow:hidden;} .about-guide-split{flex-direction:row;justify-content:center;align-items:center;gap:6vw;text-align:left;} .about-split-left{max-width:520px;} .about-split-left .about-guide-list{gap:1.1rem;max-width:520px;} .about-split-left .about-guide-list li{font-size:1.05rem;line-height:1.5;} .about-split-right{display:flex;flex-direction:column;align-items:center;gap:2.5rem;flex-shrink:0;} .about-split-heading{font-size:1.4rem;font-weight:600;letter-spacing:-0.01em;text-align:center;} .about-split-right .about-toggle-visual{width:230px;height:230px;} .about-split-right .about-toggle-ring{width:146px;height:146px;border-width:12px;} .about-split-right .about-toggle-diamond{width:62px;height:62px;} .about-split-right .about-callout-line.ring{left:188px;top:115px;width:46px;} .about-split-right .about-callout-line.diamond{left:115px;top:159px;height:41px;} .about-split-right .about-callout-label.ring{left:240px;top:115px;width:170px;font-size:0.9rem;} .about-split-right .about-callout-label.diamond{left:115px;top:206px;width:180px;font-size:0.9rem;} .about-toggle-visual{position:relative;width:300px;height:300px;flex-shrink:0;} .about-toggle-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:190px;height:190px;box-sizing:border-box;border-radius:50%;background:transparent;border:16px solid var(--ring-color);cursor:pointer;transition:border-color .4s ease,transform .2s ease;} .about-toggle-ring:hover{transform:translate(-50%,-50%) scale(1.04);} .about-toggle-diamond{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:80px;height:80px;box-sizing:border-box;border-radius:12px;background:var(--toggle-color);cursor:pointer;transition:background-color .4s ease,transform .2s ease;} .about-toggle-diamond:hover{transform:translate(-50%,-50%) rotate(45deg) scale(1.08);} .about-callout-line{position:absolute;background:var(--indicator-color-solid);} .about-callout-line.ring{left:245px;top:150px;width:60px;height:2px;transform:translateY(-50%);} .about-callout-line.diamond{left:150px;top:207px;width:2px;height:53px;transform:translateX(-50%);} .about-callout-label{position:absolute;font-size:1rem;line-height:1.5;} .about-callout-label.ring{left:312px;top:150px;transform:translateY(-50%);width:220px;text-align:left;} .about-callout-label.diamond{left:150px;top:268px;transform:translateX(-50%);width:230px;text-align:center;} .about-callout-label strong{display:block;font-weight:600;margin-bottom:0.2rem;} .about-next-btn{display:flex;position:absolute;top:50%;right:3vw;transform:translateY(-50%);z-index:5;background:transparent;border:none;padding:0;cursor:pointer;color:var(--text-color);align-items:center;justify-content:center;} .about-next-btn-bounce{display:flex;animation:aboutNextBounce 1.6s ease-in-out infinite;} .about-next-btn-icon{width:42px;height:42px;transform:rotate(90deg);} @keyframes aboutNextBounce{0%,100%{transform:translateX(0);}50%{transform:translateX(10px);}}
+#about-container.view-panel{position:fixed;top:0;left:0;width:100vw;height:100vh;max-width:none;margin:0;padding:0;overflow:hidden;justify-content:flex-start;align-items:flex-start;z-index:10;background:var(--bg-color);} #about-container.view-panel.active{display:block;} #about-scroll{display:flex;flex-direction:row;width:100vw;height:100vh;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;} .about-section{flex:0 0 100vw;width:100vw;height:100vh;scroll-snap-align:start;box-sizing:border-box;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:5rem 7vw;} .about-hero{justify-content:flex-end;align-items:flex-start;padding:0 0 2.5vh 5vw;} .about-hero-title{display:flex;flex-direction:column;font-weight:600;letter-spacing:-0.03em;line-height:0.95;text-align:left;cursor:pointer;transition:opacity .3s ease;user-select:none;-webkit-user-select:none;} .about-hero-title:hover{opacity:0.7;} .about-hero-title span{font-size:min(26vh,16vw);white-space:nowrap;} .about-content{align-items:center;text-align:left;} .about-content-inner{max-width:820px;} .about-eyebrow{font-family:var(--font-primary);text-transform:uppercase;font-size:0.85rem;letter-spacing:0.15em;opacity:0.55;margin-bottom:0.75rem;} .gen-cat-bracket{font-size:1.4em;font-weight:300;opacity:0.45;padding:0 0.2em;display:inline-block;}
+.gen-categories-list-group{margin-top:2.5rem;}
+.gen-categories-list-group:first-child{margin-top:0;} .about-content h2{font-size:3rem;font-weight:600;margin:0 0 1.5rem 0;letter-spacing:-0.02em;} .about-content p{font-size:1.25rem;line-height:1.65;margin:0 0 1.25rem 0;max-width:750px;} .about-guide-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1.5rem;max-width:750px;} .about-guide-list li{font-size:1.15rem;line-height:1.6;padding-left:1.75rem;position:relative;} .about-guide-list li::before{content:'';position:absolute;left:0;top:0.6em;width:0.8rem;height:2px;background:var(--interactive-color);} .about-guide-list strong{font-weight:600;} .about-sitemap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;width:100%;max-width:1180px;} .about-sitemap-card{border:2px solid var(--indicator-color-solid);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column;gap:0.7rem;cursor:pointer;transition:border-color .3s ease,transform .3s ease;} .about-sitemap-card:hover{border-color:var(--interactive-color);transform:translateY(-3px);} .about-sitemap-card svg{width:24px;height:24px;stroke:var(--text-color);flex-shrink:0;} .about-sitemap-name{font-size:1.05rem;font-weight:600;} .about-sitemap-desc{font-size:0.88rem;line-height:1.45;opacity:0.75;} .sitemap-section{margin-bottom:2.5rem;} .sitemap-section-title{font-family:var(--font-primary);text-transform:uppercase;font-size:0.85rem;letter-spacing:0.15em;opacity:0.55;margin-bottom:1rem;} .sitemap-section-toggle{cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;user-select:none;} .sitemap-section-chevron{width:12px;height:12px;flex-shrink:0;transition:transform .3s ease;} .sitemap-section:not(.collapsed) .sitemap-section-chevron{transform:rotate(90deg);} .sitemap-collapsible{display:grid;grid-template-rows:1fr;transition:grid-template-rows .4s ease;} .sitemap-section.collapsed .sitemap-collapsible{grid-template-rows:0fr;} .sitemap-collapsible-inner{overflow:hidden;} .about-guide-split{flex-direction:row;justify-content:center;align-items:center;gap:6vw;text-align:left;} .about-split-left{max-width:520px;} .about-split-left .about-guide-list{gap:1.1rem;max-width:520px;} .about-split-left .about-guide-list li{font-size:1.05rem;line-height:1.5;} .about-split-right{display:flex;flex-direction:column;align-items:center;gap:2.5rem;flex-shrink:0;} .about-split-heading{font-size:1.4rem;font-weight:600;letter-spacing:-0.01em;text-align:center;} .about-split-right .about-toggle-visual{width:230px;height:230px;} .about-split-right .about-toggle-ring{width:146px;height:146px;border-width:12px;} .about-split-right .about-toggle-diamond{width:62px;height:62px;} .about-split-right .about-callout-line.ring{left:188px;top:115px;width:46px;} .about-split-right .about-callout-line.diamond{left:115px;top:159px;height:41px;} .about-split-right .about-callout-label.ring{left:240px;top:115px;width:170px;font-size:0.9rem;} .about-split-right .about-callout-label.diamond{left:115px;top:206px;width:180px;font-size:0.9rem;} .about-toggle-visual{position:relative;width:300px;height:300px;flex-shrink:0;} .about-toggle-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:190px;height:190px;box-sizing:border-box;border-radius:50%;background:transparent;border:16px solid var(--ring-color);cursor:pointer;transition:border-color .4s ease,transform .2s ease;} .about-toggle-ring:hover{transform:translate(-50%,-50%) scale(1.04);} .about-toggle-diamond{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:80px;height:80px;box-sizing:border-box;border-radius:12px;background:var(--toggle-color);cursor:pointer;transition:background-color .4s ease,transform .2s ease;} .about-toggle-diamond:hover{transform:translate(-50%,-50%) rotate(45deg) scale(1.08);} .about-callout-line{position:absolute;background:var(--indicator-color-solid);} .about-callout-line.ring{left:245px;top:150px;width:60px;height:2px;transform:translateY(-50%);} .about-callout-line.diamond{left:150px;top:207px;width:2px;height:53px;transform:translateX(-50%);} .about-callout-label{position:absolute;font-size:1rem;line-height:1.5;} .about-callout-label.ring{left:312px;top:150px;transform:translateY(-50%);width:220px;text-align:left;} .about-callout-label.diamond{left:150px;top:268px;transform:translateX(-50%);width:230px;text-align:center;} .about-callout-label strong{display:block;font-weight:600;margin-bottom:0.2rem;} .about-next-btn{display:flex;position:absolute;top:50%;right:3vw;transform:translateY(-50%);z-index:5;background:transparent;border:none;padding:0;cursor:pointer;color:var(--text-color);align-items:center;justify-content:center;} .about-next-btn-bounce{display:flex;animation:aboutNextBounce 1.6s ease-in-out infinite;} .about-next-btn-icon{width:42px;height:42px;transform:rotate(90deg);} @keyframes aboutNextBounce{0%,100%{transform:translateX(0);}50%{transform:translateX(10px);}}
 body:not(.hud-ready) #bottom-left-controls,body:not(.hud-ready) #hamburger-btn,body:not(.hud-ready) #toggle-container,body:not(.hud-ready) #site-title,body:not(.hud-ready) #footer,body:not(.hud-ready) #scroll-progress-container,body:not(.hud-ready) #main-breadcrumbs{opacity:0!important;pointer-events:none!important;} body:not(.cursor-ready) .cursor-dot,body:not(.cursor-ready) .cursor-outline,body:not(.cursor-ready) #cursor-trail{opacity:0!important;}
 body[data-view="about"] #bottom-left-controls,body[data-view="about"] #hamburger-btn,body[data-view="about"] #toggle-container,body[data-view="about"] #site-title,body[data-view="about"] #footer,body[data-view="about"] #scroll-progress-container,body[data-view="about"] #main-breadcrumbs,body[data-view="about"] .br-action-btn{display:none!important;}
 #toggle-container,#footer,#main-breadcrumbs,#scroll-progress-container{transition:opacity 1.2s ease;}
@@ -115,17 +117,19 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-tick-x-low{bottom:-28px;left:14%;}
 .typ-tick-x-high{bottom:-28px;right:14%;}
 .typ-matrix-grid{position:relative;width:100%;aspect-ratio:1.3/1;background-color:var(--indicator-color-solid);border:1px solid var(--indicator-color-solid);overflow:hidden;}
-.typ-cell{position:absolute;background-color:var(--bg-color);cursor:pointer;transition:box-shadow 0.3s ease;}
-.typ-cell:hover{box-shadow:inset 0 0 0 3px var(--interactive-color);}
+.typ-cell{position:absolute;background-color:var(--bg-color);cursor:pointer;transition:background-color 0.3s ease;}
+.typ-cell:hover{background-color:color-mix(in srgb, var(--interactive-color) 14%, var(--bg-color));}
+.typ-cell.active{background-color:color-mix(in srgb, var(--interactive-color) 7%, var(--bg-color));}
+.typ-cell.active:hover{background-color:color-mix(in srgb, var(--interactive-color) 18%, var(--bg-color));}
 .typ-cell-content{position:absolute;width:calc(100% - 3.5rem);box-sizing:border-box;transition:transform 0.3s ease;}
 .typ-cell-tl .typ-cell-content{top:1.75rem;left:1.75rem;text-align:left;transform-origin:left top;}
 .typ-cell-tr .typ-cell-content{top:1.75rem;right:1.75rem;text-align:right;transform-origin:right top;}
 .typ-cell-bl .typ-cell-content{bottom:1.75rem;left:1.75rem;text-align:left;transform-origin:left bottom;}
 .typ-cell-br .typ-cell-content{bottom:1.75rem;right:1.75rem;text-align:right;transform-origin:right bottom;}
-.typ-cell:hover .typ-cell-content{transform:scale(1.5);}
-.typ-cell.active{box-shadow:inset 0 0 0 2px var(--interactive-color);}
-.typ-cell h4{margin:0;font-size:1.15rem;font-weight:600;color:var(--text-color);}
-.typ-cell-subtitle{display:block;margin-top:0.25rem;font-size:0.85rem;opacity:0.6;color:var(--text-color);}
+.typ-cell:hover .typ-cell-content{transform:scale(1.08);}
+.typ-cell h4{margin:0 0 0.25rem 0;font-size:1.15rem;font-weight:600;color:var(--text-color);}
+.typ-cell-subtitle{display:block;margin-bottom:0.6rem;font-size:0.85rem;opacity:0.6;color:var(--text-color);}
+.typ-cell p{margin:0;font-size:0.9rem;line-height:1.45;color:var(--text-color);opacity:0.85;}
 .typ-matrix-grid.typ-plain .typ-cell{width:calc(50% - 1px);height:calc(50% - 1px);}
 .typ-matrix-grid.typ-plain .typ-cell-tl{left:0;top:0;}
 .typ-matrix-grid.typ-plain .typ-cell-tr{right:0;top:0;}
@@ -136,11 +140,12 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-matrix-grid.typ-with-center .typ-cell-tr{right:0;top:0;clip-path:polygon(0 0,100% 0,100% 100%,50% 100%,50% 60%,0 60%);}
 .typ-matrix-grid.typ-with-center .typ-cell-bl{left:0;bottom:0;clip-path:polygon(0 0,50% 0,50% 40%,100% 40%,100% 100%,0 100%);}
 .typ-matrix-grid.typ-with-center .typ-cell-br{right:0;bottom:0;clip-path:polygon(50% 0,100% 0,100% 100%,0 100%,0 40%,50% 40%);}
-.typ-cell-center{position:absolute;left:25%;top:30%;width:50%;height:40%;background-color:var(--bg-color);border:1px solid var(--indicator-color-solid);z-index:10;display:flex;align-items:center;justify-content:center;text-align:center;padding:1.5rem;box-sizing:border-box;cursor:pointer;transition:box-shadow 0.3s ease;}
-.typ-cell-center:hover{box-shadow:inset 0 0 0 3px var(--interactive-color);}
-.typ-cell-center.active{box-shadow:inset 0 0 0 2px var(--interactive-color);}
+.typ-cell-center{position:absolute;left:25%;top:30%;width:50%;height:40%;background-color:var(--bg-color);border:1px solid var(--indicator-color-solid);z-index:10;display:flex;align-items:center;justify-content:center;text-align:center;padding:1.5rem;box-sizing:border-box;cursor:pointer;transition:background-color 0.3s ease;}
+.typ-cell-center:hover{background-color:color-mix(in srgb, var(--interactive-color) 14%, var(--bg-color));}
+.typ-cell-center.active{background-color:color-mix(in srgb, var(--interactive-color) 7%, var(--bg-color));}
+.typ-cell-center.active:hover{background-color:color-mix(in srgb, var(--interactive-color) 18%, var(--bg-color));}
 .typ-cell-center .typ-cell-content{position:relative;width:100%;transform-origin:center;}
-.typ-cell-center:hover .typ-cell-content{transform:scale(1.5);}
+.typ-cell-center:hover .typ-cell-content{transform:scale(1.08);}
 @media (max-width:1000px){
 .typ-cell-content{width:calc(100% - 2.5rem);}
 .typ-cell-tl .typ-cell-content{top:1.1rem;left:1.1rem;}
@@ -148,6 +153,7 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-cell-bl .typ-cell-content{bottom:1.1rem;left:1.1rem;}
 .typ-cell-br .typ-cell-content{bottom:1.1rem;right:1.1rem;}
 .typ-cell h4{font-size:1rem;}
+.typ-cell p{font-size:0.8rem;line-height:1.35;}
 }
 @media (max-width:768px){
 .typ-matrix-wrapper{margin-left:1rem;margin-right:1rem;max-width:calc(100% - 2rem);padding-left:56px;}
@@ -155,7 +161,8 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .typ-tick-y-high{left:0;width:52px;text-align:right;}
 .typ-tick-y-low{left:0;width:52px;text-align:right;}
 .typ-matrix-grid{aspect-ratio:1/1.15;}
-.typ-cell-subtitle{margin-top:0.15rem;}
+.typ-cell p{display:none;}
+.typ-cell-subtitle{margin-bottom:0.2rem;}
 .typ-axis-label{font-size:0.9rem;}
 .typ-tick{font-size:0.8rem;}
 .typ-cell-center{padding:0.75rem;}
@@ -350,7 +357,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div class="gen-tab-dropdown">
             <button class="gen-subtab active hoverable" data-subtab="gen-mpt">The Multi-Polar Trap</button>
             <button class="gen-subtab hoverable" data-subtab="gen-nmo">Narrow Metric Optimisation</button>
-            <button class="gen-subtab hoverable" data-subtab="gen-conditions">Conditions</button>
+            <button class="gen-subtab hoverable" data-subtab="gen-conditions">Generative Conditions</button>
         </div>
     </div>
     <button class="gen-tab hoverable" data-tab="gen-tab-interconnections">Interconnections<span style="color: var(--interactive-color); font-weight: 700; margin-left: 0.4em;">(WIP)</span></button>
@@ -1513,7 +1520,7 @@ function typCellHtml(id,posClass){
   const node=findNodeById(macrostrategyTreeData,id);
   const m=node.title.match(/^(.*?)\s*\(([^)]+)\)$/);
   const mainTitle=m?m[1]:node.title,subtitle=m?m[2]:"";
-  return `<div class="typ-cell ${posClass} hoverable" data-typ-id="${id}"><div class="typ-cell-content"><h4>${mainTitle}</h4>${subtitle?`<span class="typ-cell-subtitle">(${subtitle})</span>`:""}</div></div>`;
+  return `<div class="typ-cell ${posClass} hoverable" data-typ-id="${id}"><div class="typ-cell-content"><h4>${mainTitle}</h4>${subtitle?`<span class="typ-cell-subtitle">(${subtitle})</span>`:""}<p>${node.desc}</p></div></div>`;
 }
 function generateTypMatrix(diagramId){
   const cfg=typDiagrams[diagramId];
@@ -1952,20 +1959,51 @@ const genCategoriesOrderedIds = genCategoryRowLayout.flatMap(rowLabels => rowLab
 
 const genConditionsDiagrams = {
     "existential-risk": [
-        {label:"Self-Termination", boxes:["Existential Risk","Exterminism"]},
-        {label:"Emergent Escalation", boxes:["Exponential Technology"]},
-        {label:"Game-Theoretic Structure", boxes:["Zero-Sum Games"]},
-        {label:"Civilisational Evolutionary Process", boxes:["Military-Economic Adaptationism","Cultural-Psychological Adaptationism"]},
-        {label:"Political-Economic Dynamics", boxes:["Hierarchy & Inequality (Power Asymmetries)","Competition & Conflict (Arms Races)"]},
-        {label:"Generative Conditions", boxes:["Material Scarcity","Cultural Divergence"]}
+        {label:"Self-Termination", boxes:[
+            {title:"Existential Risk", desc:"Amplified by exponential technology, the zero-sum competitive structure below generates capabilities and incentives capable of imposing permanent, civilisation-scale damage."},
+            {title:"Exterminism", desc:"In the limit, this trajectory culminates in the deliberate or incidental self-termination of civilisation, as competitive dynamics scaled by technological power overwhelm every mechanism for restraint."}
+        ]},
+        {label:"Emergent Escalation", boxes:[
+            {title:"Exponential Technology", desc:"Within the zero-sum structure below, compounding technological and economic development acts as a force multiplier, continuously raising the stakes and destructive potential of the underlying competitive dynamics."}
+        ]},
+        {label:"Game-Theoretic Structure", boxes:[
+            {title:"Zero-Sum Games", desc:"The adaptive pressures below crystallise into a formal game-theoretic structure in which no actor can unilaterally cooperate without being exploited by rivals who defect, mathematically foreclosing collectively optimal outcomes."}
+        ]},
+        {label:"Civilisational Evolutionary Process", boxes:[
+            {title:"Military-Economic Adaptationism", desc:"Civilisations under sustained competitive pressure selectively favour institutions, technologies and strategies optimised for military and economic dominance, regardless of their broader costs to wellbeing or sustainability."},
+            {title:"Cultural-Psychological Adaptationism", desc:"The same selection pressure operates on minds and cultures, favouring dispositions – tribalism, status-seeking, short-termism – that succeed at competition even when they degrade long-run collective welfare."}
+        ]},
+        {label:"Political-Economic Dynamics", boxes:[
+            {title:"Hierarchy & Inequality (Power Asymmetries)", desc:"Material scarcity and cultural divergence crystallise into stratified structures where some actors accumulate disproportionate control over resources and decision-making, entrenching asymmetries that self-reinforce over time."},
+            {title:"Competition & Conflict (Arms Races)", desc:"Power asymmetries incentivise rival actors to compete for relative advantage rather than absolute gain, locking parties into escalating investment in coercive or competitive capacity purely to avoid falling behind."}
+        ]},
+        {label:"Generative Conditions", boxes:[
+            {title:"Material Scarcity", desc:"Finite resources relative to population and desire create zero-sum pressure at civilisation's most basic material level, since gains for one party structurally require losses for another under a fixed or shrinking overall pool."},
+            {title:"Cultural Divergence", desc:"Populations separated by geography and history developed incompatible values, identities and worldviews, denying civilisation a shared frame within which competing claims over scarce resources could be resolved cooperatively."}
+        ]}
     ],
     "existential-flourishing": [
-        {label:"Self-Sustainability", boxes:["Existential Security & Flourishing"]},
-        {label:"Emergent Intentionality", boxes:["Appropriate-Axiological-Aligned Technology"]},
-        {label:"Game-Theoretic Structure", boxes:["Positive-Sum Games"]},
-        {label:"Civilisational Evolutionary Process", boxes:["Demilitarisation","Collective Actualisation"]},
-        {label:"Political-Economic Dynamics", boxes:["Egalitarianism","Integralism"]},
-        {label:"Generative Conditions", boxes:["Post-Scarcity","Cultural Convergence"]}
+        {label:"Self-Sustainability", boxes:[
+            {title:"Existential Security & Flourishing", desc:"This trajectory culminates in a stable, self-reinforcing equilibrium in which civilisational security and flourishing perpetuate themselves indefinitely."}
+        ]},
+        {label:"Emergent Intentionality", boxes:[
+            {title:"Appropriate-Axiological-Aligned Technology", desc:"Within the positive-sum structure below, technological development is deliberately steered by and aligned with genuine human and civilisational values, rather than compounding in a values-neutral or adversarial direction."}
+        ]},
+        {label:"Game-Theoretic Structure", boxes:[
+            {title:"Positive-Sum Games", desc:"The conditions below crystallise into a game-theoretic structure in which actors can cooperate to mutual benefit without fear of exploitation, replacing the zero-sum logic of competitive rivalry."}
+        ]},
+        {label:"Civilisational Evolutionary Process", boxes:[
+            {title:"Demilitarisation", desc:"Reduced incentives for relative advantage allow civilisation to systematically divest from coercive and competitive capacity, freeing resources and attention for cooperative ends."},
+            {title:"Collective Actualisation", desc:"Freed from competitive pressure, institutions and cultures can select for genuinely beneficial outcomes, jointly cultivating the wellbeing and potential of the whole rather than surviving rivals."}
+        ]},
+        {label:"Political-Economic Dynamics", boxes:[
+            {title:"Egalitarianism", desc:"Post-scarcity and cultural convergence together support the dissolution of entrenched hierarchies, distributing power and resources broadly enough that no single actor can capture disproportionate control."},
+            {title:"Integralism", desc:"With power broadly distributed, previously separate actors and institutions integrate into more cohesive, mutually accountable wholes rather than remaining locked in adversarial competition."}
+        ]},
+        {label:"Generative Conditions", boxes:[
+            {title:"Post-Scarcity", desc:"Advanced production and resource abundance remove the zero-sum material constraint underlying competitive conflict, making cooperative, positive-sum outcomes structurally available for the first time."},
+            {title:"Cultural Convergence", desc:"Shared exposure, communication and mutual understanding across previously divergent populations produce overlapping values and a common frame within which cooperation over shared resources becomes tractable."}
+        ]}
     ]
 };
 function genCondConnectorSvg(fromN, toN) {
@@ -1985,7 +2023,7 @@ function generateGenConditionsDiagram(diagramKey) {
     let html = '<div class="gen-grid">';
     levels.forEach((lvl, i) => {
         html += `<div class="gen-side-cell">${lvl.label}</div>`;
-        html += `<div class="gen-row">${lvl.boxes.map(b => `<div class="gen-node-wrapper"><div class="node-box hoverable gen-node"><div class="gen-node-title">${b}</div></div></div>`).join('')}</div>`;
+        html += `<div class="gen-row">${lvl.boxes.map(b => `<div class="gen-node-wrapper"><div class="node-box hoverable gen-node"><div class="gen-node-title">${b.title}</div><p class="gen-desc">${b.desc}</p></div></div>`).join('')}</div>`;
         if (i < levels.length - 1) {
             html += `<div class="gen-side-cell" style="border-color: transparent;"></div>`;
             html += `<div class="gen-conn">${genCondConnectorSvg(lvl.boxes.length, levels[i+1].boxes.length)}</div>`;
