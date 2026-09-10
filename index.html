@@ -2452,7 +2452,7 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.62, heightFrac: 0.35, maxBoxW: 260, maxBoxH: 140, widthFrac: 0.9, minScale: 0.9, suppressBody: true});
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.71, heightFrac: 0.48, maxBoxW: 270, maxBoxH: 170, widthFrac: 0.92, minScale: 0.9, suppressBody: true});
     });
     labelsHtml += civEvoAnnotationHtml(R, "Evolutionary Psychology (Substructure)", interactive);
     return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1300px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
