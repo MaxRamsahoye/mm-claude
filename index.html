@@ -1207,7 +1207,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
       </div>
     </div>
 </div></main>
-<main id="systems-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2rem; padding-bottom: 4rem;">
+<main id="systems-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 0.75rem; padding-bottom: 4rem;">
     <div style="width: 100%; margin-bottom: 0;">
         <div class="selected-header" style="margin-top: 0; justify-content: flex-start; width: 100%; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
             <h2 id="system-view-title" style="font-size: 2.8rem; letter-spacing: -0.02em; margin: 0;">Civilisational Systems: Emergence Model</h2>
@@ -1216,17 +1216,17 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
                 <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gameab">Game A/B</button>
             </div>
         </div>
-        <div id="system-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 1rem; text-align: left; margin-left: 0; max-width: none;">The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description.</div>
+        <div id="system-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.25rem; margin-bottom: 0.5rem; text-align: left; margin-left: 0; max-width: none;">The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description.</div>
     </div>
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
         <div id="civ-emergence-structures" class="civ-emergence-tab-content active">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1300px; margin-left: calc(50% - min(50vw, 650px)); box-sizing: border-box; padding: 0 2rem;">
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 660px; margin-left: calc(50% - min(50vw, 330px)); box-sizing: border-box; padding: 0 2rem;">
                 <div id="civ-emergence-svg-container"></div>
             </div>
             <div class="civ-struct-list" id="civ-struct-list-structures"></div>
         </div>
         <div id="civ-emergence-gameab" class="civ-emergence-tab-content" style="display:none;" data-game="a">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1300px; margin-left: calc(50% - min(50vw, 650px)); box-sizing: border-box; padding: 0 2rem;">
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 660px; margin-left: calc(50% - min(50vw, 330px)); box-sizing: border-box; padding: 0 2rem;">
                 <div id="civ-emergence-gameab-svg-container"></div>
             </div>
             <div class="civ-gameab-toggles">
@@ -1254,7 +1254,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         </div>
     </div>
     <div id="system-tab-decomposition" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100vw; max-width: 1350px; margin-left: calc(50% - min(50vw, 675px)); box-sizing: border-box; padding: 0 2rem; margin-bottom: 2rem;">
+        <div style="width: 100vw; max-width: 660px; margin-left: calc(50% - min(50vw, 330px)); box-sizing: border-box; padding: 0 2rem; margin-bottom: 2rem;">
             <div id="civ-decomp-diagram-container"></div>
         </div>
         <div class="civ-struct-list" style="margin-bottom: 0;">
@@ -2452,10 +2452,10 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.71, heightFrac: 0.48, maxBoxW: 270, maxBoxH: 170, widthFrac: 0.92, minScale: 0.9, suppressBody: true});
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.5, heightFrac: 0.36, maxBoxW: 205, maxBoxH: 130, widthFrac: 0.95, minScale: 0.85, suppressBody: true});
     });
     labelsHtml += civEvoAnnotationHtml(R, "Evolutionary Psychology (Substructure)", interactive);
-    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1300px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
+    return `<svg viewBox="0 60 1000 840" style="width:100%; max-width:900px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
 const civListGroups = [
