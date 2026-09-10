@@ -181,7 +181,8 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .civ-seg-static{cursor:default;pointer-events:none;}
 .civ-evo-annotation{cursor:pointer;font-size:0.95rem;font-weight:500;color:var(--text-color);opacity:0.7;text-decoration:underline;text-decoration-color:transparent;transition:opacity 0.3s ease,text-decoration-color 0.3s ease;}
 .civ-evo-annotation:hover{opacity:1;color:var(--interactive-color);text-decoration-color:currentColor;}
-.civ-evo-annotation-static{cursor:default;pointer-events:none;opacity:0.6;font-size:0.95rem;font-weight:500;color:var(--text-color);}
+.civ-evo-annotation-static{cursor:pointer;opacity:0.6;font-size:0.95rem;font-weight:500;color:var(--text-color);text-decoration:underline;text-decoration-color:transparent;transition:opacity 0.3s ease,color 0.3s ease,text-decoration-color 0.3s ease;}
+.civ-evo-annotation-static:hover{opacity:1;color:var(--interactive-color);text-decoration-color:currentColor;}
 .civ-node circle{transition:stroke 0.3s ease;}
 .civ-node:hover circle,.civ-node.active circle{stroke:var(--interactive-color);}
 .civ-edge-group .civ-edge-line-vis{transition:all 0.3s ease;}
@@ -2392,7 +2393,7 @@ function civEvoAnnotationHtml(R, label, interactive) {
     const nodePt = civPolarPoint(500, 500, R + civEvoAnnotationNodeOffset, civEvoAnnotationAngle);
     const labelPt = civPolarPoint(500, 500, R + civEvoAnnotationLabelOffset, civEvoAnnotationAngle);
     const boxW = 280, boxH = 70;
-    const cls = interactive ? 'civ-evo-annotation hoverable' : 'civ-evo-annotation civ-evo-annotation-static';
+    const cls = interactive ? 'civ-evo-annotation hoverable' : 'civ-evo-annotation civ-evo-annotation-static hoverable';
     return `<g class="civ-evo-annotation-connector" pointer-events="none">
         <line x1="${edgePt.x}" y1="${edgePt.y}" x2="${nodePt.x}" y2="${nodePt.y}" stroke="var(--indicator-color-solid)" stroke-width="2" />
         <circle cx="${nodePt.x}" cy="${nodePt.y}" r="5" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2" />
@@ -3238,10 +3239,15 @@ if(e.target.closest('.civ-seg')){
 if(e.target.closest('.civ-evo-annotation')){
     e.isTrusted&&playSound('click');
     const fo=e.target.closest('foreignObject');
-    const wrap=fo.closest('.civ-emergence-tab-content');
     const id=fo.getAttribute('data-annotation-target');
-    const textById=wrap.id==='civ-emergence-gameab'?(wrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
-    civSelectStructure(wrap,id,textById);
+    const emergenceWrap=fo.closest('.civ-emergence-tab-content');
+    if(emergenceWrap){
+        const textById=emergenceWrap.id==='civ-emergence-gameab'?(emergenceWrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
+        civSelectStructure(emergenceWrap,id,textById);
+    }else if(fo.closest('#civ-decomp-diagram-container')){
+        const gid=document.querySelector('.civ-decomp-item.active')?.getAttribute('data-concept')||'embedded-growth';
+        civSelectStructure(document.getElementById('system-tab-decomposition'),id,civDecomposition[gid],false);
+    }
 }
 if(e.target.closest('.civ-struct-card-item, .civ-gameab-row')){
     e.isTrusted&&playSound('click');
