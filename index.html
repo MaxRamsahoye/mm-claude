@@ -315,6 +315,8 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .civ-struct-card-desc { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; }
 .civ-struct-card-child { margin-left: 3rem; }
 @media (max-width:700px){.civ-struct-card-child{margin-left:1.25rem;}}
+#civ-decomp-info-list { margin-bottom: 3rem; }
+#civ-decomp-info-list .civ-struct-card-item { border-left: none; padding-left: 0; }
 .civ-gameab-table { width: 100%; border-collapse: collapse; }
 .civ-gameab-table th { text-align: left; padding: 0.5rem 1.5rem 0.75rem 1.5rem; font-family: var(--font-primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; opacity: 0.55; border-bottom: 2px solid var(--indicator-color-solid); }
 .civ-gameab-row td { padding: 1rem 1.5rem; font-size: 1.05rem; line-height: 1.55; vertical-align: top; border-bottom: 1px solid var(--indicator-color-solid); cursor: pointer; transition: background-color 0.3s ease; }
@@ -1196,14 +1198,16 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
 </div></main>
 <main id="systems-container" class="view-panel"><div style="text-align: left; width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2rem; padding-bottom: 4rem;">
     <div style="width: 100%; margin-bottom: 0;">
-        <div class="selected-header" style="margin-top: 0; justify-content: flex-start;"><h2 id="system-view-title" style="font-size: 2.8rem; letter-spacing: -0.02em;">Civilisational Systems: Emergence Model</h2></div>
+        <div class="selected-header" style="margin-top: 0; justify-content: flex-start; width: 100%; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+            <h2 id="system-view-title" style="font-size: 2.8rem; letter-spacing: -0.02em; margin: 0;">Civilisational Systems: Emergence Model</h2>
+            <div class="civ-emergence-tabs" id="system-view-tabs" style="width: auto; justify-content: flex-start; margin-bottom: 0;">
+                <button class="civ-emergence-tab active hoverable" data-emergencetab="civ-emergence-structures">Structures</button>
+                <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gameab">Game A/B</button>
+            </div>
+        </div>
         <div id="system-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 3rem; text-align: left; margin-left: 0; max-width: none;">The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description.</div>
     </div>
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
-        <div class="civ-emergence-tabs">
-            <button class="civ-emergence-tab active hoverable" data-emergencetab="civ-emergence-structures">Structures</button>
-            <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gameab">Game A/B</button>
-        </div>
         <div id="civ-emergence-structures" class="civ-emergence-tab-content active">
             <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1000px; margin-left: calc(50% - min(50vw, 500px)); box-sizing: border-box; padding: 0 2rem;">
                 <div id="civ-emergence-svg-container"></div>
@@ -3066,6 +3070,8 @@ if(systemTabCopy[t]){
     const subtitleEl=document.getElementById('system-view-subtitle');
     if(titleEl){titleEl.textContent=systemTabCopy[t].title;titleEl.style.fontSize=systemTabCopy[t].titleFontSize||"2.8rem";titleEl.style.whiteSpace=systemTabCopy[t].titleFontSize?"nowrap":"normal";}
     if(subtitleEl)subtitleEl.textContent=systemTabCopy[t].subtitle;
+    const viewTabsEl=document.getElementById('system-view-tabs');
+    if(viewTabsEl)viewTabsEl.style.display=t==='system-tab-emergence'?'flex':'none';
 }
 if("system-tab-decomposition"===t&&!document.querySelector(".civ-decomp-item.active")){
     setTimeout(()=>{const d=document.querySelector('.civ-decomp-item[data-concept="embedded-growth"]');d&&d.dispatchEvent(new MouseEvent("click",{bubbles:!0}));},350);
@@ -3158,8 +3164,8 @@ if(e.target.closest('.gen-cond-tab')){
 if(e.target.closest('.civ-emergence-tab')){
     playSound('click');
     const btn=e.target.closest('.civ-emergence-tab');
-    const wrap=btn.closest('.gen-tab-content');
-    wrap.querySelectorAll(':scope > .civ-emergence-tabs > .civ-emergence-tab').forEach(b=>b.classList.remove('active'));
+    const wrap=document.getElementById('system-tab-emergence');
+    document.querySelectorAll('#system-view-tabs .civ-emergence-tab').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const t=btn.getAttribute('data-emergencetab');
     wrap.querySelectorAll(':scope > .civ-emergence-tab-content').forEach(c=>{
