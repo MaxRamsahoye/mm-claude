@@ -1216,7 +1216,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
         <div id="civ-emergence-structures" class="civ-emergence-tab-content active">
-            <div class="civ-emergence-wrap" style="width: 100%; max-width: min(94vw, calc((100vh - 260px) * 1.0929), 1100px); margin: 0 auto; box-sizing: border-box;">
+            <div class="civ-emergence-wrap" style="width: 100%; max-width: min(84.6vw, calc((100vh - 260px) * 0.98361), 990px); margin: 0 auto; box-sizing: border-box;">
                 <div id="civ-emergence-svg-container"></div>
             </div>
             <div class="civ-struct-list" id="civ-struct-list-structures"></div>
@@ -1224,7 +1224,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
     <div id="system-tab-gameab" class="gen-tab-content" style="display: none; width: 100%;">
         <div id="civ-emergence-gameab" class="civ-emergence-tab-content active" data-game="a">
-            <div class="civ-emergence-wrap" style="width: 100%; max-width: min(94vw, calc((100vh - 260px) * 1.0929), 1100px); margin: 0 auto; box-sizing: border-box;">
+            <div class="civ-emergence-wrap" style="width: 100%; max-width: min(84.6vw, calc((100vh - 260px) * 0.98361), 990px); margin: 0 auto; box-sizing: border-box;">
                 <div id="civ-emergence-gameab-svg-container"></div>
             </div>
             <div class="civ-gameab-toggles">
@@ -1252,7 +1252,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         </div>
     </div>
     <div id="system-tab-decomposition" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100%; max-width: min(94vw, calc((100vh - 260px) * 1.0929), 1100px); margin: 0 auto; box-sizing: border-box; margin-bottom: 2rem;">
+        <div style="width: 100%; max-width: min(84.6vw, calc((100vh - 260px) * 0.98361), 990px); margin: 0 auto; box-sizing: border-box; margin-bottom: 2rem;">
             <div id="civ-decomp-diagram-container"></div>
         </div>
         <div class="civ-struct-list" style="margin-bottom: 0;">
@@ -2450,7 +2450,7 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.58, heightFrac: 0.6, maxBoxW: 400, maxBoxH: 400, widthFrac: 0.92, minScale: 0.86, suppressBody: false});
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.58, heightFrac: 0.47, maxBoxW: 400, maxBoxH: 400, widthFrac: 0.92, minScale: 0.82, suppressBody: false});
     });
     labelsHtml += civEvoAnnotationHtml(R, "Evolutionary Psychology (Substructure)", interactive);
     return `<svg viewBox="0 40 1000 915" style="width:100%; max-width:1100px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
