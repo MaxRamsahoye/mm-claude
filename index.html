@@ -307,7 +307,7 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .civ-gameab-toggles { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2.5rem 0; width: 100%; }
 .civ-struct-list { width: 100%; max-width: 1000px; margin: 3rem auto 0 auto; display: flex; flex-direction: column; gap: 1.25rem; }
 .civ-struct-card-group { display: flex; flex-direction: column; gap: 1.25rem; }
-.civ-struct-card-item { text-align: left; padding: 1.5rem 1.75rem; border: 2px solid var(--indicator-color-solid); border-radius: 12px; cursor: pointer; transition: border-color 0.3s ease, background-color 0.3s ease; }
+.civ-struct-card-item { text-align: left; padding: 0.5rem 1.5rem; border-left: 3px solid var(--indicator-color-solid); cursor: pointer; transition: border-color 0.3s ease, background-color 0.3s ease; }
 .civ-struct-card-item:hover { border-color: var(--interactive-color); background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
 .civ-struct-card-item.active { border-color: var(--interactive-color); background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
 .civ-struct-card-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.6rem; }
@@ -315,6 +315,13 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .civ-struct-card-desc { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; }
 .civ-struct-card-child { margin-left: 3rem; }
 @media (max-width:700px){.civ-struct-card-child{margin-left:1.25rem;}}
+.civ-gameab-table { width: 100%; border-collapse: collapse; }
+.civ-gameab-table th { text-align: left; padding: 0.5rem 1.5rem 0.75rem 1.5rem; font-family: var(--font-primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; opacity: 0.55; border-bottom: 2px solid var(--indicator-color-solid); }
+.civ-gameab-row td { padding: 1rem 1.5rem; font-size: 1.05rem; line-height: 1.55; vertical-align: top; border-bottom: 1px solid var(--indicator-color-solid); cursor: pointer; transition: background-color 0.3s ease; }
+.civ-gameab-row:hover td, .civ-gameab-row.active td { background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
+.civ-gameab-row-title { font-weight: 600; white-space: nowrap; }
+.civ-gameab-row-child td { padding-left: 3rem; }
+@media (max-width:700px){.civ-gameab-row-child td{padding-left:1.5rem;}}
 .corner-nav-fixed { position: fixed; top: 2rem; left: 2rem; z-index: 100; max-width: calc(100vw - 4rem); opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .corner-nav-fixed.visible { opacity: 1; pointer-events: auto; }
 .module-nav.corner-nav-fixed { width: auto; margin: 0; }
@@ -1211,7 +1218,13 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
                 <button class="civ-gameab-toggle active hoverable" data-game="a">Game A</button>
                 <button class="civ-gameab-toggle hoverable" data-game="b">Game B</button>
             </div>
-            <div class="civ-struct-list" id="civ-struct-list-gameab"></div>
+            <div style="width: 100%; max-width: 1200px; margin: 3rem auto 0 auto; overflow-x: auto;">
+                <table class="civ-gameab-table">
+                    <colgroup><col style="width:20%;"><col style="width:40%;"><col style="width:40%;"></colgroup>
+                    <thead><tr><th></th><th>Game A</th><th>Game B</th></tr></thead>
+                    <tbody class="civ-gameab-table-body" id="civ-gameab-table-body"></tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div id="system-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
@@ -1229,7 +1242,8 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         <div style="width: 100vw; max-width: 1350px; margin-left: calc(50% - min(50vw, 675px)); box-sizing: border-box; padding: 0 2rem; margin-bottom: 2rem;">
             <div id="civ-decomp-diagram-container"></div>
         </div>
-        <div style="width: 100vw; max-width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
+        <div class="civ-struct-list" id="civ-decomp-info-list"></div>
+        <div style="width: 100vw; max-width: 100vw; margin-top: 3rem; margin-left: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-self: center; box-sizing: border-box; padding: 0 2rem;">
             <svg id="civ-decomp-categories-svg" viewBox="-18.75 71.25 2460 1220" style="width: 100%; max-width: 1460px; height: auto; max-height: 78vh; overflow: visible;">
                 <g id="civ-decomp-categories-nodes"></g>
             </svg>
@@ -2365,6 +2379,12 @@ const civEvoTabSpan = 50, civEvoTabDepth = 92, civEvoTabMidAngle = 315;
 function civEvoTabDef(R) {
     return {id:"evo-psych", rInner:R, rOuter:R+civEvoTabDepth, start: civEvoTabMidAngle-civEvoTabSpan/2, end: civEvoTabMidAngle+civEvoTabSpan/2};
 }
+function civLabelInnerHtml(s, bodyTextById, scale, suppressBody) {
+    const bodyHtml = (bodyTextById && !suppressBody) ? `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.3; opacity:0.85; margin-top:${(0.45*scale).toFixed(2)}rem;">${bodyTextById[s.id]||''}</div>` : '';
+    return `<div style="font-size:${(0.8*scale).toFixed(2)}rem; opacity:0.6; color:var(--text-color);">(${s.subtitle})</div>
+        <div style="font-weight:600; font-size:${(1*scale).toFixed(2)}rem; color:var(--text-color); line-height:1.2; margin-top:0.15rem;">${s.title}</div>
+        ${bodyHtml}`;
+}
 function civSegLabelHtml(seg, s, bodyTextById, opts) {
     opts = opts || {};
     const cx = 500, cy = 500;
@@ -2381,12 +2401,12 @@ function civSegLabelHtml(seg, s, bodyTextById, opts) {
     const widthFrac = opts.widthFrac || 0.92;
     const boxW = Math.max(70, Math.min(maxBoxW, chordWidth * widthFrac));
     const scale = Math.max(opts.minScale || 0.6, Math.min(1, boxW / maxBoxW, boxH / maxBoxH));
-    const bodyHtml = (bodyTextById && !opts.suppressBody) ? `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.3; opacity:0.85; margin-top:${(0.45*scale).toFixed(2)}rem;">${bodyTextById[seg.id]||''}</div>` : '';
-    return `<foreignObject x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}" style="pointer-events:none;" pointer-events="none">
+    const innerHtml = opts.tabLabel
+        ? `<div style="font-weight:600; font-size:${(1.1*scale).toFixed(2)}rem; color:var(--text-color);">${opts.tabLabel}</div>`
+        : civLabelInnerHtml(s, bodyTextById, scale, opts.suppressBody);
+    return `<foreignObject data-struct-id="${seg.id}" data-scale="${scale}" x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}" style="pointer-events:none;" pointer-events="none">
         <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:${(0.5*scale).toFixed(2)}rem; pointer-events:none; overflow:hidden;">
-            <div style="font-size:${(0.8*scale).toFixed(2)}rem; opacity:0.6; color:var(--text-color);">(${s.subtitle})</div>
-            <div style="font-weight:600; font-size:${(1*scale).toFixed(2)}rem; color:var(--text-color); line-height:1.2; margin-top:0.15rem;">${s.title}</div>
-            ${bodyHtml}
+            ${innerHtml}
         </div>
     </foreignObject>`;
 }
@@ -2402,14 +2422,14 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.7, heightFrac: 0.5});
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.56, heightFrac: 0.42});
     });
     const tab = civEvoTabDef(R);
     const tabS = civStructureById[tab.id];
     const tabD = civAnnulusPath(cx, cy, tab.rInner, tab.rOuter, tab.start, tab.end);
     const tabCls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
     pathsHtml += `<path class="${tabCls}" data-struct-id="${tab.id}" d="${tabD}" />`;
-    labelsHtml += civSegLabelHtml(tab, tabS, bodyTextById, {midRFrac: 0.5, heightFrac: 0.8, maxBoxW: 150, maxBoxH: 100, minScale: 0.45, suppressBody: true});
+    labelsHtml += civSegLabelHtml(tab, tabS, bodyTextById, {midRFrac: 0.5, heightFrac: 0.8, maxBoxW: 100, maxBoxH: 70, minScale: 0.7, tabLabel: "Evo"});
     return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1000px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
@@ -2440,12 +2460,42 @@ function renderCivStructureList(containerId, textById, selectedId) {
     const container = document.getElementById(containerId);
     if (container) container.innerHTML = html;
 }
+function civGameabRowHtml(id, selectedId, extraCls) {
+    const s = civStructureById[id];
+    const activeCls = id === selectedId ? ' active' : '';
+    return `<tr class="civ-gameab-row hoverable${activeCls}${extraCls||''}" data-struct-id="${id}">
+        <td class="civ-gameab-row-title">${s.title}<br><span class="civ-struct-card-subtitle">(${s.subtitle})</span></td>
+        <td>${(civGameA[id]||'')}</td>
+        <td>${(civGameB[id]||'')}</td>
+    </tr>`;
+}
+function renderCivGameabTable(containerId, selectedId) {
+    const groups = civListGroups.slice();
+    const idx = groups.findIndex(g => g.id === selectedId || g.child === selectedId);
+    if (idx > 0) { const [g] = groups.splice(idx, 1); groups.unshift(g); }
+    const html = groups.map(g => {
+        const mainRow = civGameabRowHtml(g.id, selectedId);
+        const childRow = g.child ? civGameabRowHtml(g.child, selectedId, ' civ-gameab-row-child') : '';
+        return mainRow + childRow;
+    }).join('');
+    const container = document.getElementById(containerId);
+    if (container) container.innerHTML = html;
+}
 function civSelectStructure(wrap, id, textById) {
     wrap.querySelectorAll('.civ-seg.active').forEach(el => el.classList.remove('active'));
     const seg = wrap.querySelector(`.civ-seg[data-struct-id="${id}"]`);
     if (seg) seg.classList.add('active');
     const listEl = wrap.querySelector('.civ-struct-list');
     if (listEl) renderCivStructureList(listEl.id, textById, id);
+    const tableBody = wrap.querySelector('.civ-gameab-table-body');
+    if (tableBody) renderCivGameabTable(tableBody.id, id);
+    if (id === 'cultural-psych' || id === 'evo-psych') {
+        const fo = wrap.querySelector('foreignObject[data-struct-id="cultural-psych"]');
+        if (fo) {
+            const scale = parseFloat(fo.getAttribute('data-scale'));
+            fo.querySelector('div').innerHTML = civLabelInnerHtml(civStructureById[id], textById, scale, false);
+        }
+    }
 }
 
 const civIntPositionOrder = ["tech-stack", "cultural-psych", "evo-psych", "pop-physiology", "political-economy"];
@@ -2489,6 +2539,7 @@ document.getElementById('civ-emergence-svg-container').innerHTML = generateCivEm
 document.getElementById('civ-emergence-gameab-svg-container').innerHTML = generateCivEmergenceSvg({interactive:true, bodyTextById: civGameA});
 renderCivInterconnections();
 document.getElementById('civ-decomp-diagram-container').innerHTML = generateCivEmergenceSvg({interactive:false, bodyTextById: civDecomposition['embedded-growth']});
+renderCivStructureList('civ-decomp-info-list', civDecomposition['embedded-growth'], null);
 civSelectStructure(document.getElementById('civ-emergence-structures'), 'political-economy', null);
 civSelectStructure(document.getElementById('civ-emergence-gameab'), 'political-economy', civGameA);
 
@@ -3150,9 +3201,9 @@ if(e.target.closest('.civ-seg')){
     const textById=wrap.id==='civ-emergence-gameab'?(wrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
     civSelectStructure(wrap,id,textById);
 }
-if(e.target.closest('.civ-struct-card-item')){
+if(e.target.closest('.civ-struct-card-item, .civ-gameab-row')){
     e.isTrusted&&playSound('click');
-    const item=e.target.closest('.civ-struct-card-item');
+    const item=e.target.closest('.civ-struct-card-item, .civ-gameab-row');
     const wrap=item.closest('.civ-emergence-tab-content');
     const id=item.getAttribute('data-struct-id');
     const textById=wrap.id==='civ-emergence-gameab'?(wrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
@@ -3201,6 +3252,7 @@ if(e.target.closest('.civ-decomp-item')){
     item.classList.add('active');
     const gid=item.getAttribute('data-concept');
     document.getElementById('civ-decomp-diagram-container').innerHTML=generateCivEmergenceSvg({interactive:false, bodyTextById: civDecomposition[gid]});
+    renderCivStructureList('civ-decomp-info-list', civDecomposition[gid], null);
 }
 if(e.target.closest('.gen-concept-node')){
     const node=e.target.closest('.gen-concept-node');
