@@ -302,11 +302,7 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .gen-cond-tab:hover { transform: translateY(-2px); border-color: var(--interactive-color); color: var(--interactive-color); }
 .gen-cond-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); }
 .gen-cond-tab-content { width: 100%; }
-.civ-gameab-toggle { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
-.civ-gameab-toggle:hover { transform: translateY(-2px); border-color: var(--interactive-color); color: var(--interactive-color); }
-.civ-gameab-toggle.active { border-color: var(--interactive-color); color: var(--interactive-color); }
 .civ-emergence-tab-content { width: 100%; }
-.civ-gameab-toggles { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2.5rem 0; width: 100%; }
 .civ-struct-list { width: 100%; max-width: 1000px; margin: 3rem auto 0 auto; display: flex; flex-direction: column; gap: 1.25rem; }
 .civ-struct-card-group { display: flex; flex-direction: column; gap: 1.25rem; }
 .civ-struct-card-item { display: grid; grid-template-columns: 190px 1fr; gap: 1.5rem; align-items: stretch; text-align: left; padding: 0.5rem 1.5rem; cursor: pointer; transition: background-color 0.3s ease; }
@@ -329,6 +325,9 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 #civ-decomp-info-list .civ-struct-card-label { border-right: none; }
 .civ-gameab-table { width: 100%; border-collapse: collapse; }
 .civ-gameab-table th { text-align: left; padding: 0.5rem 1.5rem 0.75rem 1.5rem; font-family: var(--font-primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; opacity: 0.55; border-bottom: 2px solid var(--indicator-color-solid); }
+.civ-gameab-table th.civ-gameab-toggle { cursor: pointer; text-transform: none; letter-spacing: normal; font-size: 1.5rem; font-weight: 600; opacity: 0.6; padding-bottom: 1.75rem; transition: opacity 0.3s ease, color 0.3s ease; }
+.civ-gameab-table th.civ-gameab-toggle:hover { opacity: 0.85; color: var(--interactive-color); }
+.civ-gameab-table th.civ-gameab-toggle.active { opacity: 1; color: var(--interactive-color); border-bottom-color: var(--interactive-color); }
 .civ-gameab-row td { padding: 1rem 1.5rem; font-size: 1.05rem; line-height: 1.55; vertical-align: top; border-bottom: 1px solid var(--indicator-color-solid); cursor: pointer; transition: background-color 0.3s ease; }
 .civ-gameab-row:hover td, .civ-gameab-row.active td { background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
 .civ-gameab-row-title { font-weight: 600; white-space: nowrap; }
@@ -1227,14 +1226,10 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
             <div class="civ-emergence-wrap" style="width: 100%; max-width: min(84.6vw, calc((100vh - 260px) * 0.98361), 990px); margin: 0 auto; box-sizing: border-box;">
                 <div id="civ-emergence-gameab-svg-container"></div>
             </div>
-            <div class="civ-gameab-toggles">
-                <button class="civ-gameab-toggle active hoverable" data-game="a">Game A</button>
-                <button class="civ-gameab-toggle hoverable" data-game="b">Game B</button>
-            </div>
             <div style="width: 100%; max-width: 1200px; margin: 3rem auto 0 auto; overflow-x: auto;">
                 <table class="civ-gameab-table">
                     <colgroup><col style="width:20%;"><col style="width:40%;"><col style="width:40%;"></colgroup>
-                    <thead><tr><th></th><th>Game A</th><th>Game B</th></tr></thead>
+                    <thead><tr><th></th><th class="civ-gameab-toggle active hoverable" data-game="a">Game A</th><th class="civ-gameab-toggle hoverable" data-game="b">Game B</th></tr></thead>
                     <tbody class="civ-gameab-table-body" id="civ-gameab-table-body"></tbody>
                 </table>
             </div>
@@ -2450,7 +2445,7 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.58, heightFrac: 0.47, maxBoxW: 400, maxBoxH: 400, widthFrac: 0.92, minScale: 0.82, suppressBody: false});
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.58, heightFrac: 0.51, maxBoxW: 400, maxBoxH: 400, widthFrac: 0.92, minScale: 0.86, suppressBody: false});
     });
     labelsHtml += civEvoAnnotationHtml(R, "Evolutionary Psychology (Substructure)", interactive);
     return `<svg viewBox="0 40 1000 915" style="width:100%; max-width:1100px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
@@ -3260,7 +3255,7 @@ if(e.target.closest('.civ-gameab-toggle')){
     e.isTrusted&&playSound('click');
     const btn=e.target.closest('.civ-gameab-toggle');
     const wrap=btn.closest('.civ-emergence-tab-content');
-    wrap.querySelectorAll(':scope > .civ-gameab-toggles > .civ-gameab-toggle').forEach(b=>b.classList.remove('active'));
+    wrap.querySelectorAll('.civ-gameab-toggle').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const game=btn.getAttribute('data-game');
     wrap.setAttribute('data-game',game);
