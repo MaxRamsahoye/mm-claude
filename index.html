@@ -310,16 +310,18 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .civ-gameab-toggles { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2.5rem 0; width: 100%; }
 .civ-struct-list { width: 100%; max-width: 1000px; margin: 3rem auto 0 auto; display: flex; flex-direction: column; gap: 1.25rem; }
 .civ-struct-card-group { display: flex; flex-direction: column; gap: 1.25rem; }
-.civ-struct-card-item { text-align: left; padding: 0.5rem 1.5rem; border-left: 3px solid var(--indicator-color-solid); cursor: pointer; transition: border-color 0.3s ease, background-color 0.3s ease; }
-.civ-struct-card-item:hover { border-color: var(--interactive-color); background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
-.civ-struct-card-item.active { border-color: var(--interactive-color); background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
-.civ-struct-card-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.6rem; }
+.civ-struct-card-item { display: grid; grid-template-columns: 190px 1fr; gap: 1.5rem; align-items: stretch; text-align: left; padding: 0.5rem 1.5rem; cursor: pointer; transition: background-color 0.3s ease; }
+.civ-struct-card-item:hover, .civ-struct-card-item.active { background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
+.civ-struct-card-label { display: flex; align-items: center; justify-content: flex-end; text-align: right; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.08em; font-weight: 600; opacity: 0.6; border-right: 3px solid var(--indicator-color-solid); padding-right: 1.5rem; transition: border-color 0.3s ease; }
+.civ-struct-card-item:hover .civ-struct-card-label, .civ-struct-card-item.active .civ-struct-card-label { border-right-color: var(--interactive-color); }
+.civ-struct-card-main { display: flex; flex-direction: column; justify-content: center; }
+.civ-struct-card-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.4rem; }
 .civ-struct-card-subtitle { font-size: 1.05rem; font-weight: 400; opacity: 0.6; }
 .civ-struct-card-desc { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; }
 .civ-struct-card-child { margin-left: 3rem; }
-@media (max-width:700px){.civ-struct-card-child{margin-left:1.25rem;}}
+@media (max-width:700px){.civ-struct-card-item{grid-template-columns:1fr;gap:0.5rem;}.civ-struct-card-label{justify-content:flex-start;text-align:left;border-right:none;border-left:3px solid var(--indicator-color-solid);padding-right:0;padding-left:1rem;}.civ-struct-card-item:hover .civ-struct-card-label,.civ-struct-card-item.active .civ-struct-card-label{border-left-color:var(--interactive-color);}.civ-struct-card-child{margin-left:1.25rem;}}
 #civ-decomp-info-list { margin-bottom: 3rem; }
-#civ-decomp-info-list .civ-struct-card-item { border-left: none; padding-left: 0; }
+#civ-decomp-info-list .civ-struct-card-label { border-right: none; }
 .civ-gameab-table { width: 100%; border-collapse: collapse; }
 .civ-gameab-table th { text-align: left; padding: 0.5rem 1.5rem 0.75rem 1.5rem; font-family: var(--font-primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; opacity: 0.55; border-bottom: 2px solid var(--indicator-color-solid); }
 .civ-gameab-row td { padding: 1rem 1.5rem; font-size: 1.05rem; line-height: 1.55; vertical-align: top; border-bottom: 1px solid var(--indicator-color-solid); cursor: pointer; transition: background-color 0.3s ease; }
@@ -1212,13 +1214,13 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
         <div id="civ-emergence-structures" class="civ-emergence-tab-content active">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1000px; margin-left: calc(50% - min(50vw, 500px)); box-sizing: border-box; padding: 0 2rem;">
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1300px; margin-left: calc(50% - min(50vw, 650px)); box-sizing: border-box; padding: 0 2rem;">
                 <div id="civ-emergence-svg-container"></div>
             </div>
             <div class="civ-struct-list" id="civ-struct-list-structures"></div>
         </div>
         <div id="civ-emergence-gameab" class="civ-emergence-tab-content" style="display:none;" data-game="a">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1000px; margin-left: calc(50% - min(50vw, 500px)); box-sizing: border-box; padding: 0 2rem;">
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1300px; margin-left: calc(50% - min(50vw, 650px)); box-sizing: border-box; padding: 0 2rem;">
                 <div id="civ-emergence-gameab-svg-container"></div>
             </div>
             <div class="civ-gameab-toggles">
@@ -2382,12 +2384,18 @@ function civSegDefs(R) {
         {id:"cultural-psych", rInner:innerHole, rOuter:R, start:270, end:360}
     ];
 }
-const civEvoAnnotationAngle = 315, civEvoAnnotationOffset = 55;
+const civEvoAnnotationAngle = 315, civEvoAnnotationNodeOffset = 45, civEvoAnnotationLabelOffset = 145;
 function civEvoAnnotationHtml(R, label, interactive) {
-    const pt = civPolarPoint(500, 500, R + civEvoAnnotationOffset, civEvoAnnotationAngle);
-    const boxW = 260, boxH = 60;
+    const edgePt = civPolarPoint(500, 500, R, civEvoAnnotationAngle);
+    const nodePt = civPolarPoint(500, 500, R + civEvoAnnotationNodeOffset, civEvoAnnotationAngle);
+    const labelPt = civPolarPoint(500, 500, R + civEvoAnnotationLabelOffset, civEvoAnnotationAngle);
+    const boxW = 280, boxH = 70;
     const cls = interactive ? 'civ-evo-annotation hoverable' : 'civ-evo-annotation civ-evo-annotation-static';
-    return `<foreignObject data-annotation-target="evo-psych" x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}">
+    return `<g class="civ-evo-annotation-connector" pointer-events="none">
+        <line x1="${edgePt.x}" y1="${edgePt.y}" x2="${nodePt.x}" y2="${nodePt.y}" stroke="var(--indicator-color-solid)" stroke-width="2" />
+        <circle cx="${nodePt.x}" cy="${nodePt.y}" r="5" fill="var(--bg-color)" stroke="var(--indicator-color-solid)" stroke-width="2" />
+    </g>
+    <foreignObject data-annotation-target="evo-psych" x="${labelPt.x - boxW/2}" y="${labelPt.y - boxH/2}" width="${boxW}" height="${boxH}">
         <div xmlns="http://www.w3.org/1999/xhtml" class="${cls}" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center;">${label}</div>
     </foreignObject>`;
 }
@@ -2435,10 +2443,10 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.56, heightFrac: 0.7, maxBoxW: 220, maxBoxH: 240, minScale: 0.7});
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.56, heightFrac: 0.75, maxBoxW: 260, maxBoxH: 260, widthFrac: 0.97, minScale: 0.75});
     });
     labelsHtml += civEvoAnnotationHtml(R, "Evolutionary Psychology (Substructure)", interactive);
-    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1000px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
+    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1300px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
 const civListGroups = [
@@ -2452,8 +2460,11 @@ function civStructCardHtml(id, textById, selectedId) {
     const desc = (textById && textById[id]) || s.desc;
     const activeCls = id === selectedId ? ' active' : '';
     return `<div class="civ-struct-card-item hoverable${activeCls}" data-struct-id="${id}">
-        <div class="civ-struct-card-title">${s.title} <span class="civ-struct-card-subtitle">(${s.subtitle})</span></div>
-        <div class="civ-struct-card-desc">${desc}</div>
+        <div class="civ-struct-card-label">(${s.subtitle})</div>
+        <div class="civ-struct-card-main">
+            <div class="civ-struct-card-title">${s.title}</div>
+            <div class="civ-struct-card-desc">${desc}</div>
+        </div>
     </div>`;
 }
 function renderCivStructureList(containerId, textById, selectedId) {
