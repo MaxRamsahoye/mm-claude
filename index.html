@@ -179,6 +179,9 @@ body.left-menu-open.hud-ready #bottom-left-controls { transform: translateX(0); 
 .civ-seg.active{fill:color-mix(in srgb, var(--interactive-color) 7%, var(--bg-color));}
 .civ-seg.active:hover{fill:color-mix(in srgb, var(--interactive-color) 18%, var(--bg-color));}
 .civ-seg-static{cursor:default;pointer-events:none;}
+.civ-evo-annotation{cursor:pointer;font-size:0.95rem;font-weight:500;color:var(--text-color);opacity:0.7;text-decoration:underline;text-decoration-color:transparent;transition:opacity 0.3s ease,text-decoration-color 0.3s ease;}
+.civ-evo-annotation:hover{opacity:1;color:var(--interactive-color);text-decoration-color:currentColor;}
+.civ-evo-annotation-static{cursor:default;pointer-events:none;opacity:0.6;font-size:0.95rem;font-weight:500;color:var(--text-color);}
 .civ-node circle{transition:stroke 0.3s ease;}
 .civ-node:hover circle,.civ-node.active circle{stroke:var(--interactive-color);}
 .civ-edge-group .civ-edge-line-vis{transition:all 0.3s ease;}
@@ -2379,9 +2382,14 @@ function civSegDefs(R) {
         {id:"cultural-psych", rInner:innerHole, rOuter:R, start:270, end:360}
     ];
 }
-const civEvoTabDepth = 92, civEvoTabStart = 270, civEvoTabEnd = 360;
-function civEvoTabDef(R) {
-    return {id:"evo-psych", rInner:R, rOuter:R+civEvoTabDepth, start: civEvoTabStart, end: civEvoTabEnd};
+const civEvoAnnotationAngle = 315, civEvoAnnotationOffset = 55;
+function civEvoAnnotationHtml(R, label, interactive) {
+    const pt = civPolarPoint(500, 500, R + civEvoAnnotationOffset, civEvoAnnotationAngle);
+    const boxW = 260, boxH = 60;
+    const cls = interactive ? 'civ-evo-annotation hoverable' : 'civ-evo-annotation civ-evo-annotation-static';
+    return `<foreignObject data-annotation-target="evo-psych" x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="${cls}" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center;">${label}</div>
+    </foreignObject>`;
 }
 function civLabelInnerHtml(s, bodyTextById, scale, suppressBody) {
     const desc = (bodyTextById && bodyTextById[s.id]) || s.desc;
@@ -2429,12 +2437,7 @@ function generateCivEmergenceSvg(opts) {
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
         labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.56, heightFrac: 0.7, maxBoxW: 220, maxBoxH: 240, minScale: 0.7});
     });
-    const tab = civEvoTabDef(R);
-    const tabS = civStructureById[tab.id];
-    const tabD = civAnnulusPath(cx, cy, tab.rInner, tab.rOuter, tab.start, tab.end);
-    const tabCls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
-    pathsHtml += `<path class="${tabCls}" data-struct-id="${tab.id}" d="${tabD}" />`;
-    labelsHtml += civSegLabelHtml(tab, tabS, bodyTextById, {midRFrac: 0.5, heightFrac: 0.75, maxBoxW: 300, maxBoxH: 70, minScale: 0.9, tabLabel: "Evolutionary"});
+    labelsHtml += civEvoAnnotationHtml(R, "Evolutionary Psychology (Substructure)", interactive);
     return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1000px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
@@ -2500,11 +2503,12 @@ function civSelectStructure(wrap, id, textById) {
             const scale = parseFloat(fo.getAttribute('data-scale'));
             fo.querySelector('div').innerHTML = civLabelInnerHtml(civStructureById[id], textById, scale, false);
         }
-        const tabFo = wrap.querySelector('foreignObject[data-struct-id="evo-psych"]');
-        if (tabFo) {
-            const tabScale = parseFloat(tabFo.getAttribute('data-scale'));
-            const otherLabel = id === 'evo-psych' ? 'Cultural' : 'Evolutionary';
-            tabFo.querySelector('div').innerHTML = `<div style="font-weight:600; font-size:${(1.1*tabScale).toFixed(2)}rem; color:var(--text-color);">${otherLabel}</div>`;
+        const annotationFo = wrap.querySelector('[data-annotation-target]');
+        if (annotationFo) {
+            const otherId = id === 'evo-psych' ? 'cultural-psych' : 'evo-psych';
+            const otherLabel = otherId === 'evo-psych' ? 'Evolutionary Psychology (Substructure)' : 'Cultural Psychology (Superstructure)';
+            annotationFo.setAttribute('data-annotation-target', otherId);
+            annotationFo.querySelector('div').textContent = otherLabel;
         }
     }
 }
@@ -3211,6 +3215,14 @@ if(e.target.closest('.civ-seg')){
     const seg=e.target.closest('.civ-seg');
     const wrap=seg.closest('.civ-emergence-tab-content');
     const id=seg.getAttribute('data-struct-id');
+    const textById=wrap.id==='civ-emergence-gameab'?(wrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
+    civSelectStructure(wrap,id,textById);
+}
+if(e.target.closest('.civ-evo-annotation')){
+    e.isTrusted&&playSound('click');
+    const fo=e.target.closest('foreignObject');
+    const wrap=fo.closest('.civ-emergence-tab-content');
+    const id=fo.getAttribute('data-annotation-target');
     const textById=wrap.id==='civ-emergence-gameab'?(wrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
     civSelectStructure(wrap,id,textById);
 }
