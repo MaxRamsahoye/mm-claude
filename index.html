@@ -320,7 +320,7 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .civ-struct-card-desc { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; }
 .civ-struct-card-child { margin-left: 3rem; }
 @media (max-width:700px){.civ-struct-card-item{grid-template-columns:1fr;gap:0.5rem;}.civ-struct-card-label{justify-content:flex-start;text-align:left;border-right:none;border-left:3px solid var(--indicator-color-solid);padding-right:0;padding-left:1rem;}.civ-struct-card-item:hover .civ-struct-card-label,.civ-struct-card-item.active .civ-struct-card-label{border-left-color:var(--interactive-color);}.civ-struct-card-child{margin-left:1.25rem;}}
-#civ-decomp-info-list { margin-bottom: 3rem; }
+#civ-decomp-info-list { margin-bottom: 6rem; }
 #civ-decomp-info-list .civ-struct-card-label { border-right: none; }
 .civ-gameab-table { width: 100%; border-collapse: collapse; }
 .civ-gameab-table th { text-align: left; padding: 0.5rem 1.5rem 0.75rem 1.5rem; font-family: var(--font-primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; opacity: 0.55; border-bottom: 2px solid var(--indicator-color-solid); }
@@ -1210,7 +1210,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
                 <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gameab">Game A/B</button>
             </div>
         </div>
-        <div id="system-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 3rem; text-align: left; margin-left: 0; max-width: none;">The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description.</div>
+        <div id="system-view-subtitle" class="desc-text concept-desc" style="margin-top: 0.5rem; margin-bottom: 1rem; text-align: left; margin-left: 0; max-width: none;">The five fundamental structures from which civilisational dynamics emerge. Select a structure to view its description.</div>
     </div>
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
         <div id="civ-emergence-structures" class="civ-emergence-tab-content active">
@@ -2443,7 +2443,7 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.56, heightFrac: 0.75, maxBoxW: 260, maxBoxH: 260, widthFrac: 0.97, minScale: 0.75});
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.62, heightFrac: 0.35, maxBoxW: 260, maxBoxH: 140, widthFrac: 0.9, minScale: 0.9, suppressBody: true});
     });
     labelsHtml += civEvoAnnotationHtml(R, "Evolutionary Psychology (Substructure)", interactive);
     return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1300px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
@@ -2460,7 +2460,7 @@ function civStructCardHtml(id, textById, selectedId) {
     const desc = (textById && textById[id]) || s.desc;
     const activeCls = id === selectedId ? ' active' : '';
     return `<div class="civ-struct-card-item hoverable${activeCls}" data-struct-id="${id}">
-        <div class="civ-struct-card-label">(${s.subtitle})</div>
+        <div class="civ-struct-card-label">${s.subtitle}</div>
         <div class="civ-struct-card-main">
             <div class="civ-struct-card-title">${s.title}</div>
             <div class="civ-struct-card-desc">${desc}</div>
@@ -2500,19 +2500,26 @@ function renderCivGameabTable(containerId, selectedId) {
     const container = document.getElementById(containerId);
     if (container) container.innerHTML = html;
 }
-function civSelectStructure(wrap, id, textById) {
+function civSelectStructure(wrap, id, textById, reorder) {
+    if (reorder === undefined) reorder = true;
     wrap.querySelectorAll('.civ-seg.active').forEach(el => el.classList.remove('active'));
     const seg = wrap.querySelector(`.civ-seg[data-struct-id="${id}"]`);
     if (seg) seg.classList.add('active');
-    const listEl = wrap.querySelector('.civ-struct-list');
-    if (listEl) renderCivStructureList(listEl.id, textById, id);
-    const tableBody = wrap.querySelector('.civ-gameab-table-body');
-    if (tableBody) renderCivGameabTable(tableBody.id, id);
+    if (reorder) {
+        const listEl = wrap.querySelector('.civ-struct-list');
+        if (listEl) renderCivStructureList(listEl.id, textById, id);
+        const tableBody = wrap.querySelector('.civ-gameab-table-body');
+        if (tableBody) renderCivGameabTable(tableBody.id, id);
+    } else {
+        wrap.querySelectorAll('.civ-struct-card-item.active, .civ-gameab-row.active').forEach(el => el.classList.remove('active'));
+        const item = wrap.querySelector(`.civ-struct-card-item[data-struct-id="${id}"], .civ-gameab-row[data-struct-id="${id}"]`);
+        if (item) item.classList.add('active');
+    }
     if (id === 'cultural-psych' || id === 'evo-psych') {
         const fo = wrap.querySelector('foreignObject[data-struct-id="cultural-psych"]');
         if (fo) {
             const scale = parseFloat(fo.getAttribute('data-scale'));
-            fo.querySelector('div').innerHTML = civLabelInnerHtml(civStructureById[id], textById, scale, false);
+            fo.querySelector('div').innerHTML = civLabelInnerHtml(civStructureById[id], textById, scale, true);
         }
         const annotationFo = wrap.querySelector('[data-annotation-target]');
         if (annotationFo) {
@@ -3243,7 +3250,7 @@ if(e.target.closest('.civ-struct-card-item, .civ-gameab-row')){
     const wrap=item.closest('.civ-emergence-tab-content');
     const id=item.getAttribute('data-struct-id');
     const textById=wrap.id==='civ-emergence-gameab'?(wrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
-    civSelectStructure(wrap,id,textById);
+    civSelectStructure(wrap,id,textById,false);
 }
 if(e.target.closest('.civ-gameab-toggle')){
     e.isTrusted&&playSound('click');
