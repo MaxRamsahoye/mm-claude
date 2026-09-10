@@ -300,10 +300,21 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 .gen-cond-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); }
 .gen-cond-tab-content { width: 100%; }
 .civ-emergence-tabs { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; width: 100%; }
-.civ-emergence-tab { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
-.civ-emergence-tab:hover { transform: translateY(-2px); border-color: var(--interactive-color); color: var(--interactive-color); }
-.civ-emergence-tab.active { border-color: var(--interactive-color); color: var(--interactive-color); }
+.civ-emergence-tab, .civ-gameab-toggle { background: transparent; border: 2px solid var(--indicator-color-solid); color: var(--text-color); padding: 0.75rem 1.75rem; border-radius: 30px; font-size: 1.1rem; font-family: inherit; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
+.civ-emergence-tab:hover, .civ-gameab-toggle:hover { transform: translateY(-2px); border-color: var(--interactive-color); color: var(--interactive-color); }
+.civ-emergence-tab.active, .civ-gameab-toggle.active { border-color: var(--interactive-color); color: var(--interactive-color); }
 .civ-emergence-tab-content { width: 100%; }
+.civ-gameab-toggles { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2.5rem 0; width: 100%; }
+.civ-struct-list { width: 100%; max-width: 1000px; margin: 3rem auto 0 auto; display: flex; flex-direction: column; gap: 1.25rem; }
+.civ-struct-card-group { display: flex; flex-direction: column; gap: 1.25rem; }
+.civ-struct-card-item { text-align: left; padding: 1.5rem 1.75rem; border: 2px solid var(--indicator-color-solid); border-radius: 12px; cursor: pointer; transition: border-color 0.3s ease, background-color 0.3s ease; }
+.civ-struct-card-item:hover { border-color: var(--interactive-color); background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
+.civ-struct-card-item.active { border-color: var(--interactive-color); background-color: color-mix(in srgb, var(--interactive-color) 6%, var(--bg-color)); }
+.civ-struct-card-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.6rem; }
+.civ-struct-card-subtitle { font-size: 1.05rem; font-weight: 400; opacity: 0.6; }
+.civ-struct-card-desc { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; }
+.civ-struct-card-child { margin-left: 3rem; }
+@media (max-width:700px){.civ-struct-card-child{margin-left:1.25rem;}}
 .corner-nav-fixed { position: fixed; top: 2rem; left: 2rem; z-index: 100; max-width: calc(100vw - 4rem); opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .corner-nav-fixed.visible { opacity: 1; pointer-events: auto; }
 .module-nav.corner-nav-fixed { width: auto; margin: 0; }
@@ -1184,26 +1195,23 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
         <div class="civ-emergence-tabs">
             <button class="civ-emergence-tab active hoverable" data-emergencetab="civ-emergence-structures">Structures</button>
-            <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gamea">Game A</button>
-            <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gameb">Game B</button>
+            <button class="civ-emergence-tab hoverable" data-emergencetab="civ-emergence-gameab">Game A/B</button>
         </div>
         <div id="civ-emergence-structures" class="civ-emergence-tab-content active">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1350px; margin-left: calc(50% - min(50vw, 675px)); box-sizing: border-box; padding: 0 2rem;">
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1000px; margin-left: calc(50% - min(50vw, 500px)); box-sizing: border-box; padding: 0 2rem;">
                 <div id="civ-emergence-svg-container"></div>
             </div>
-            <div class="typ-info-panel" style="max-width:1100px;">
-                <div class="civ-info-content"><div style="font-size: 1.25rem; font-style: italic; opacity: 0.8;">Select a structure to view its description.</div></div>
-            </div>
+            <div class="civ-struct-list" id="civ-struct-list-structures"></div>
         </div>
-        <div id="civ-emergence-gamea" class="civ-emergence-tab-content" style="display:none;">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1350px; margin-left: calc(50% - min(50vw, 675px)); box-sizing: border-box; padding: 0 2rem;">
-                <div id="civ-emergence-gamea-svg-container"></div>
+        <div id="civ-emergence-gameab" class="civ-emergence-tab-content" style="display:none;" data-game="a">
+            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1000px; margin-left: calc(50% - min(50vw, 500px)); box-sizing: border-box; padding: 0 2rem;">
+                <div id="civ-emergence-gameab-svg-container"></div>
             </div>
-        </div>
-        <div id="civ-emergence-gameb" class="civ-emergence-tab-content" style="display:none;">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 1350px; margin-left: calc(50% - min(50vw, 675px)); box-sizing: border-box; padding: 0 2rem;">
-                <div id="civ-emergence-gameb-svg-container"></div>
+            <div class="civ-gameab-toggles">
+                <button class="civ-gameab-toggle active hoverable" data-game="a">Game A</button>
+                <button class="civ-gameab-toggle hoverable" data-game="b">Game B</button>
             </div>
+            <div class="civ-struct-list" id="civ-struct-list-gameab"></div>
         </div>
     </div>
     <div id="system-tab-interconnections" class="gen-tab-content" style="display: none; width: 100%;">
@@ -2345,13 +2353,42 @@ function civAnnulusPath(cx, cy, rInner, rOuter, startAngle, endAngle) {
     return `M ${innerStart.x} ${innerStart.y} L ${outerStart.x} ${outerStart.y} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y} L ${innerEnd.x} ${innerEnd.y} A ${rInner} ${rInner} 0 ${largeArc} 0 ${innerStart.x} ${innerStart.y} Z`;
 }
 function civSegDefs(R) {
+    const innerHole = R * 0.1;
     return [
-        {id:"pop-physiology", rInner:0, rOuter:R, start:0, end:90},
-        {id:"tech-stack", rInner:0, rOuter:R, start:90, end:180},
-        {id:"political-economy", rInner:0, rOuter:R, start:180, end:270},
-        {id:"evo-psych", rInner:0, rOuter:R*0.46-civRingGap, start:270, end:360},
-        {id:"cultural-psych", rInner:R*0.46+civRingGap, rOuter:R, start:270, end:360}
+        {id:"pop-physiology", rInner:innerHole, rOuter:R, start:0, end:90},
+        {id:"tech-stack", rInner:innerHole, rOuter:R, start:90, end:180},
+        {id:"political-economy", rInner:innerHole, rOuter:R, start:180, end:270},
+        {id:"cultural-psych", rInner:innerHole, rOuter:R, start:270, end:360}
     ];
+}
+const civEvoTabSpan = 50, civEvoTabDepth = 92, civEvoTabMidAngle = 315;
+function civEvoTabDef(R) {
+    return {id:"evo-psych", rInner:R, rOuter:R+civEvoTabDepth, start: civEvoTabMidAngle-civEvoTabSpan/2, end: civEvoTabMidAngle+civEvoTabSpan/2};
+}
+function civSegLabelHtml(seg, s, bodyTextById, opts) {
+    opts = opts || {};
+    const cx = 500, cy = 500;
+    const midAngle = (seg.start + seg.end) / 2;
+    const midRFrac = opts.midRFrac || 0.62;
+    const midR = seg.rInner + (seg.rOuter - seg.rInner) * midRFrac;
+    const pt = civPolarPoint(cx, cy, midR, midAngle);
+    const angleSpanRad = (seg.end - seg.start) * Math.PI / 180;
+    const maxBoxW = opts.maxBoxW || 380, maxBoxH = opts.maxBoxH || 260;
+    const heightFrac = opts.heightFrac || 0.55;
+    const boxH = Math.max(60, Math.min(maxBoxH, (seg.rOuter - seg.rInner) * heightFrac));
+    const innerEdgeR = Math.max(seg.rInner, midR - boxH / 2);
+    const chordWidth = 2 * innerEdgeR * Math.sin(angleSpanRad / 2);
+    const widthFrac = opts.widthFrac || 0.92;
+    const boxW = Math.max(70, Math.min(maxBoxW, chordWidth * widthFrac));
+    const scale = Math.max(opts.minScale || 0.6, Math.min(1, boxW / maxBoxW, boxH / maxBoxH));
+    const bodyHtml = (bodyTextById && !opts.suppressBody) ? `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.3; opacity:0.85; margin-top:${(0.45*scale).toFixed(2)}rem;">${bodyTextById[seg.id]||''}</div>` : '';
+    return `<foreignObject x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}" style="pointer-events:none;" pointer-events="none">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:${(0.5*scale).toFixed(2)}rem; pointer-events:none; overflow:hidden;">
+            <div style="font-size:${(0.8*scale).toFixed(2)}rem; opacity:0.6; color:var(--text-color);">(${s.subtitle})</div>
+            <div style="font-weight:600; font-size:${(1*scale).toFixed(2)}rem; color:var(--text-color); line-height:1.2; margin-top:0.15rem;">${s.title}</div>
+            ${bodyHtml}
+        </div>
+    </foreignObject>`;
 }
 function generateCivEmergenceSvg(opts) {
     opts = opts || {};
@@ -2365,32 +2402,50 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        const midAngle = (seg.start + seg.end) / 2;
-        const isRingSeg = seg.id === 'evo-psych' || seg.id === 'cultural-psych';
-        const suppressBody = isRingSeg && interactive;
-        const midRFrac = isRingSeg ? 0.7 : 0.62;
-        const midR = seg.rInner === 0 ? seg.rOuter * midRFrac : seg.rInner + (seg.rOuter - seg.rInner) * midRFrac;
-        const pt = civPolarPoint(cx, cy, midR, midAngle);
-        const angleSpanRad = (seg.end - seg.start) * Math.PI / 180;
-        const radialThickness = seg.rOuter - seg.rInner;
-        const maxBoxW = 300, maxBoxH = 260;
-        const heightFrac = isRingSeg ? (suppressBody ? 0.5 : 0.9) : 0.88;
-        const boxH = Math.max(60, Math.min(maxBoxH, radialThickness * heightFrac));
-        const innerEdgeR = Math.max(seg.rInner, midR - boxH / 2);
-        const chordWidth = 2 * innerEdgeR * Math.sin(angleSpanRad / 2);
-        const widthFrac = isRingSeg ? 0.95 : 0.88;
-        const boxW = Math.max(60, Math.min(maxBoxW, chordWidth * widthFrac));
-        const scale = Math.max(isRingSeg ? 0.32 : 0.6, Math.min(1, boxW / maxBoxW, boxH / maxBoxH));
-        const bodyHtml = (bodyTextById && !suppressBody) ? `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.25; opacity:0.85; margin-top:${(0.4*scale).toFixed(2)}rem;">${bodyTextById[seg.id]||''}</div>` : '';
-        labelsHtml += `<foreignObject x="${pt.x - boxW/2}" y="${pt.y - boxH/2}" width="${boxW}" height="${boxH}" style="pointer-events:none;" pointer-events="none">
-            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:${(0.5*scale).toFixed(2)}rem; pointer-events:none; overflow:hidden;">
-                <div style="font-size:${(0.8*scale).toFixed(2)}rem; opacity:0.6; color:var(--text-color);">(${s.subtitle})</div>
-                <div style="font-weight:600; font-size:${(1*scale).toFixed(2)}rem; color:var(--text-color); line-height:1.2; margin-top:0.15rem;">${s.title}</div>
-                ${bodyHtml}
-            </div>
-        </foreignObject>`;
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.7, heightFrac: 0.5});
     });
-    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1350px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
+    const tab = civEvoTabDef(R);
+    const tabS = civStructureById[tab.id];
+    const tabD = civAnnulusPath(cx, cy, tab.rInner, tab.rOuter, tab.start, tab.end);
+    const tabCls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
+    pathsHtml += `<path class="${tabCls}" data-struct-id="${tab.id}" d="${tabD}" />`;
+    labelsHtml += civSegLabelHtml(tab, tabS, bodyTextById, {midRFrac: 0.5, heightFrac: 0.8, maxBoxW: 150, maxBoxH: 100, minScale: 0.45, suppressBody: true});
+    return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1000px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
+}
+
+const civListGroups = [
+    {id:"political-economy"},
+    {id:"cultural-psych", child:"evo-psych"},
+    {id:"tech-stack"},
+    {id:"pop-physiology"}
+];
+function civStructCardHtml(id, textById, selectedId) {
+    const s = civStructureById[id];
+    const desc = (textById && textById[id]) || s.desc;
+    const activeCls = id === selectedId ? ' active' : '';
+    return `<div class="civ-struct-card-item hoverable${activeCls}" data-struct-id="${id}">
+        <div class="civ-struct-card-title">${s.title} <span class="civ-struct-card-subtitle">(${s.subtitle})</span></div>
+        <div class="civ-struct-card-desc">${desc}</div>
+    </div>`;
+}
+function renderCivStructureList(containerId, textById, selectedId) {
+    const groups = civListGroups.slice();
+    const idx = groups.findIndex(g => g.id === selectedId || g.child === selectedId);
+    if (idx > 0) { const [g] = groups.splice(idx, 1); groups.unshift(g); }
+    const html = groups.map(g => {
+        const mainHtml = civStructCardHtml(g.id, textById, selectedId);
+        const childHtml = g.child ? `<div class="civ-struct-card-child">${civStructCardHtml(g.child, textById, selectedId)}</div>` : '';
+        return `<div class="civ-struct-card-group">${mainHtml}${childHtml}</div>`;
+    }).join('');
+    const container = document.getElementById(containerId);
+    if (container) container.innerHTML = html;
+}
+function civSelectStructure(wrap, id, textById) {
+    wrap.querySelectorAll('.civ-seg.active').forEach(el => el.classList.remove('active'));
+    const seg = wrap.querySelector(`.civ-seg[data-struct-id="${id}"]`);
+    if (seg) seg.classList.add('active');
+    const listEl = wrap.querySelector('.civ-struct-list');
+    if (listEl) renderCivStructureList(listEl.id, textById, id);
 }
 
 const civIntPositionOrder = ["tech-stack", "cultural-psych", "evo-psych", "pop-physiology", "political-economy"];
@@ -2431,11 +2486,11 @@ function renderCivInterconnections() {
     document.getElementById('civ-int-edges').innerHTML = edgesHtml;
 }
 document.getElementById('civ-emergence-svg-container').innerHTML = generateCivEmergenceSvg({interactive:true});
-document.getElementById('civ-emergence-gamea-svg-container').innerHTML = generateCivEmergenceSvg({interactive:false, bodyTextById: civGameA});
-document.getElementById('civ-emergence-gameb-svg-container').innerHTML = generateCivEmergenceSvg({interactive:false, bodyTextById: civGameB});
+document.getElementById('civ-emergence-gameab-svg-container').innerHTML = generateCivEmergenceSvg({interactive:true, bodyTextById: civGameA});
 renderCivInterconnections();
 document.getElementById('civ-decomp-diagram-container').innerHTML = generateCivEmergenceSvg({interactive:false, bodyTextById: civDecomposition['embedded-growth']});
-setTimeout(()=>{const d=document.querySelector('.civ-emergence-wrap .civ-seg[data-struct-id="cultural-psych"]');d&&d.dispatchEvent(new MouseEvent("click",{bubbles:!0}));},50);
+civSelectStructure(document.getElementById('civ-emergence-structures'), 'political-economy', null);
+civSelectStructure(document.getElementById('civ-emergence-gameab'), 'political-economy', civGameA);
 
 const genChainEdges = [
     ['exp-tech-accel','arms-races'], ['exp-tech-accel','embedded-growth'], ['exp-tech-accel','left-hemispheric'],
@@ -3090,14 +3145,30 @@ if(e.target.closest('.typ-cell, .typ-cell-center')){
 if(e.target.closest('.civ-seg')){
     e.isTrusted&&playSound('click');
     const seg=e.target.closest('.civ-seg');
-    const tabContent=seg.closest('.gen-tab-content');
-    tabContent.querySelectorAll('.civ-seg.active').forEach(el=>el.classList.remove('active'));
-    seg.classList.add('active');
-    const s=civStructureById[seg.getAttribute('data-struct-id')];
-    const panel=tabContent.querySelector('.typ-info-panel');
-    panel.querySelector('.civ-info-content').innerHTML=`<div style="width:100%;"><span style="font-size: 1.8rem; font-weight: 500;">${s.title} <span style="opacity:0.6; font-weight:400;">(${s.subtitle})</span></span><div style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; opacity: 0.9;">${s.desc}</div></div>`;
-    panel.style.opacity='1';
-    e.isTrusted&&setTimeout(()=>{panel.scrollIntoView({behavior:'smooth',block:'nearest'});},150);
+    const wrap=seg.closest('.civ-emergence-tab-content');
+    const id=seg.getAttribute('data-struct-id');
+    const textById=wrap.id==='civ-emergence-gameab'?(wrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
+    civSelectStructure(wrap,id,textById);
+}
+if(e.target.closest('.civ-struct-card-item')){
+    e.isTrusted&&playSound('click');
+    const item=e.target.closest('.civ-struct-card-item');
+    const wrap=item.closest('.civ-emergence-tab-content');
+    const id=item.getAttribute('data-struct-id');
+    const textById=wrap.id==='civ-emergence-gameab'?(wrap.getAttribute('data-game')==='b'?civGameB:civGameA):null;
+    civSelectStructure(wrap,id,textById);
+}
+if(e.target.closest('.civ-gameab-toggle')){
+    e.isTrusted&&playSound('click');
+    const btn=e.target.closest('.civ-gameab-toggle');
+    const wrap=btn.closest('.civ-emergence-tab-content');
+    wrap.querySelectorAll(':scope > .civ-gameab-toggles > .civ-gameab-toggle').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const game=btn.getAttribute('data-game');
+    wrap.setAttribute('data-game',game);
+    const textById=game==='b'?civGameB:civGameA;
+    document.getElementById('civ-emergence-gameab-svg-container').innerHTML=generateCivEmergenceSvg({interactive:true, bodyTextById: textById});
+    civSelectStructure(wrap,'political-economy',textById);
 }
 if(e.target.closest('.civ-node')){
     e.isTrusted&&playSound('click');
