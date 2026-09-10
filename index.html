@@ -2375,12 +2375,13 @@ function civSegDefs(R) {
         {id:"cultural-psych", rInner:innerHole, rOuter:R, start:270, end:360}
     ];
 }
-const civEvoTabSpan = 50, civEvoTabDepth = 92, civEvoTabMidAngle = 315;
+const civEvoTabDepth = 92, civEvoTabStart = 270, civEvoTabEnd = 360;
 function civEvoTabDef(R) {
-    return {id:"evo-psych", rInner:R, rOuter:R+civEvoTabDepth, start: civEvoTabMidAngle-civEvoTabSpan/2, end: civEvoTabMidAngle+civEvoTabSpan/2};
+    return {id:"evo-psych", rInner:R, rOuter:R+civEvoTabDepth, start: civEvoTabStart, end: civEvoTabEnd};
 }
 function civLabelInnerHtml(s, bodyTextById, scale, suppressBody) {
-    const bodyHtml = (bodyTextById && !suppressBody) ? `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.3; opacity:0.85; margin-top:${(0.45*scale).toFixed(2)}rem;">${bodyTextById[s.id]||''}</div>` : '';
+    const desc = (bodyTextById && bodyTextById[s.id]) || s.desc;
+    const bodyHtml = suppressBody ? '' : `<div style="font-size:${(0.85*scale).toFixed(2)}rem; line-height:1.3; opacity:0.85; margin-top:${(0.45*scale).toFixed(2)}rem;">${desc}</div>`;
     return `<div style="font-size:${(0.8*scale).toFixed(2)}rem; opacity:0.6; color:var(--text-color);">(${s.subtitle})</div>
         <div style="font-weight:600; font-size:${(1*scale).toFixed(2)}rem; color:var(--text-color); line-height:1.2; margin-top:0.15rem;">${s.title}</div>
         ${bodyHtml}`;
@@ -2422,14 +2423,14 @@ function generateCivEmergenceSvg(opts) {
         const d = civAnnulusPath(cx, cy, seg.rInner, seg.rOuter, seg.start, seg.end);
         const cls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
         pathsHtml += `<path class="${cls}" data-struct-id="${seg.id}" d="${d}" />`;
-        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.56, heightFrac: 0.42});
+        labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.56, heightFrac: 0.7, maxBoxW: 220, maxBoxH: 240, minScale: 0.7});
     });
     const tab = civEvoTabDef(R);
     const tabS = civStructureById[tab.id];
     const tabD = civAnnulusPath(cx, cy, tab.rInner, tab.rOuter, tab.start, tab.end);
     const tabCls = interactive ? 'civ-seg hoverable' : 'civ-seg civ-seg-static';
     pathsHtml += `<path class="${tabCls}" data-struct-id="${tab.id}" d="${tabD}" />`;
-    labelsHtml += civSegLabelHtml(tab, tabS, bodyTextById, {midRFrac: 0.5, heightFrac: 0.8, maxBoxW: 100, maxBoxH: 70, minScale: 0.7, tabLabel: "Evo"});
+    labelsHtml += civSegLabelHtml(tab, tabS, bodyTextById, {midRFrac: 0.5, heightFrac: 0.75, maxBoxW: 300, maxBoxH: 70, minScale: 0.9, tabLabel: "Evolutionary"});
     return `<svg viewBox="0 0 1000 1000" style="width:100%; max-width:1000px; display:block; margin:0 auto;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
@@ -2494,6 +2495,12 @@ function civSelectStructure(wrap, id, textById) {
         if (fo) {
             const scale = parseFloat(fo.getAttribute('data-scale'));
             fo.querySelector('div').innerHTML = civLabelInnerHtml(civStructureById[id], textById, scale, false);
+        }
+        const tabFo = wrap.querySelector('foreignObject[data-struct-id="evo-psych"]');
+        if (tabFo) {
+            const tabScale = parseFloat(tabFo.getAttribute('data-scale'));
+            const otherLabel = id === 'evo-psych' ? 'Cultural' : 'Evolutionary';
+            tabFo.querySelector('div').innerHTML = `<div style="font-weight:600; font-size:${(1.1*tabScale).toFixed(2)}rem; color:var(--text-color);">${otherLabel}</div>`;
         }
     }
 }
