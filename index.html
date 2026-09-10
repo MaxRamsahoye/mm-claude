@@ -322,10 +322,10 @@ body.app-left-align .site-app-container .menu-row { justify-content: flex-start 
 @media (max-width:700px){.civ-struct-card-item{grid-template-columns:1fr;gap:0.5rem;}.civ-struct-card-label{justify-content:flex-start;text-align:left;border-right:none;border-left:3px solid var(--indicator-color-solid);padding-right:0;padding-left:1rem;}.civ-struct-card-item:hover .civ-struct-card-label,.civ-struct-card-item.active .civ-struct-card-label{border-left-color:var(--interactive-color);}.civ-struct-card-child{margin-left:1.25rem;}}
 #civ-decomp-info-list { margin-bottom: 6rem; }
 .civ-decomp-meta-card { display: grid; grid-template-columns: 190px 1fr; gap: 1.5rem; align-items: stretch; text-align: left; padding: 0.5rem 1.5rem; }
-.civ-decomp-meta-label { display: flex; align-items: center; justify-content: flex-end; text-align: right; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.08em; font-weight: 600; opacity: 0.6; border-right: 3px solid var(--interactive-color); padding-right: 1.5rem; }
+.civ-decomp-meta-label { display: flex; align-items: center; justify-content: flex-end; text-align: right; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.08em; font-weight: 600; opacity: 0.6; border-right: 3px solid var(--interactive-color); padding-right: 1.5rem; }
 .civ-decomp-meta-main { display: flex; flex-direction: column; justify-content: center; }
-.civ-decomp-meta-title { font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; }
-.civ-decomp-meta-desc { font-size: 1.3rem; line-height: 1.6; opacity: 0.9; }
+.civ-decomp-meta-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 0.4rem; }
+.civ-decomp-meta-desc { font-size: 1.15rem; line-height: 1.6; opacity: 0.9; }
 @media (max-width:700px){.civ-decomp-meta-card{grid-template-columns:1fr;gap:0.5rem;}.civ-decomp-meta-label{justify-content:flex-start;text-align:left;border-right:none;border-left:3px solid var(--interactive-color);padding-right:0;padding-left:1rem;}}
 #civ-decomp-info-list .civ-struct-card-label { border-right: none; }
 .civ-gameab-table { width: 100%; border-collapse: collapse; }
@@ -1220,13 +1220,13 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
     </div>
     <div id="system-tab-emergence" class="gen-tab-content active" style="width: 100%;">
         <div id="civ-emergence-structures" class="civ-emergence-tab-content active">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 660px; margin-left: calc(50% - min(50vw, 330px)); box-sizing: border-box; padding: 0 2rem;">
+            <div class="civ-emergence-wrap" style="width: 100%; max-width: min(94vw, calc((100vh - 260px) * 1.1905), 1100px); margin: 0 auto; box-sizing: border-box;">
                 <div id="civ-emergence-svg-container"></div>
             </div>
             <div class="civ-struct-list" id="civ-struct-list-structures"></div>
         </div>
         <div id="civ-emergence-gameab" class="civ-emergence-tab-content" style="display:none;" data-game="a">
-            <div class="civ-emergence-wrap" style="width: 100vw; max-width: 660px; margin-left: calc(50% - min(50vw, 330px)); box-sizing: border-box; padding: 0 2rem;">
+            <div class="civ-emergence-wrap" style="width: 100%; max-width: min(94vw, calc((100vh - 260px) * 1.1905), 1100px); margin: 0 auto; box-sizing: border-box;">
                 <div id="civ-emergence-gameab-svg-container"></div>
             </div>
             <div class="civ-gameab-toggles">
@@ -1254,7 +1254,7 @@ h1{font-weight:600;font-size:4.2rem;margin:0;letter-spacing:-.02em;text-align:ce
         </div>
     </div>
     <div id="system-tab-decomposition" class="gen-tab-content" style="display: none; width: 100%;">
-        <div style="width: 100vw; max-width: 660px; margin-left: calc(50% - min(50vw, 330px)); box-sizing: border-box; padding: 0 2rem; margin-bottom: 2rem;">
+        <div style="width: 100%; max-width: min(94vw, calc((100vh - 260px) * 1.1905), 1100px); margin: 0 auto; box-sizing: border-box; margin-bottom: 2rem;">
             <div id="civ-decomp-diagram-container"></div>
         </div>
         <div class="civ-struct-list" style="margin-bottom: 0;">
@@ -2455,7 +2455,7 @@ function generateCivEmergenceSvg(opts) {
         labelsHtml += civSegLabelHtml(seg, s, bodyTextById, {midRFrac: 0.5, heightFrac: 0.36, maxBoxW: 205, maxBoxH: 130, widthFrac: 0.95, minScale: 0.85, suppressBody: true});
     });
     labelsHtml += civEvoAnnotationHtml(R, "Evolutionary Psychology (Substructure)", interactive);
-    return `<svg viewBox="0 60 1000 840" style="width:100%; max-width:900px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
+    return `<svg viewBox="0 60 1000 840" style="width:100%; max-width:1100px; display:block; margin:0 auto; overflow:visible;">${pathsHtml}${labelsHtml}</svg>`;
 }
 
 const civListGroups = [
