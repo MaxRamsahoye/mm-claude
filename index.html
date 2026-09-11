@@ -1366,7 +1366,7 @@ function openGlossaryEntry(gid){
   document.getElementById("glossary-detail-view").animate([{opacity:0,transform:"translateY(10px)"},{opacity:1,transform:"translateY(0)"}],{duration:600,easing:"ease",fill:"forwards"});
   const routeSite=siteRoutes.find(s=>s.site===siteForGid(gid));
   if(routeSite){
-    const hash="#/"+routeSite.siteSlug+"/module/"+gid;
+    const hash="#/"+routeSite.siteSlug+"/module/"+(glossaryGidToSlug[gid]||gid);
     if(location.hash!==hash)history.replaceState(null,"",hash);
   }
 }
@@ -1610,6 +1610,32 @@ const macrohistoryTreeData={id:"mh-root",title:"Macrohistory",desc:"Macrohistory
   ]}
 ]};
 buildFlatGlossary(macrohistoryTreeData,[]);
+function glossarySlugify(str){return str.toLowerCase().replace(/&/g," and ").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"x"}
+function glossaryCompactTitle(title){return title.split(":")[0].split("&")[0].trim()}
+const glossarySlugToGid={},glossaryGidToSlug={};
+(function buildGlossarySlugs(){
+  const bySite={};
+  Object.keys(flatGlossary).forEach(gid=>{
+    const site=siteForGid(gid);
+    (bySite[site]=bySite[site]||[]).push(gid);
+  });
+  Object.keys(bySite).forEach(site=>{
+    glossarySlugToGid[site]={};
+    bySite[site].forEach(gid=>{
+      const t=flatGlossary[gid],bc=t.breadcrumbs,titlePart=glossarySlugify(glossaryCompactTitle(t.title));
+      let slug=titlePart,depth=0;
+      while(glossarySlugToGid[site][slug]!==undefined&&depth<bc.length){
+        depth++;
+        slug=glossarySlugify(glossaryCompactTitle(bc[bc.length-depth]))+"-"+slug;
+      }
+      while(glossarySlugToGid[site][slug]!==undefined){
+        depth++;
+        slug=slug+"-"+depth;
+      }
+      glossarySlugToGid[site][slug]=gid,glossaryGidToSlug[gid]=slug;
+    });
+  });
+})();
 function treeForSite(site){return "metamod"===site?metamodTreeData:"metatheory"===site?metatheoryTreeData:"macrostrategy"===site?macrostrategyTreeData:"macrohistory"===site?macrohistoryTreeData:viewTreeData}
 const moduleIntroText={metamod:"A conceptual map of Metamodernism as a cultural, philosophical and developmental movement. Navigate the sections below to open concept entries.",metatheory:"A conceptual map of the major meta-theoretical frameworks used to make sense of complex, multi-perspectival systems. Navigate the sections below to open concept entries.",macrostrategy:"A conceptual map of longtermism, differential progress and global priorities research. Navigate the sections below to open concept entries.",macrohistory:"A conceptual map of cyclical, structural-demographic and Big History approaches to long-term historical change. Navigate the sections below to open concept entries."};
 
@@ -3561,7 +3587,10 @@ function applyHashRoute() {
         }
     }
     switchView(routeView.view, routeSite.site);
-    if (tabSlug && routeView.view === 'glossary' && flatGlossary[tabSlug]) openGlossaryEntry(tabSlug);
+    if (tabSlug && routeView.view === 'glossary') {
+        const conceptGid = glossarySlugToGid[routeSite.site] && glossarySlugToGid[routeSite.site][tabSlug];
+        if (conceptGid) openGlossaryEntry(conceptGid);
+    }
 }
 window.addEventListener('hashchange', applyHashRoute);
 if (location.hash) setTimeout(applyHashRoute, 0);
